@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>投后分析，能分析什么？｜永诚保险资管</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#e8e2db;font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;color:#1b2533;-webkit-font-smoothing:antialiased}
+  .page{width:1122px;height:794px;margin:22px auto;background:#fbf9f7;position:relative;overflow:hidden;box-shadow:0 18px 50px rgba(40,24,16,.20)}
+
+  .head{height:134px;background:#1e222a;position:relative;padding:20px 32px 0 34px;display:flex;justify-content:space-between;align-items:flex-start}
+  .head:before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:#8e1f2f}
+  .head:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#8e1f2f,#a83a48 55%,#c9a7ad)}
+  .brand{display:flex;gap:11px;align-items:center}
+  .mark{width:34px;height:34px;border-radius:4px;background:#8e1f2f;color:#fff;font-weight:700;font-size:19px;display:grid;place-items:center;line-height:1}
+  .brand small{display:block;font-size:10px;letter-spacing:.16em;color:#c9a7ad;margin-bottom:3px}
+  .brand b{font-size:12.5px;font-weight:600;color:#fff;letter-spacing:.04em}
+  h1{margin:11px 0 0;font-size:27px;line-height:1.2;color:#fff;letter-spacing:.5px;font-weight:700}
+  .sub{margin-top:6px;font-size:12.5px;color:#c9cfd8;letter-spacing:.02em}
+
+  main{padding:12px 30px 0}
+  .cols{display:grid;grid-template-columns:1fr 1.16fr;gap:15px}
+  .card{height:330px;border-radius:9px;padding:16px 18px 12px;position:relative;display:block;text-decoration:none;color:inherit;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+  .card[data-href]{cursor:pointer}
+  .card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(60,30,20,.12);border-color:#d8b7bb}
+  .card.dim:hover{border-color:#d8c8bc}
+  .card.dim{background:#f2ede8;border:1px solid #e9dfd7}
+  .card.lit{background:#fff;border:1px solid #e8dcd6;border-left:4px solid #8e1f2f}
+  .card h2{margin:0;font-size:15px;line-height:1.3;display:flex;align-items:center;gap:8px}
+  .card.dim h2{color:#6b7280}
+  .card.lit h2{color:#8e1f2f}
+  .card .hint{margin:5px 0 0;font-size:10.5px;color:#9a938c}
+  .badge{position:absolute;right:16px;top:15px;background:#8e1f2f;color:#fff;font-size:10px;padding:4px 9px;border-radius:10px;letter-spacing:.04em}
+  ul{margin:12px 0 0;padding:0;list-style:none}
+  li{position:relative;padding-left:14px;margin-bottom:9px;font-size:12.5px;line-height:1.55}
+  .card.dim li{color:#4b5563}
+  .card.lit li{color:#2f3540}
+  li:before{content:"";position:absolute;left:0;top:6.5px;width:5px;height:5px;border-radius:50%;background:#b9aea4}
+  .card.lit li:before{background:#8e1f2f}
+  li b{font-weight:600;color:#1b2533}
+  .concl{position:absolute;left:18px;right:18px;bottom:58px;margin:0;padding-top:8px;border-top:1px dashed #e2d7cf;font-size:10.5px;line-height:1.5;color:#8a817a}
+  .card.lit .concl{color:#8e1f2f;border-top-color:#efdcd9}
+  .cta-row{position:absolute;left:18px;right:18px;bottom:12px;display:flex;gap:8px}
+  .cta{--glow:192,57,43;position:relative;flex:1;height:38px;border-radius:19px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:700;letter-spacing:.06em;color:#fff;background:linear-gradient(135deg,#9e1b32,#c0392b);box-shadow:0 8px 18px rgba(142,31,47,.28);overflow:hidden;text-decoration:none;animation:ctaPulse 2.6s ease-in-out infinite}
+  .cta:before{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.40),transparent);transform:skewX(-18deg);animation:ctaShine 3.4s ease-in-out infinite}
+  .cta i{font-style:normal;font-size:15px;display:inline-block;animation:arrowNudge 1.4s ease-in-out infinite}
+  .cta.dim{--glow:70,78,92;background:linear-gradient(135deg,#2c313b,#4b5363);box-shadow:0 8px 18px rgba(30,34,42,.24)}
+  .cta.ghost{flex:0 0 116px;background:#fff;color:#8e1f2f;border:1.5px solid #d9b8bd;box-shadow:none;font-size:12.5px;letter-spacing:.02em;animation:none}
+  .cta.ghost:before{display:none}
+  .cta.ghost:hover{background:#fdf6f4;border-color:#c98f98}
+  .card:hover .cta{filter:brightness(1.06);transform:translateY(-1px)}
+  .card:hover .cta i{animation-duration:.7s}
+  @keyframes ctaPulse{0%,100%{box-shadow:0 8px 18px rgba(20,14,10,.18),0 0 0 0 rgba(var(--glow),.34)}55%{box-shadow:0 10px 24px rgba(20,14,10,.24),0 0 0 10px rgba(var(--glow),0)}}
+  @keyframes ctaShine{0%{left:-70%}55%{left:130%}100%{left:130%}}
+  @keyframes arrowNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+
+  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+  thead th{background:#1e222a;color:#fff;text-align:left;padding:9px 12px;font-weight:600;letter-spacing:.02em}
+  thead th:first-child{width:168px;border-radius:0}
+  thead th:nth-child(2){width:320px}
+  tbody td{padding:7.5px 12px;border-bottom:1px solid #eee4dc;background:#fff;vertical-align:middle}
+  tbody tr:nth-child(even) td{background:#f7f2ee}
+  tbody tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:600;color:#2f3540;border-right:1px solid #f0e7e0}
+  td.na{color:#8a817a}
+  td.yes{color:#1b2533}
+
+  .tbl-note{margin-top:6px;font-size:9.5px;line-height:1.45;color:#9a938c}
+  .note{margin-top:8px;height:82px;border:1px solid #e8dcd6;border-left:4px solid #8e1f2f;border-radius:9px;background:#fff;padding:11px 16px;display:flex;gap:30px}
+  .note .col{flex:1;min-width:0}
+  .note .col:first-child{flex:1.35;border-right:1px solid #f0e7e0;padding-right:22px}
+  .note h3{margin:0 0 4px;font-size:11.5px;color:#8e1f2f;letter-spacing:.04em}
+  .note p{margin:0;font-size:11px;line-height:1.6;color:#4b5563}
+  .note p b{color:#1b2533}
+  .nw{white-space:nowrap}
+
+  .foot{margin-top:8px;display:flex;justify-content:space-between;font-size:9.5px;color:#9a938c;letter-spacing:.02em}
+  .foot .r{color:#8a817a}
+
+  .print{position:fixed;right:26px;bottom:24px;border:0;border-radius:20px;background:#1e222a;color:#fff;font:inherit;font-size:12px;padding:9px 18px;cursor:pointer;box-shadow:0 8px 20px rgba(20,14,10,.25)}
+  .print:hover{background:#8e1f2f}
+
+  @media print{
+    @page{size:A4 landscape;margin:0}
+    body{background:#fff}
+    .page{margin:0;box-shadow:none;width:1122px;height:792px}
+    .print{display:none}
+    .cta-row{display:none}
+    .concl{bottom:12px}
+    .hint-click{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="head">
+    <div>
+      <div class="brand">
+        <div class="mark">永</div>
+        <div><small>ALLASSET POST-INVESTMENT</small><b>永诚保险资管 · 投后分析</b></div>
+      </div>
+      <h1>投后分析，能分析什么？</h1>
+      <div class="sub">只有交易流水：看投入、买卖与收益；加上估值表：看真实持仓、真实收益、归因、回撤与配置。</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="cols">
+      <div class="card dim" data-href="永诚投后分析系统_演示版.html" title="进入演示：仅交易流水">
+        <h2>有交易流水，能分析</h2>
+        <p class="hint">先看收益：投入多少、买了什么、卖出赚了多少</p>
+        <ul>
+          <li>交易确认与资金流：申购、赎回、净流入</li>
+          <li>建仓节奏、单基金申购占比</li>
+          <li>用<b>市值</b>看各分类的资产配置</li>
+          <li>交易频率、换手与资金使用</li>
+          <li>按确认金额测算区间收益</li>
+          <li>交易金额、份额与费用校验</li>
+        </ul>
+        <p class="concl">局限：缺每日估值，市值为估算口径，回撤与归因受限。</p>
+        <div class="cta-row"><a class="cta dim" href="永诚投后分析系统_演示版.html" target="_blank" rel="noopener">进入演示 <i>→</i></a></div>
+      </div>
+
+      <div class="card lit" data-href="永诚投后分析系统_估值表与交易流水_演示版.html" title="进入演示：估值表 + 交易流水">
+        <span class="badge">新增 6 类分析</span>
+        <h2>加上估值表，能多分析</h2>
+        <p class="hint">每日持仓 × 估值净值，把“交易记录”还原成“投资结果”</p>
+        <ul>
+          <li><b>真实持仓：</b>每日份额、市值、集中度，期末资产不再是估算</li>
+          <li><b>真实收益：</b>区间收益、时间加权收益率、年化收益率</li>
+          <li><b>收益归因：</b>持有涨跌 / 已实现 / 浮动 / 分红 / 费用，按基金与分类拆解</li>
+          <li><b>风险：</b>最大回撤、年化波动率、夏普比率、回撤修复</li>
+          <li><b>配置与基准：</b>真实占比、期初期末漂移、基准与超额收益</li>
+          <li><b>数据质量：</b>估值覆盖率、收益核对、交易与估值日匹配</li>
+        </ul>
+        <p class="concl">结论：每一笔收益都能拆开看，投资结果可解释、可复盘。</p>
+        <div class="cta-row">
+          <a class="cta" href="永诚投后分析系统_估值表与交易流水_演示版.html" target="_blank" rel="noopener">进入演示 <i>→</i></a>
+          <a class="cta ghost" href="永诚投后分析报告_估值表与交易流水_20261029.html" target="_blank" rel="noopener">查看报告</a>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>分析维度</th><th>有交易流水</th><th>再加上估值表</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>收益</td><td class="na">按确认金额测算的区间收益</td><td class="yes">区间收益、时间加权、年化收益率</td></tr>
+        <tr><td>归因</td><td class="na">无法拆分</td><td class="yes">持有涨跌 / 已实现 / 浮动 / 分红 / 费用，按基金与分类</td></tr>
+        <tr><td>风险与配置</td><td class="na">可估算配置，无回撤与漂移</td><td class="yes">回撤、波动、夏普；真实占比与期初期末漂移</td></tr>
+        <tr><td>数据质量</td><td class="na">仅交易完整性</td><td class="yes">估值覆盖 + 收益核对 + 交易估值匹配，数据可核对</td></tr>
+      </tbody>
+    </table>
+    <div class="tbl-note">注：仅有交易流水时，缺期初持仓与期末估值，收益按确认金额测算，属估算口径；估值表为托管口径，可逐日核对。</div>
+
+    <section class="note">
+      <div class="col">
+        <h3>估值表不用手工上传</h3>
+        <p>估值表无需手工上传：托管 / 管理人每日发送至投资经理邮箱，系统<b>自动收信、识别、<span class="nw">校验入库</span></b>，缺失自动<span class="nw">提示补传</span>。交易流水接口通常不对外开放，可由 <span class="nw">O45 / O32</span> 系统导出后上传，系统同样自动识别与校验。</p>
+      </div>
+      <div class="col">
+        <h3>对投资管理有什么用</h3>
+        <p>看清收益来源，决定加仓还是减仓；提前识别回撤与集中度；用真实市值判断配置是否均衡；用基准与归因复盘策略是否有效。</p>
+      </div>
+    </section>
+
+    <div class="foot">
+      <span><span class="hint-click">点击卡片查看对应系统，右侧可查看报告样例 · </span>数据越连续，结论越准确，建议覆盖一个完整季度。</span>
+      <span class="r">数据为演示样本，不代表实际投资结果</span>
+    </div>
+  </main>
+</div>
+
+<button class="print" onclick="window.print()">打印 / 存为 PDF</button>
+<script>
+  document.querySelectorAll('.card[data-href]').forEach(function(card){
+    card.addEventListener('click', function(e){
+      if (e.target.closest('a')) return;
+      window.open(card.dataset.href, '_blank', 'noopener');
+    });
+  });
+</script>
+</body>
+</html>

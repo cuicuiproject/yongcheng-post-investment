@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>永诚投后分析系统｜客户演示</title>
+<style>
+:root{
+  --brand:#b60005; --brand-d:#8e0004; --brand-l:#fdf2f2;
+  --navy:#0f244a; --ink:#1b2230; --body:#4c5563; --muted:#8a919c;
+  --gold:#b08d3f; --line:#e9e3de; --bg:#f4f1ed; --card:#fff;
+  --shadow:0 2px 10px rgba(24,32,48,.05), 0 1px 2px rgba(24,32,48,.03);
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--body);
+  background:
+    radial-gradient(1100px 520px at 88% -8%, rgba(182,0,5,.07), transparent 62%),
+    radial-gradient(900px 480px at -6% 108%, rgba(15,36,74,.07), transparent 62%),
+    linear-gradient(180deg,#f7f4f0 0%,#f2efea 55%,#f5f2ee 100%);
+  background-attachment:fixed;
+  font:14px/1.55 "Microsoft YaHei","微软雅黑",-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+code{background:#f4efea;border:1px solid #e8e0d8;border-radius:3px;padding:0 4px;
+  font-size:11.5px;color:#8a4b3f;font-family:Consolas,Menlo,monospace}
+
+.layout{display:grid;grid-template-columns:238px 1fr;min-height:100vh}
+
+/* ================= sidebar ================= */
+.side{position:relative;display:flex;flex-direction:column;overflow:hidden;padding-bottom:26px;color:#c3cedd;
+  background:linear-gradient(178deg,#152541 0%,#101d33 52%,#0a1424 100%);
+  border-right:0;box-shadow:8px 0 28px rgba(9,18,32,.10)}
+.side:before{content:"";position:absolute;right:-96px;bottom:-118px;width:270px;height:270px;
+  border-radius:50%;border:1px solid rgba(255,255,255,.07);pointer-events:none}
+.side:after{content:"";position:absolute;right:-46px;bottom:-64px;width:170px;height:170px;
+  border-radius:50%;border:1px solid rgba(255,255,255,.05);pointer-events:none}
+.logo{position:relative;z-index:1;padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo img{display:block;height:28px;width:auto;padding:5px 8px;background:#fff;border-radius:6px;
+  box-shadow:0 2px 10px rgba(0,0,0,.28)}
+.logo small{display:block;margin-top:9px;font-size:9px;letter-spacing:1.3px;color:#8095b4;line-height:1.5}
+.badge{display:inline-block;margin-top:9px;padding:2px 9px;border-radius:20px;
+  background:rgba(182,0,5,.26);border:1px solid rgba(255,120,120,.32);font-size:10.5px;color:#ffd0d0}
+.group{position:relative;z-index:1;padding:20px 22px 8px;font-size:10.5px;letter-spacing:1.5px;
+  color:#6e82a2;font-weight:600}
+.menu{position:relative;z-index:1;display:grid;gap:3px;padding:0 12px}
+.menu button{position:relative;display:flex;align-items:center;gap:10px;width:100%;height:38px;
+  padding:0 22px 0 12px;border:0;border-radius:7px;background:transparent;color:#c3cedd;
+  font-size:13px;text-align:left;cursor:pointer;transition:background .15s,color .15s}
+.menu button svg{width:16px;height:16px;flex:none;opacity:.72;transition:opacity .15s}
+.menu button:hover{background:rgba(255,255,255,.07);color:#fff}
+.menu button:hover svg{opacity:1}
+.menu button.active{background:linear-gradient(90deg,rgba(182,0,5,.92),rgba(182,0,5,.52));
+  color:#fff;font-weight:600;box-shadow:0 4px 14px rgba(182,0,5,.28)}
+.menu button.active svg{opacity:1}
+.menu button.active:after{content:"";position:absolute;right:10px;width:5px;height:5px;border-radius:50%;
+  background:#ffd7a8}
+.side-card{position:relative;z-index:1;margin:22px 16px 0;padding:12px 13px 11px;border-radius:9px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.09)}
+.sc-t{font-size:10px;letter-spacing:1.4px;color:#8095b4;font-weight:600}
+.sc-row{display:flex;justify-content:space-between;gap:8px;margin-top:9px;font-size:11.5px;color:#93a3bc}
+.sc-row b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
+.side-foot{position:relative;z-index:1;margin:auto 22px 0;padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:#7b8ca8;line-height:1.9}
+
+/* ================= main ================= */
+.main{min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;height:58px;padding:0 26px;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  box-shadow:0 1px 0 rgba(255,255,255,.9),0 8px 20px rgba(24,32,48,.04);position:sticky;top:0;z-index:20}
+.top:before{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,var(--brand) 0%,rgba(182,0,5,.35) 16%,rgba(182,0,5,0) 40%)}
+.crumb{font-size:12.5px;color:var(--muted)}
+.crumb b{color:var(--ink);font-weight:600}
+.crumb span{color:#c9c3bd;margin:0 2px}
+.ribbon{padding:4px 10px;border-radius:20px;background:#fdf4f2;color:#a8463f;font-size:11px;
+  border:1px solid #f2dcd8;letter-spacing:.3px}
+.btn{background:linear-gradient(180deg,#c00b10,#a80004);color:#fff;border:0;border-radius:7px;
+  padding:9px 16px;font-size:13px;cursor:pointer;transition:.15s;box-shadow:0 4px 12px rgba(182,0,5,.22)}
+.btn:hover{background:linear-gradient(180deg,#d01217,#b60005);box-shadow:0 6px 16px rgba(182,0,5,.28)}
+.btn.ghost{background:#fff;color:var(--brand);border:1px solid #e8c6c7;box-shadow:none}
+.btn.ghost:hover{background:var(--brand-l)}
+.btn.grey{background:#fff;color:#4b5563;border:1px solid #dcdde0;box-shadow:none}
+.btn.grey:hover{background:#f7f7f8}
+.btn:disabled{background:#e6c8c9;cursor:not-allowed;box-shadow:none}
+.content{padding:20px 26px 56px;max-width:1480px;width:100%;margin:0 auto}
+
+/* hero */
+.hero{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;
+  gap:28px;padding:17px 26px;border-radius:12px;margin-bottom:14px;color:#fff;
+  background:linear-gradient(112deg,#15294b 0%,#0f244a 42%,#3a1520 78%,#5c0a10 100%);
+  box-shadow:0 12px 28px rgba(12,22,40,.20)}
+.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,#ff5a5f,var(--brand));border-radius:12px 0 0 12px}
+.hero:after{content:"";position:absolute;right:-70px;top:-110px;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.10),rgba(255,255,255,0) 68%);pointer-events:none}
+.hero-main{position:relative;z-index:1;min-width:0;flex:1 1 auto}
+.hero .k{font-size:10.5px;letter-spacing:1.4px;color:#f2b8b8;font-weight:600}
+.hero h1{margin:6px 0 5px;font-size:20px;line-height:1.3;color:#fff;font-weight:700;letter-spacing:.3px}
+.hero p{margin:0;font-size:12px;color:#b9c6da;max-width:640px}
+.hero-stats{position:relative;z-index:1;display:flex;flex-wrap:wrap;margin:0;flex:none}
+.hero-stat{padding:0 16px;border-left:1px solid rgba(255,255,255,.14)}
+.hero-stat:first-child{padding-left:0;border-left:0}
+.hero-stat small{display:block;color:#8fa2be;font-size:10.5px;white-space:nowrap}
+.hero-stat strong{display:block;margin-top:4px;font-size:16.5px;font-weight:700;color:#fff;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.hero-stat strong.state{display:inline-block;margin-top:5px;padding:2px 9px;border-radius:5px;font-size:12px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#c9d6e8}
+.hero-stat strong.state.ready{background:rgba(46,160,98,.22);border-color:rgba(110,220,160,.35);color:#9df0bf}
+
+/* flow */
+.flow{display:grid;grid-template-columns:1fr 44px 1.15fr;gap:14px;align-items:stretch;
+  background:linear-gradient(180deg,#fff,#fcfaf8);border:1px solid var(--line);border-radius:12px;
+  padding:14px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.flow .box{padding:2px 0;min-width:0}
+.flow .box.right{background:#fdf6f5;border:1px solid #f4e3e1;border-radius:8px;padding:10px 13px}
+.flow .box h4{margin:0 0 9px;font-size:12.5px;color:var(--ink);font-weight:600;letter-spacing:.2px}
+.flow .arrow{display:flex;align-items:center;justify-content:center;color:#c9a7a8;font-size:15px}
+.flow .arrow span{display:flex;align-items:center;justify-content:center;width:30px;height:30px;
+  border-radius:50%;background:#fff;border:1px solid #f0dcdc;box-shadow:0 2px 6px rgba(182,0,5,.08);
+  color:var(--brand)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{padding:5px 10px;border-radius:5px;background:#f6f3ef;border:1px solid #e9e3dc;
+  font-size:11.5px;color:#5b6472}
+.chip.on{background:#fff;border-color:#edcfd0;color:var(--brand);box-shadow:0 1px 3px rgba(182,0,5,.07)}
+.flow .hint{margin-top:9px;font-size:11px;color:var(--muted)}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--brand);
+  margin-right:6px;vertical-align:1px}
+
+/* cards */
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px 18px;margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden}
+.card h2{margin:-16px -18px 14px;padding:11px 18px 10px 30px;font-size:13.5px;color:var(--ink);
+  font-weight:700;line-height:1.35;background:linear-gradient(90deg,#fbf4f2 0%,#fdfbf9 52%,#fff 100%);
+  border-bottom:1px solid #f1e7e3;position:relative}
+.card h2:before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:0 2px 2px 0;
+  background:linear-gradient(180deg,var(--brand),#d64b45)}
+.card h3{margin:18px 0 8px;padding-top:14px;border-top:1px dashed #eee3dc;font-size:12px;
+  color:#6b625a;font-weight:600}
+.h2-meta{float:right;font-size:11px;font-weight:400;color:#9a938c;letter-spacing:.2px}
+
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
+.kpi{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#fdfaf8 100%);
+  border:1px solid #ece6e1;border-radius:9px;padding:12px 14px;transition:.18s}
+.kpi:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,rgba(182,0,5,.85),rgba(182,0,5,.05))}
+.kpi:nth-child(n+6):before{background:linear-gradient(90deg,rgba(15,36,74,.85),rgba(15,36,74,.04))}
+.kpi:hover{border-color:#e4c9c8;box-shadow:0 8px 18px rgba(182,0,5,.07);transform:translateY(-1px)}
+.kpi .l{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .v{font-size:19px;font-weight:700;margin-top:4px;color:var(--navy);font-variant-numeric:tabular-nums;
+  letter-spacing:-.2px}
+.neg{color:#157347}
+.pos{color:#c0392b}
+.kpi .v.pos{color:#c0392b}
+.kpi .v.neg{color:#157347}
+.prod-metrics b.pos{color:#c0392b}
+.prod-metrics b.neg{color:#157347}
+
+/* tabs */
+.subtabs{display:inline-flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;padding:4px;border-radius:10px;
+  background:#ece7e1;border:1px solid #e3ddd6;max-width:100%}
+.subtabs button{padding:7px 15px;border:0;border-radius:7px;background:transparent;color:#6b625a;
+  font-size:12.5px;cursor:pointer;transition:.15s}
+.subtabs button:hover{color:var(--brand)}
+.subtabs button.on{background:#fff;color:var(--brand);font-weight:700;
+  box-shadow:0 1px 4px rgba(40,30,20,.10)}
+.panel{display:none}
+.panel.on{display:block}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 11px;border:1px solid #f0eae5;text-align:left;white-space:nowrap}
+th{background:#f7f0ec;color:#7d2b2b;font-weight:600;text-align:center;font-size:11.5px;
+  letter-spacing:.2px;border-bottom:1px solid #ebdcd7}
+tbody tr:nth-child(even){background:#fdfaf8}
+tbody tr:hover{background:#fdf3f1}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+td.c{text-align:center}
+tr.total td{background:linear-gradient(90deg,#fbeeed,#fdf7f5);font-weight:700;
+  border-top:2px solid #e7c3c4;color:var(--ink)}
+.scroll{overflow-x:auto}
+#t-detail{font-size:12px}
+#t-detail th,#t-detail td{padding:8px 10px}
+#t-detail td.namecell{white-space:normal;min-width:280px}
+#t-hold{font-size:12px}
+#t-hold th,#t-hold td{padding:8px 10px}
+#t-hold td.namecell{white-space:normal;min-width:230px}
+.fname{font-weight:600;color:var(--ink);line-height:1.45}
+.fmeta{font-size:10.5px;color:#9a938c;margin-top:1px;line-height:1.45}
+
+/* notes */
+.note{background:#fdf9f4;border:1px solid #f1e8dc;border-left:3px solid var(--gold);border-radius:7px;
+  padding:8px 12px;font-size:11.5px;color:#7b6f60;margin:0 0 12px;line-height:1.6}
+.notes2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.notes2 .note{margin:0 0 12px}
+ul.concl{margin:0;padding-left:0;list-style:none;counter-reset:c}
+ul.concl li{counter-increment:c;position:relative;margin:9px 0;padding-left:30px;font-size:13px;
+  color:#424b58;line-height:1.65}
+ul.concl li:before{content:counter(c);position:absolute;left:0;top:2px;width:18px;height:18px;
+  border-radius:5px;background:var(--brand-l);border:1px solid #f2d6d7;color:var(--brand);
+  font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc span{padding:5px 11px;border-radius:20px;background:#f6f3ef;border:1px solid #e9e3dc;
+  font-size:11.5px;color:#6b625a}
+.toc span b{color:var(--brand);font-weight:600;margin-right:5px}
+
+/* overview visuals */
+.alloc-bar{display:flex;height:26px;border-radius:6px;overflow:hidden;background:#f2eeea;margin:4px 0 14px}
+.alloc-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:10.5px;
+  font-weight:600;min-width:2px;transition:.2s}
+.alloc-legend{display:grid;grid-template-columns:1fr 1fr;gap:9px 18px}
+.alloc-legend div{display:flex;align-items:center;gap:7px;font-size:12px;color:#4c5563}
+.alloc-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.alloc-legend b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.alloc-foot{margin-top:12px;padding-top:9px;border-top:1px dashed #eee3dc;font-size:11px;color:#9a938c}
+
+/* upload */
+.drop{border:1.5px dashed #d8d0c8;border-radius:10px;padding:36px 20px;text-align:center;
+  background:linear-gradient(180deg,#fdfbf9,#f8f5f1);cursor:pointer;transition:.18s}
+.drop:hover,.drop.over{border-color:var(--brand);background:var(--brand-l)}
+.drop .big{font-size:15px;font-weight:600;color:var(--ink)}
+.drop .small{font-size:12px;color:var(--muted);margin-top:6px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.status{margin-top:14px;padding:10px 14px;border-radius:6px;font-size:13px;display:none}
+.status.ok{display:block;background:#f2faf5;color:#1e6b3a;border:1px solid #d2e9da}
+.status.err{display:block;background:#fdf4f3;color:#a32b21;border:1px solid #f2d7d4}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:linear-gradient(180deg,#fff,#fcf9f6);border:1px solid #ece6e1;border-radius:8px;
+  padding:11px 13px;border-left:2px solid #e9b9ba}
+.stat .l{font-size:11.5px;color:var(--muted)}
+.stat .v{font-size:16px;font-weight:700;margin-top:3px;color:var(--navy);font-variant-numeric:tabular-nums}
+.warn{margin-top:14px;font-size:12.5px;color:#8a5a13;background:#fffbef;border:1px solid #f1e5c6;
+  border-radius:8px;padding:10px 14px}
+.warn ul{margin:6px 0 0;padding-left:18px}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.bar-row{display:grid;grid-template-columns:minmax(96px,172px) 1fr 74px;gap:10px;align-items:center;
+  margin:9px 0;font-size:11.5px}
+.bar-track{background:#f1ece7;height:12px;border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#b60005,#d9463f);opacity:.92}
+.bar-row .val{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;font-size:11.5px}
+.donut-wrap{display:flex;gap:22px;align-items:center;flex-wrap:wrap;padding:2px 0}
+.donut-legend-wrap{min-width:180px;max-width:270px;flex:1}
+.donut-legend{display:flex;align-items:center;gap:8px;font-size:12px;color:#4c5563;margin:7px 0}
+.donut-legend i{width:9px;height:9px;border-radius:2px;flex:none}
+.donut-legend span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.donut-legend b{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+.kv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kv-grid.four{grid-template-columns:repeat(4,1fr)}
+.kv{background:linear-gradient(180deg,#fff,#fcf9f6);border:1px solid #efe8e2;border-radius:8px;
+  padding:10px 13px;border-left:2px solid #e9b9ba}
+.kv span{display:block;font-size:11px;color:var(--muted)}
+.kv b{display:block;margin-top:4px;font-size:16px;font-weight:700;color:var(--navy);
+  font-variant-numeric:tabular-nums}
+.kv b.pos{color:#c0392b}
+.kv b.neg{color:#157347}
+.muted{color:var(--muted);font-size:12.5px}
+
+@media(max-width:1080px){
+  .hero{flex-direction:column;align-items:flex-start;gap:12px}
+  .hero-stats{width:100%;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);
+    justify-content:space-between}
+  .hero-stat{min-width:0;padding:0 14px}
+  .hero-stat:first-child{padding-left:0}
+}
+@media(max-width:1180px){
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .alloc-legend{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .side{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}
+  .side:before,.side:after{display:none}
+  .logo{padding:16px 18px 12px}
+  .group{padding:14px 18px 6px}
+  .menu{grid-template-columns:repeat(3,1fr);padding:0 12px}
+  .side-card{display:none}
+  .side-foot{display:none}
+  .content{padding:16px 16px 40px}
+  .notes2,.split{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr;gap:10px}
+  .flow .arrow{transform:rotate(90deg);padding:2px 0}
+}
+@media(max-width:760px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .kv-grid,.kv-grid.four{grid-template-columns:1fr 1fr}
+}
+
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff}
+  .side,.top,.subtabs,.no-print{display:none!important}
+  .layout{grid-template-columns:1fr}
+  .content{padding:0;max-width:none}
+  .page{display:block!important}
+  #page-upload{display:none!important}
+  #page-post .kpis{display:none!important}
+  .kpis{grid-template-columns:repeat(5,1fr)!important}
+  .split{grid-template-columns:1fr 1fr!important}
+  .alloc-legend{grid-template-columns:1fr 1fr!important}
+  .panel{display:block!important;page-break-inside:avoid}
+  table{font-size:9.5px}
+  th,td{padding:4px 6px}
+  .scroll{overflow:visible}
+  .card{break-inside:avoid;box-shadow:none;border-color:#ddd;margin-bottom:10px}
+  .card h2{background:#fafafa}
+  .kv-grid,.kv-grid.four{grid-template-columns:repeat(4,1fr);gap:6px}
+  .kv{padding:6px 8px}
+  .kv b{font-size:13px}
+  .hero{background:#fff!important;border:1px solid #ddd;box-shadow:none;color:#222}
+  .hero:before{background:#b60005}
+  .hero .k{color:#b60005}
+  .hero h1{color:#111}
+  .hero p{color:#555}
+  .hero-stat{border-left-color:#ddd}
+  .hero-stat small{color:#777}
+  .hero-stat strong{color:#111}
+  .hero-stat strong.state{background:#f2f2f2;border-color:#ddd;color:#333}
+  .kpi{box-shadow:none}
+  .kpi:hover{transform:none;box-shadow:none}
+}
+
+/* ================= 多产品 ================= */
+.pf-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:2px 2px 12px;flex-wrap:wrap}
+.pf-title{font-size:15px;font-weight:700;color:var(--ink)}
+.pf-title span{font-size:11.5px;font-weight:400;color:var(--muted);margin-left:7px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{padding:5px 12px;border-radius:20px;border:1px solid #e5ded7;background:#fff;color:#6b625a;
+  font-size:11.5px;cursor:pointer;transition:.15s;font-family:inherit}
+.filters button:hover{border-color:#e3c9c8;color:var(--brand)}
+.filters button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.prod{position:relative;overflow:hidden;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);
+  border-radius:12px;padding:15px 15px 12px;box-shadow:var(--shadow);cursor:pointer;transition:.18s}
+.prod:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#b60005,#d9463f)}
+.prod[data-s="纯债"]:before{background:linear-gradient(90deg,#0f244a,#3a5680)}
+.prod[data-s="混合"]:before{background:linear-gradient(90deg,#b08d3f,#d2b26a)}
+.prod[data-s="权益增强"]:before{background:linear-gradient(90deg,#8a5aa8,#b083c9)}
+.prod[data-s="货币"]:before{background:linear-gradient(90deg,#2f8f5b,#5fb98a)}
+.prod[data-s="其他"]:before{background:linear-gradient(90deg,#8c98a8,#b3bcc8)}
+.prod:hover,.prod:focus-visible{outline:none;transform:translateY(-2px);box-shadow:0 12px 26px rgba(24,32,48,.10);
+  border-color:#e3c9c8}
+.prod-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.prod-top>div{min-width:0}
+.prod-name{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.4}
+.prod-code{font-size:10.5px;color:var(--muted);margin-top:2px;letter-spacing:.2px}
+.prod-tag{flex:none;font-size:10.5px;padding:2px 7px;border-radius:4px;background:#f6f3ef;border:1px solid #ece6e0;
+  color:#7a6a5a;white-space:nowrap}
+.prod[data-s="固收+"] .prod-tag{background:#fdf2f2;border-color:#f3d9da;color:#a8161b}
+.prod[data-s="纯债"] .prod-tag{background:#eef2f8;border-color:#dbe4f0;color:#1c3a66}
+.prod[data-s="混合"] .prod-tag{background:#fbf5e8;border-color:#efe3c9;color:#8a6a25}
+.prod[data-s="权益增强"] .prod-tag{background:#f7f0fb;border-color:#e6d8ef;color:#724391}
+.prod[data-s="货币"] .prod-tag{background:#eff8f3;border-color:#d6ebdf;color:#23704a}
+.prod-ret{font-size:25px;font-weight:700;letter-spacing:-.6px;margin:10px 0 0;line-height:1.1;
+  font-variant-numeric:tabular-nums}
+.prod-ret small{font-size:10.5px;font-weight:400;color:var(--muted);margin-left:7px;letter-spacing:0}
+.prod-metrics{display:flex;gap:12px;margin-top:10px;padding-top:9px;border-top:1px dashed #eee3dc}
+.prod-metrics div{min-width:0}
+.prod-metrics span{display:block;font-size:10px;color:var(--muted)}
+.prod-metrics b{display:block;font-size:12px;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:1px;white-space:nowrap}
+.prod-spark{display:block;width:100%;height:32px;margin-top:auto;padding-top:6px}
+.prod-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10px;color:#9a938c;
+  margin-top:4px;white-space:nowrap}
+.prod-foot b{color:var(--brand);font-weight:600}
+#t-daily-pnl th{white-space:normal;line-height:1.35;font-size:10.5px;padding:8px 6px}
+#t-hold th{white-space:normal;line-height:1.35}
+.kv-grid.three{grid-template-columns:repeat(3,1fr)}
+.kv-grid.two{grid-template-columns:repeat(2,1fr)}
+/* 配置结构：两列等高、图表内容撑满 */
+.split{align-items:stretch;margin-bottom:14px}
+.split>.card{margin-bottom:0}
+.alloc-top-body{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.alloc-top-table{min-width:0}
+.alloc-top-chart{min-width:0;display:flex;align-items:center;justify-content:center}
+.alloc-top-chart #donut{width:100%}
+@media(max-width:1180px){.alloc-top-body{grid-template-columns:1fr}}
+#sub-alloc .split>.card{display:flex;flex-direction:column}
+#donut{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+#donut .donut-wrap{flex:0 0 auto}
+#bars-co{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.bar-row{grid-template-columns:minmax(120px,190px) 1fr 74px}
+#line{position:relative}
+.chart-tip{position:fixed;display:none;z-index:9999;pointer-events:none;min-width:152px;padding:9px 11px;border-radius:8px;
+  background:rgba(17,31,54,.95);color:#fff;box-shadow:0 12px 26px rgba(10,20,36,.28);
+  font-size:11.5px;line-height:1.55}
+.chart-tip .ct-date{font-size:10.5px;color:#9fb0c9;letter-spacing:.3px;margin-bottom:4px}
+.chart-tip .ct-row{display:flex;justify-content:space-between;gap:18px}
+.chart-tip .ct-row span{color:#b9c6da}
+.chart-tip .ct-row b{font-weight:600;font-variant-numeric:tabular-nums;color:#fff}
+.chart-tip .ct-row b.neg{color:#8fe3b0}
+.chart-tip .ct-row b.pos{color:#ff9f97}
+.empty{grid-column:1/-1;padding:36px;text-align:center;color:var(--muted);border:1px dashed #e0d8d0;
+  border-radius:10px;background:#fdfbf9}
+.prodbar{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:11px 14px;margin-bottom:14px;box-shadow:var(--shadow)}
+.pb-back{width:30px;height:30px;border-radius:7px;border:1px solid #e6dfd8;background:#fbf8f5;color:#6b625a;
+  font-size:14px;cursor:pointer;flex:none;font-family:inherit}
+.pb-back:hover{border-color:#e3c9c8;color:var(--brand)}
+.pb-main{flex:1;min-width:0}
+.pb-name{font-size:14px;color:var(--ink);font-weight:700;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pb-name span{font-size:10.5px;font-weight:400;color:var(--muted);letter-spacing:.3px}
+.pb-sub{font-size:11px;color:#8a919c;margin-top:2px}
+.pb-sub b{font-weight:600}
+.pb-right{display:flex;align-items:center;gap:8px;flex:none}
+.pb-label{font-size:11px;color:#9a938c;white-space:nowrap}
+.sel{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238a919c' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid #e2dbd4;border-radius:7px;padding:7px 28px 7px 10px;font-size:12px;color:#3f4650;cursor:pointer;max-width:270px;font-family:inherit}
+.sel:hover{border-color:#e3c9c8}
+.inp{border:1px solid #e2dbd4;border-radius:7px;padding:7px 10px;font-size:12px;color:#3f4650;min-width:250px;
+  font-family:inherit}
+.inp:focus{outline:none;border-color:#d9a3a3;box-shadow:0 0 0 3px rgba(182,0,5,.06)}
+.target-row{margin-top:12px}
+@media(max-width:1340px){.prod-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1080px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+  .prod-grid{grid-template-columns:1fr}
+  .prodbar{flex-wrap:wrap}
+  .pb-right{width:100%;justify-content:space-between}
+  .sel{max-width:none;flex:1}
+}
+@media print{
+  .prodbar,.filters{display:none!important}
+  .prod{break-inside:avoid}
+  .prod-grid{grid-template-columns:repeat(4,1fr)!important}
+}
+
+/* 交易流水 */
+.flow-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:-2px 0 12px;flex-wrap:wrap}
+.flow-meta{font-size:11.5px;color:#8a919c}
+.flow-filter{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#9a938c}
+.flow-table-wrap{max-height:560px;overflow:auto;border:1px solid #f0eae5;border-radius:8px}
+#t-flows{font-size:12px}
+#t-flows th{position:sticky;top:0;z-index:2;background:#f7f0ec;font-size:11px}
+#t-flows td.namecell{white-space:normal;min-width:240px}
+#t-flows .flow-empty{text-align:center;color:#9a938c;padding:28px}
+@media print{#page-flows{display:none!important}}
+
+/* ================= 配置结构：分类图表 / 表格 ================= */
+#sub-alloc .split{align-items:stretch;margin-bottom:14px}
+#sub-alloc .split>.card{margin-bottom:0}
+#sub-alloc .alloc-card{display:flex;flex-direction:column}
+#sub-alloc .alloc-head{display:flex;align-items:center;gap:9px;margin:-16px -18px 14px;
+  padding:10px 12px 9px 30px;position:relative;border-bottom:1px solid #f1e7e3;
+  background:linear-gradient(90deg,#fbf4f2 0%,#fdfbf9 52%,#fff 100%)}
+#sub-alloc .alloc-head:before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;
+  border-radius:0 2px 2px 0;background:linear-gradient(180deg,var(--brand),#d64b45)}
+#sub-alloc .alloc-head h2{margin:0;padding:0;border:0;background:none;position:static;font-size:13.5px;
+  font-weight:700;line-height:1.35;color:var(--ink);white-space:nowrap}
+#sub-alloc .alloc-head h2:before{display:none}
+#sub-alloc .alloc-sub{min-width:0;font-size:11px;color:#9a938c;letter-spacing:.2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg{display:inline-flex;flex:none;align-items:center;gap:2px;margin-left:auto;padding:2px;
+  border-radius:7px;background:#f1ebe6;border:1px solid #e7ded7}
+.seg button{border:0;background:none;padding:3px 10px;border-radius:5px;font-family:inherit;
+  font-size:11px;line-height:1.35;color:#8a817a;cursor:pointer;transition:.15s;white-space:nowrap}
+.seg button:hover{color:var(--brand)}
+.seg button.on{background:#fff;color:var(--brand);font-weight:600;box-shadow:0 1px 2px rgba(24,32,48,.08)}
+.seg button:focus-visible{outline:2px solid rgba(182,0,5,.25);outline-offset:1px}
+#sub-alloc .alloc-body{flex:1;display:flex;flex-direction:column}
+#sub-alloc .alloc-chart{flex:1;display:flex;flex-direction:column;justify-content:center}
+#sub-alloc .alloc-table{display:none}
+#sub-alloc .alloc-card[data-view="table"] .alloc-chart{display:none}
+#sub-alloc .alloc-card[data-view="table"] .alloc-table{display:block}
+#sub-alloc .alloc-card[data-view="table"] table{font-size:12.5px}
+#donut{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+#sub-alloc #donut .donut-wrap{gap:14px}
+#bars-t2{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+#bars-t2 .bar-row{margin:10px 0}
+#bars-t2 .bar-row:first-child{margin-top:0}
+.bar-row.t2{grid-template-columns:minmax(100px,1fr) 1.15fr 76px 56px;gap:9px}
+.bar-row.co{grid-template-columns:minmax(200px,262px) 1fr 88px 60px}
+.bar-label{display:flex;align-items:center;gap:7px;min-width:0;overflow:hidden}
+.bar-label i{width:8px;height:8px;border-radius:2px;flex:none}
+.bar-label span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-row .pct{text-align:right;font-size:11.5px;color:#6b625a;font-variant-numeric:tabular-nums}
+@media(max-width:1120px){#sub-alloc .alloc-sub{display:none}}
+@media print{.seg{display:none!important}}
+
+/* 表格分页 */
+.tbl-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;
+  padding-top:10px;border-top:1px dashed #eee3dc;font-size:11.5px;color:#8a817a}
+.tbl-foot .pg-info{white-space:nowrap}
+.tbl-foot .pg-info b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.tbl-foot .pg-btns{display:flex;align-items:center;gap:4px;flex:none;margin-left:auto}
+.tbl-foot .pg-btns button{min-width:26px;height:26px;padding:0 8px;border:1px solid #e6ded7;background:#fff;
+  border-radius:6px;color:#5f5852;font-size:11.5px;font-family:inherit;cursor:pointer;line-height:1;
+  font-variant-numeric:tabular-nums;transition:.15s}
+.tbl-foot .pg-btns button:hover:not(:disabled):not(.on){border-color:#e3c9c8;color:var(--brand)}
+.tbl-foot .pg-btns button.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.tbl-foot .pg-btns button:disabled{opacity:.4;cursor:default}
+.tbl-foot .pg-btns button:focus-visible{outline:2px solid rgba(182,0,5,.25);outline-offset:1px}
+/* 交易流水改为分页后不再内部滚动 */
+#page-flows .flow-table-wrap{max-height:none}
+#page-flows #t-flows th{position:static}
+@media print{.tbl-foot .pg-btns{display:none!important}}
+
+/* ---------- 带正负的条形 ---------- */
+.sgn-row{display:grid;grid-template-columns:minmax(120px,220px) 1fr 104px 66px;gap:12px;align-items:center;margin:11px 0;font-size:11.5px;color:#4c5563}
+.sgn-label{display:flex;align-items:center;gap:7px;min-width:0}
+.sgn-label span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sgn-track{position:relative;height:14px;border-radius:3px;background:#f1ece7}
+.sgn-track:before{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:#d8cec6}
+.sgn-fill{position:absolute;top:0;bottom:0;border-radius:3px;opacity:.92;z-index:2}
+.sgn-fill.up{background:linear-gradient(90deg,#c0392b,#d9463f)}
+.sgn-fill.down{background:linear-gradient(90deg,#1e7b45,#157347)}
+.sgn-val{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.sgn-rate{text-align:right;font-variant-numeric:tabular-nums;color:#6b625a}
+.pnl-mix{margin-top:14px;padding-top:12px;border-top:1px dashed #eee3dc}
+.pnl-mix .sgn-row{grid-template-columns:minmax(96px,150px) 1fr 104px 62px}
+.seg.inline{display:inline-flex;margin:0 0 6px}
+/* ---------- 数据质量 ---------- */
+.dq-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.dq-item{padding:10px 12px;border:1px solid #efe8e2;border-radius:8px;background:linear-gradient(180deg,#fff,#fcf9f6)}
+.dq-item span{display:block;font-size:10.5px;color:#8a817a}
+.dq-item b{display:block;margin-top:4px;font-size:13px;color:#16233a;font-variant-numeric:tabular-nums}
+.dq-item.ok b{color:#157347}
+.dq-item.warn{border-color:#f1e5c6;background:#fffdf6}
+.dq-item.warn b{color:#a86a00}
+/* ---------- 表格排序 / 可点击行 ---------- */
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:after{content:"⇅";margin-left:4px;font-size:9px;color:rgba(255,255,255,.5)}
+th.sortable[data-dir="asc"]:after{content:"↑";color:#fff}
+th.sortable[data-dir="desc"]:after{content:"↓";color:#fff}
+#t-hold tbody tr[data-code],#t-funds tbody tr[data-code]{cursor:pointer}
+#t-hold tbody tr[data-code]:hover,#t-funds tbody tr[data-code]:hover{background:#fdf6f4}
+/* ---------- 口径说明 ---------- */
+.q{display:inline-grid;place-items:center;width:14px;height:14px;margin-left:4px;padding:0;border:1px solid #c9bdb4;border-radius:50%;background:#fff;color:#8a817a;font:9px/1 Georgia,serif;cursor:help;vertical-align:1px}
+.q:hover,.q:focus-visible{border-color:#c0392b;color:#c0392b;outline:none}
+.ui-tip{position:fixed;z-index:95;display:none;max-width:300px;padding:8px 10px;border-radius:7px;background:rgba(17,31,54,.95);color:#fff;font-size:11.5px;line-height:1.6;box-shadow:0 12px 26px rgba(10,20,36,.28);pointer-events:none}
+/* ---------- 单只基金抽屉 ---------- */
+.drawer-mask{position:fixed;inset:0;z-index:85;display:none;justify-content:flex-end;background:#0f172a55}
+.drawer-mask.show{display:flex}
+.fund-drawer{display:flex;flex-direction:column;width:min(620px,94vw);height:100%;background:#fff;box-shadow:-22px 0 55px rgba(16,32,56,.18)}
+.fd-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 22px 13px;border-bottom:1px solid #f1e7e3;background:linear-gradient(90deg,#fbf4f2,#fff)}
+.fd-head h2{margin:0;font-size:15.5px;color:#1b2533;line-height:1.4}
+.fd-head p{margin:4px 0 0;font-size:11.5px;color:#8a817a}
+.fd-x{flex:none;width:30px;height:30px;border:1px solid #e6dfd8;border-radius:7px;background:#fff;color:#6b625a;font-size:16px;font-family:inherit;cursor:pointer}
+.fd-x:hover{border-color:#e3c9c8;color:#c0392b}
+.fd-body{flex:1;padding:16px 22px 28px;overflow:auto}
+.fd-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fd-metric{padding:10px 12px;border:1px solid #efe8e2;border-radius:8px;background:linear-gradient(180deg,#fff,#fcf9f6)}
+.fd-metric span{display:block;font-size:10.5px;color:#8a817a}
+.fd-metric b{display:block;margin-top:4px;font-size:14px;color:#16233a;font-variant-numeric:tabular-nums}
+.fd-sec{margin-top:16px}
+.fd-sec h3{margin:0 0 8px;font-size:12.5px;color:#3f3f3f;font-weight:600}
+.fd-sec table{font-size:11.5px}
+.fd-sec th{font-size:11px}
+@media(max-width:900px){.dq-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.sgn-row{grid-template-columns:minmax(90px,1fr) 1fr 92px;gap:8px}.sgn-rate{display:none}}
+@media print{.drawer-mask,.ui-tip,.seg.inline{display:none!important}th.sortable:after{content:""}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="logo">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL8AAAAyCAMAAAA6GvoyAAABgFBMVEVHcEwNKFAOKFC3AAQOKE6vAAAQL0+2AAUOKVC3AwgQKlAOKVC3AAUNKE4QKFAPKE8NKVC2AAe2AAW3CAwOJ08OKE8OKE8OKE8IJEi3AAgAAGsLJk8OKFAMJVEOKE+2AgcMJ08lAAAOKE8OJk4OKE8OJ08OKE8OKE8OKE8NKE8OKE8OKE8OKE8OKU4PKE8OKE8NJ04OKE4RKk4NKE8NJ08NJ08OKE8AKlULJVAOJ08OKE8OKE8OKE4PKE4OKE8PKU4VKk0OKE8NKE8NKE8OJk4OJ08NKE8OKE8OJ08OKE4MKE8PJ08AJEkOKE8PKE8OKU8LKE8NKE4NJ08OKE8PKE4NJ08NJ08PJ08OJ08OKE8OKE8OJ04OKE8OKE8PKFAAM2YOKE8NJ04AQEAQKE4PKE4PJ08NKE4RJ069AAAOKE+2AAQOKE8OKFC3AAAOKE+2AAS1AAW3AwgOKE+2AAa3Age2AAC2AAa2AAa2AAUOKE+2AQa3Awi3Age3BAm3BQq4BgvsdK4aAAAAeHRSTlMAYICwwBAPcLBAMHBg0EAgUHDAQPDg9vsIIAIaoBT+cCkB6yOPzuf4V6zVd9mWnd1OtR1K472CBhZHqclrQ/MxC5JjOTV8hbtbwz6vB9NmXSyZO6WMiCZoorjubsayUwXldQRSiptxLguUr36NF6Hk0GCftZQHKlTAbj2jAAAIo0lEQVRo3u2a918iSRbAS9btZfEamD0QDgQBQUEJSlQwZ8WAOmJO6Mzs3OZ0NyU696/fq9AJugmGvc99Pvt+oSvQfLv6pXoF+tSt3BN5AKnX64+Pnz//Hf1PpUt2zn/P+OuPn//z/8TP4VX8j7rrvxTJFRP5afucT9PtySTUHTNO5wEaN8tdlQz7nHI4Qj5D4Hm7ffPJ/Mrqc3x9/jyWZORA6XU7MX6nmtWDsRjFuFRgTd81zgXIxRrG/Zd2JtZC473XMfa/BH8r/f8o82OnqnsDfnpIy189xXidNYvkcVeukBWrJcapzZJEoPNCaqw+TX/a8VcPkxfn8Vny++dqhYH2tNK8BH606UpuccRTMv/91baGv58NmrGuOJ+o/wp+s/26BUl8lczRnHpoY3vHjVAmJq/krNk8YU7yUd+vGIe8d4BVNK3emUBycM3GYm34//lVR/KGy+Dg4O9M/Zv4p/zy3WftmpGAxULMsjDSSKG8kWu7B95apIYusCuBUJ88GOjRFavE/1XXjutrxt+kP30qsDUNPum5Q0jAhvzIa0MzjtkAtYFDhBYxPlUGryyWD5I5CxbLkNp+n8j/uZm/RwXWSzqCi6E78mmhXT7KHyaLtwraTT4zsmvMj2TdqLKEAsMwxzEFmIJb9Wahc4xfH2DsasP/7d+M5Jdf/kX563r8nn0rkxPGHwCvg8fJ2sYdcGWh/Bb+QkbU37Rfw8gKTDT1s8cvLmvu7IOuHL92Ettvzf+PFhY8aMwvywDhd6+6CMkN7Ulr+b1woSyv8CNlDl+WqAEN0GeIL1RUdxyFB56nVzYYSzybX0d/xhxMro8o/0yKUDh2ggxR5k+J4nnGDRdeb/ZdlQ6GycztGXRHv7GOluP0eQ6lxZ82mYAfHxO/ZCLudA0+L5/G/2C4/rKfzhJ+5mkmvNISy/zUO22BPlmOAIkOzvnx7FkNXpILp0yTxFzPyBNUuVaO6vrPVLf891r+Jv+zIN15lPDTpexRVETDj23AdzuBMZ+Q7LXRz/2qND+4bMrzy3Qb/98V/4OKv8H/e9I2kBLYHueXF1/Dn18ED2ODROfQhf2TfHgr0dsoa5JvIgofktMGWfIvvf6Mc4TkCYx/HenxW5AI/HvwdlRBYl1ngUMq/p0W+XNH/PcN/I8G/NNEOTj/7JAx/w2d0aMX+RpjW0A9sTN+z5fG8odx/AI9yFI/Dfwkg4vM6/DbKL+dAJ661fxWtQwo/HNwedkd/xPzB4RM8FsZ5v+PSbJbM+KvEv5VTeZBp+VE8VC6ER8jCcXMS/Pr6/8+RKwNHr8E4v/3gjr84A9tNYhRs74mfrL78Ve0/Ltwudwd/w/fGMu/jfmrIfD7ASn+BkjOcFxT8xNTHCeRwbsMkbaEGvk3acQ+L2j4wzR1eqb9Kg7oDeOvN/NbSBJzJucPaIbQmOdV/JDH+S+JZbtpTFJWdZHsVoK7/SzuTUyiRYcjpaQOWfRy/ING/OTX8Z6S/yA0Th5gOy3xR4Ow5XVW4q7h9VXqYCKy/QYFITBNtocuK1lux4JVHlrC2q3zk/nvW/NvEdiDWrR0chw+5fkz1ZWwxI/3gW2CtDJ+6v7xBotf8zd7a9csYk+hIM2CsCt1skBSV0Q2Ypt/Aj+CNT0MSqkDD037IRyiqcEVeTprlibJyAtv6nSILHeU2Y3k8c30XU3FeXODW28JvQZ/Y/3EMzalyoJWWOfQwT67OMuOlr0XLClz53C/FXlHpYWt0e1+9qOF36l2W6Yp9AKxDMgyll6a/8G4fjWUTxRzEfFtQfcnP+wyhfmegG/tJHiAOwvf2G2aiTXL7kqCPk819h3qlv+HL5rlN/4Ebfj//Pphh/HrS85P/CcrofzF/1r8Tfnbt8Dfif7fiSAsBqBlUYwpG3RRDGtmxsjMI6mVKcZDqchJeFGgGVtyNOQUc3vT4I6W34ePab4fS9wi4S5pztHNQfldV/n/F838euvvCdG6H4s9dnUFtI9HBKRK6mXH6BmQc2biasbk1iJCvUo+beZ1GCm97pK/A/2ZY3eeac9/RCf6WV5zJjNlg6xUyoRsz16R//Hrxu+twOb3HOPv2/OXYZs5K8WvFKmmW6eiN7/usDrA9Q60zvbIDhj4S4lD01jfSj6KfAvhQxNEt17T2/Db7vnpE7yR9KfezL+B8VsT2cC3478C9nWIZj9KuYWq1gtBeldpAX8faqxzmLqNX4387AU08guQJMyQfCvdjn+T6A7o0HCQF9eqyhhkQrevwn+v0h/yAE38t2C7W7VTanet+SFXiqAhXo0LAvH2+pAUsU9Af6YD86/KX9flT9L0sshPTlrxR+jmMc6Lsmwz70+F01Ktlpjy8QfOn2IFlenO+ZX67U8t1r/eyA+aGxJF8KGOWmv+ScInirO805PkLsVBdzTv+TGCK4rU/megc35FfjbwP3r8Faxx4y34d+WJLoHt0YshVlQrsPiVZQdI6Vfkf2jif6/w51vzHygzx+V3UllhxQvmCqqL/VS7gL/cR8VqwN/y/OgnI/+jw7+G8Qk5lLhggdWYn4TpPTIzIpXCZfd7o7QSsJ3rxH47kU7450f4as6wwGrMvyy52BtSRpYlWFIOWZg3eHH+Ty34M5I2b/XTwAr8w9Y5i81mS1N+0WohjUkWpmWLAc8/ubNUTc9FJ8gWE6HCkTWQrtiJTfdR/o9LAZtXSNsmX5d/QV5iUKAk5ZeMVF3gjFA9Ccse6wyh7+TB86D6e9eCJv8pvxg//xuBlj8uv/1p+Gk1B1bzizRMT6kjhrRfxyWv+rzX+QE15G/P5//0SeF/0PAXYuYyLzh7y+aYgAInKXYYN7INDjLnZCcy/TE0VDYX+cH7ktkMBrwQgYl+ZyxKi3U356S0MjyxQ0PwihiSjuMXeOwWxZ5n89838etLQRBq6uN5j8E8t6BuXWnn0RP9+ef8f6bB//C/EXTA/4ryX0v4A91YSxzDAAAAAElFTkSuQmCC" alt="永诚资产 ALLASSET">
+      <small>ALLASSET&nbsp;POST-INVESTMENT<br>投后分析系统 · 演示</small>
+      <span class="badge">演示数据</span>
+    </div>
+    <div class="group">投后分析</div>
+    <nav class="menu">
+      <button data-page="overview" class="active">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.2" y="2.2" width="4.8" height="4.8" rx="1.2"/><rect x="9" y="2.2" width="4.8" height="4.8" rx="1.2"/><rect x="2.2" y="9" width="4.8" height="4.8" rx="1.2"/><rect x="9" y="9" width="4.8" height="4.8" rx="1.2"/></svg>
+        产品总览
+      </button>
+      <button data-page="post">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2.4 13.2V9.4M6.2 13.2V6.2M10 13.2V8M13.8 13.2V3.4"/></svg>
+        投后分析
+      </button>
+    </nav>
+    <div class="group">数据维护</div>
+    <nav class="menu">
+      <button data-page="upload">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10.4V2.6M5.2 5.2L8 2.4l2.8 2.8"/><path d="M2.6 10.4v1.7a1.7 1.7 0 001.7 1.7h7.4a1.7 1.7 0 001.7-1.7v-1.7"/></svg>
+        上传数据
+      </button>
+      <button data-page="flows">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 4.2h10M3 8h10M3 11.8h6"/></svg>
+        交易流水
+      </button>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div class="crumb" id="crumb">投后分析 <span>/</span> <b>产品总览</b></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ribbon">客户演示版</span>
+        <button class="btn" id="btn-print">导出分析结果</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- ============ 产品总览 ============ -->
+      <section class="page active" id="page-overview">
+        <div class="hero">
+          <div class="hero-main">
+            <div class="k">永诚保险资管 · 多产品投后分析</div>
+            <h1>从交易流水，形成可追溯的投后分析</h1>
+            <p>覆盖多个专户产品的交易核对、资金流、配置结构与收益跟踪，按产品一键下钻。</p>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><small>管理产品</small><strong id="hero-count">—</strong></div>
+            <div class="hero-stat"><small>合计规模</small><strong id="hero-scale">—</strong></div>
+            <div class="hero-stat"><small>净值日期</small><strong id="hdr-nav">—</strong></div>
+          </div>
+        </div>
+
+        <div class="pf-head">
+          <div class="pf-title">产品列表 <span id="pf-count">—</span></div>
+          <div class="filters" id="pf-filter">
+            <button class="on" data-f="全部">全部</button>
+            <button data-f="固收+">固收+</button>
+            <button data-f="纯债">纯债</button>
+            <button data-f="混合">混合</button>
+            <button data-f="权益增强">权益增强</button>
+            <button data-f="货币">货币</button>
+            <button data-f="其他">其他</button>
+          </div>
+        </div>
+        <div class="prod-grid" id="prod-grid"></div>
+      </section>
+
+      <!-- ============ 投后分析 ============ -->
+      <section class="page" id="page-post" style="display:none">
+        <div class="prodbar">
+          <button class="pb-back" id="btn-back" title="返回产品列表">←</button>
+          <div class="pb-main">
+            <div class="pb-name"><b id="pb-name">—</b><span id="pb-code">—</span></div>
+            <div class="pb-sub" id="pb-sub">—</div>
+          </div>
+          <div class="pb-right">
+            <span class="pb-label">切换产品</span>
+            <select id="prod-select" class="sel"></select>
+          </div>
+        </div>
+        <div class="subtabs" id="subtabs">
+          <button data-sub="overview" class="on">概览</button>
+          <button data-sub="pnl">收益跟踪</button>
+          <button data-sub="daily">每日收益</button>
+          <button data-sub="alloc">配置结构</button>
+          <button data-sub="flow">资金流</button>
+          <button data-sub="detail">交易明细</button>
+        </div>
+
+        <div class="panel on" id="sub-overview">
+          <div class="kpis" id="kpis"></div>
+          <div class="card"><h2>累计收益走势 <span class="h2-meta">本期累计盈亏（元）</span></h2><div id="line"></div></div>
+        </div>
+
+        <div class="panel" id="sub-pnl">
+          <div class="card"><h2>本期累计总盈亏 <span class="h2-meta">含收益构成</span></h2><div id="pnl-total"></div></div>
+          <div class="card"><h2>分类收益贡献 <span class="h2-meta">区间收益 / 收益率</span></h2>
+            <div class="seg inline" id="cat-seg">
+              <button type="button" class="on" data-cat="t1">一级分类</button>
+              <button type="button" data-cat="t2">二级分类</button>
+            </div>
+            <div id="cat-pnl"></div>
+          </div>
+          <div class="card"><h2>基金收益贡献排行 <span class="h2-meta">按区间收益排序</span></h2><div id="fund-rank"></div></div>
+          <div class="card"><h2>持仓收益明细跟踪 <span class="h2-meta">点击行查看单只基金</span></h2><div class="scroll"><table id="t-hold"></table></div></div>
+        </div>
+
+        <div class="panel" id="sub-daily">
+          <div class="card"><h2>每日收益金额（元）</h2><div class="scroll"><table id="t-daily-pnl"></table></div></div>
+        </div>
+
+        <div class="panel" id="sub-alloc">
+          <div class="split">
+            <div class="card alloc-card" id="card-t1" data-view="chart">
+              <div class="alloc-head">
+                <h2>一级分类</h2><span class="alloc-sub">申购金额 / 占比</span>
+                <div class="seg" data-card="card-t1">
+                  <button type="button" class="on" data-view="chart">图表</button>
+                  <button type="button" data-view="table">表格</button>
+                </div>
+              </div>
+              <div class="alloc-body">
+                <div class="alloc-chart"><div id="donut"></div></div>
+                <div class="alloc-table"><table id="t-t1"></table></div>
+              </div>
+            </div>
+            <div class="card alloc-card" id="card-t2" data-view="chart">
+              <div class="alloc-head">
+                <h2>二级分类</h2><span class="alloc-sub">申购金额 / 占比</span>
+                <div class="seg" data-card="card-t2">
+                  <button type="button" class="on" data-view="chart">图表</button>
+                  <button type="button" data-view="table">表格</button>
+                </div>
+              </div>
+              <div class="alloc-body">
+                <div class="alloc-chart"><div id="bars-t2"></div></div>
+                <div class="alloc-table"><table id="t-t2"></table></div>
+              </div>
+            </div>
+          </div>
+          <div class="card"><h2>基金公司 <span class="h2-meta">按申购金额</span></h2><div id="bars-co"></div></div>
+          <div class="card"><h2>单只基金 <span class="h2-meta">申购金额 / 占比</span></h2><div class="scroll"><table id="t-funds"></table></div></div>
+        </div>
+
+        <div class="panel" id="sub-flow">
+          <div class="card"><h2>按确认日 <span class="h2-meta">申购 / 赎回 / 净流入</span></h2><table id="t-daily-flow"></table></div>
+          <div class="card"><h2>按基金 <span class="h2-meta">现金流 / 已实现收益</span></h2><div class="scroll"><table id="t-fund-flow"></table></div></div>
+          <div class="card"><h2>按 TA（基金公司） <span class="h2-meta">现金流 / 已实现收益</span></h2><div class="scroll"><table id="t-ta-flow"></table></div></div>
+          <div class="card"><h2>按业务类型 <span class="h2-meta">笔数 / 金额占比</span></h2><table id="t-biz"></table></div>
+        </div>
+
+        <div class="panel" id="sub-detail">
+          <div class="card"><h2>数据质量与勾稽 <span class="h2-meta">按当前产品确认记录</span></h2><div id="dq"></div></div>
+          <div class="card"><h2>交易确认明细</h2><div class="scroll"><table id="t-detail"></table></div></div>
+        </div>
+
+      </section>
+
+      <!-- ============ 上传数据 ============ -->
+      <section class="page" id="page-upload" style="display:none">
+        <div class="card">
+          <h2>上传交易流水</h2>
+          <p class="muted" style="margin-top:-4px">支持 <b>.xlsx</b> 与 <b>.csv</b>；首行须为表头，至少包含
+            <code>确认日期</code>、<code>基金代码</code>、<code>业务代码</code>、<code>确认金额</code>、<code>确认份额</code>。
+            文件仅在本地解析。</p>
+          <div class="drop" id="drop">
+            <div class="big">把交易流水拖到这里，或点击选择文件</div>
+            <div class="small">.xlsx / .csv　·　单文件　·　解析后自动做数据校验并归档</div>
+          </div>
+          <input type="file" id="file" accept=".xlsx,.csv" hidden>
+          <div class="row">
+            <button class="btn ghost" id="btn-sample">载入示例数据</button>
+            <button class="btn grey" id="btn-goto-flows">查看交易流水 →</button>
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+
+        <div class="card" id="card-summary" style="display:none">
+          <h2>数据校验结果</h2>
+          <div class="grid" id="summary"></div>
+          <div id="warns"></div>
+        </div>
+      </section>
+
+      <!-- ============ 交易流水 ============ -->
+      <section class="page" id="page-flows" style="display:none">
+        <div class="card">
+          <h2>交易流水 <span class="h2-meta" id="flow-count">—</span></h2>
+          <div class="flow-bar">
+            <div class="flow-meta" id="flow-meta">—</div>
+            <div class="flow-filter"><span>产品</span><select id="flow-prod" class="sel"></select></div>
+          </div>
+          <div class="flow-table-wrap"><table id="t-flows"></table></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="drawer-mask" id="fund-drawer" aria-hidden="true">
+  <aside class="fund-drawer" role="dialog" aria-modal="true" aria-labelledby="fd-title">
+    <div class="fd-head">
+      <div><h2 id="fd-title">—</h2><p id="fd-sub">—</p></div>
+      <button type="button" class="fd-x" id="fd-close" aria-label="关闭">×</button>
+    </div>
+    <div class="fd-body" id="fd-body"></div>
+  </aside>
+</div>
+
+<script>
+const DATA = {
+ "meta": {
+  "product": "永诚资产精研稳健1号",
+  "navDate": "2026-10-28",
+  "start": "2026-10-23",
+  "end": "2026-10-29",
+  "navDays": [
+   "2026-10-23",
+   "2026-10-24",
+   "2026-10-25",
+   "2026-10-26",
+   "2026-10-27",
+   "2026-10-28"
+  ]
+ },
+ "records": [
+  {
+   "交易账号": "5846225",
+   "基金账号": "348589927005",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-28",
+   "申请编号": "20261028006533",
+   "确认编号": "3280000214322",
+   "确认日期": "2026-10-29",
+   "基金代码": "001821",
+   "基金名称": "兴全天添益B",
+   "业务代码": "赎回确认",
+   "申请金额": "0.00",
+   "申请份额": "10,000,706.94",
+   "确认金额": "10,001,064.92",
+   "确认份额": "10,000,706.94",
+   "净值": "1.00000",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "34",
+   "TA名称": "兴证全球基金管理有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "4780914635B8",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-27",
+   "申请编号": "20261027009038",
+   "确认编号": "3280000153285",
+   "确认日期": "2026-10-28",
+   "基金代码": "001050",
+   "基金名称": "汇添富成长多因子量化策略股票型投资基金",
+   "业务代码": "申购确认",
+   "申请金额": "1,000,000.00",
+   "申请份额": "0.00",
+   "确认金额": "1,000,000.00",
+   "确认份额": "543,006.08",
+   "净值": "1.84160",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "47",
+   "TA名称": "汇添富基金管理股份有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "039002593143",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-26",
+   "申请编号": "20261026007993",
+   "确认编号": "32826102766003235488",
+   "确认日期": "2026-10-27",
+   "基金代码": "025480",
+   "基金名称": "华夏沪深300指数量化增强A",
+   "业务代码": "申购确认",
+   "申请金额": "2,000,000.00",
+   "申请份额": "0.00",
+   "确认金额": "2,000,000.00",
+   "确认份额": "2,041,858.09",
+   "净值": "0.97950",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "03",
+   "TA名称": "华夏基金管理有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "4Y8195472214",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-26",
+   "申请编号": "20261026009713",
+   "确认编号": "3280000139779",
+   "确认日期": "2026-10-27",
+   "基金代码": "005109",
+   "基金名称": "汇安多策略混合A",
+   "业务代码": "申购确认",
+   "申请金额": "500,000.00",
+   "申请份额": "0.00",
+   "确认金额": "500,000.00",
+   "确认份额": "303,932.89",
+   "净值": "1.64510",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "4Y",
+   "TA名称": "汇安基金管理有限责任公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "4780914635B8",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-23",
+   "申请编号": "20261023003403",
+   "确认编号": "3280000152909",
+   "确认日期": "2026-10-26",
+   "基金代码": "020619",
+   "基金名称": "汇添富投资级信用债指数A",
+   "业务代码": "设置分红方式",
+   "申请金额": "0.00",
+   "申请份额": "0.00",
+   "确认金额": "0.00",
+   "确认份额": "0.00",
+   "净值": "0.00000",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "47",
+   "TA名称": "汇添富基金管理股份有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "348589927005",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-23",
+   "申请编号": "20261023006758",
+   "确认编号": "3280000213734",
+   "确认日期": "2026-10-26",
+   "基金代码": "001821",
+   "基金名称": "兴全天添益B",
+   "业务代码": "申购确认",
+   "申请金额": "10,000,000.00",
+   "申请份额": "0.00",
+   "确认金额": "10,000,000.00",
+   "确认份额": "10,000,000.00",
+   "净值": "1.00000",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "34",
+   "TA名称": "兴证全球基金管理有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "4780914635B8",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-23",
+   "申请编号": "20261023003401",
+   "确认编号": "3280000152908",
+   "确认日期": "2026-10-26",
+   "基金代码": "020619",
+   "基金名称": "汇添富投资级信用债指数A",
+   "业务代码": "申购确认",
+   "申请金额": "10,000,000.00",
+   "申请份额": "0.00",
+   "确认金额": "10,000,000.00",
+   "确认份额": "9,417,969.49",
+   "净值": "1.06180",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "47",
+   "TA名称": "汇添富基金管理股份有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "4780914635B8",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-23",
+   "申请编号": "20261023005293",
+   "确认编号": "3280000152910",
+   "确认日期": "2026-10-26",
+   "基金代码": "001050",
+   "基金名称": "汇添富成长多因子量化策略股票型投资基金",
+   "业务代码": "申购确认",
+   "申请金额": "2,000,000.00",
+   "申请份额": "0.00",
+   "确认金额": "2,000,000.00",
+   "确认份额": "1,041,558.17",
+   "净值": "1.92020",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "47",
+   "TA名称": "汇添富基金管理股份有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "1186306240D4",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-23",
+   "申请编号": "20261023003391",
+   "确认编号": "3280000175815",
+   "确认日期": "2026-10-26",
+   "基金代码": "021606",
+   "基金名称": "易方达中债新综指发起式D",
+   "业务代码": "申购确认",
+   "申请金额": "10,000,000.00",
+   "申请份额": "0.00",
+   "确认金额": "10,000,000.00",
+   "确认份额": "5,511,824.04",
+   "净值": "1.81410",
+   "手续费": "1,000.00",
+   "确认标志": "确认成功",
+   "TA代码": "11",
+   "TA名称": "易方达基金管理有限公司",
+   "业务辅助代码": "一般业务"
+  },
+  {
+   "交易账号": "5846225",
+   "基金账号": "1186306240D4",
+   "交易账户名称": "永诚资产精研稳健1号资产管理产品",
+   "申请日期": "2026-10-23",
+   "申请编号": "20261023003393",
+   "确认编号": "3280000175816",
+   "确认日期": "2026-10-26",
+   "基金代码": "021606",
+   "基金名称": "易方达中债新综指发起式D",
+   "业务代码": "设置分红方式",
+   "申请金额": "0.00",
+   "申请份额": "0.00",
+   "确认金额": "0.00",
+   "确认份额": "0.00",
+   "净值": "0.00000",
+   "手续费": "0.00",
+   "确认标志": "确认成功",
+   "TA代码": "11",
+   "TA名称": "易方达基金管理有限公司",
+   "业务辅助代码": "一般业务"
+  }
+ ],
+ "nav": {
+  "001050": {
+   "2026-10-23": 1.9202,
+   "2026-10-24": 1.9202,
+   "2026-10-25": 1.9202,
+   "2026-10-26": 1.8926,
+   "2026-10-27": 1.8416,
+   "2026-10-28": 1.8767
+  },
+  "025480": {
+   "2026-10-23": 0.9831,
+   "2026-10-24": 0.9831,
+   "2026-10-25": 0.9831,
+   "2026-10-26": 0.9795,
+   "2026-10-27": 0.9665,
+   "2026-10-28": 0.9773
+  },
+  "005109": {
+   "2026-10-23": 1.6478,
+   "2026-10-24": 1.6478,
+   "2026-10-25": 1.6478,
+   "2026-10-26": 1.6451,
+   "2026-10-27": 1.5883,
+   "2026-10-28": 1.6167
+  },
+  "020619": {
+   "2026-10-23": 1.0618,
+   "2026-10-24": 1.0618,
+   "2026-10-25": 1.0618,
+   "2026-10-26": 1.062,
+   "2026-10-27": 1.0624,
+   "2026-10-28": 1.0625
+  },
+  "021606": {
+   "2026-10-23": 1.8141,
+   "2026-10-24": 1.8141,
+   "2026-10-25": 1.8141,
+   "2026-10-26": 1.8147,
+   "2026-10-27": 1.8164,
+   "2026-10-28": 1.8163
+  },
+  "001821": {
+   "2026-10-23": 1.0,
+   "2026-10-24": 1.0,
+   "2026-10-25": 1.0,
+   "2026-10-26": 1.0,
+   "2026-10-27": 1.0,
+   "2026-10-28": 1.0
+  }
+ },
+ "wan": {
+  "2026-10-26": 0.345,
+  "2026-10-27": 0.3619,
+  "2026-10-28": 0.358
+ },
+ "typeMap": {
+  "001821": {
+   "t1": "货币市场型基金",
+   "t2": "货币市场型基金"
+  },
+  "020619": {
+   "t1": "债券型基金",
+   "t2": "被动指数型债券基金"
+  },
+  "021606": {
+   "t1": "债券型基金",
+   "t2": "被动指数型债券基金"
+  },
+  "001050": {
+   "t1": "股票型基金",
+   "t2": "增强指数型基金"
+  },
+  "025480": {
+   "t1": "股票型基金",
+   "t2": "增强指数型基金"
+  },
+  "005109": {
+   "t1": "混合型基金",
+   "t2": "灵活配置型基金"
+  }
+ }
+};
+
+/* ================= 多产品演示数据 ================= */
+const FUND_INFO = {
+  '001821': {name:'兴全天添益B', ta:'兴证全球基金管理有限公司', taCode:'34'},
+  '001050': {name:'汇添富成长多因子量化策略股票型投资基金', ta:'汇添富基金管理股份有限公司', taCode:'47'},
+  '025480': {name:'华夏沪深300指数量化增强A', ta:'华夏基金管理有限公司', taCode:'03'},
+  '005109': {name:'汇安多策略混合A', ta:'汇安基金管理有限责任公司', taCode:'4Y'},
+  '020619': {name:'汇添富投资级信用债指数A', ta:'汇添富基金管理股份有限公司', taCode:'47'},
+  '021606': {name:'易方达中债新综指发起式D', ta:'易方达基金管理有限公司', taCode:'11'},
+  '008888': {name:'招商产业债券A', ta:'招商基金管理有限公司', taCode:'09'},
+  '010456': {name:'南方中债7-10年国开行A', ta:'南方基金管理股份有限公司', taCode:'05'},
+  '161725': {name:'招商中证白酒指数A', ta:'招商基金管理有限公司', taCode:'09'},
+  '519674': {name:'银河创新成长混合A', ta:'银河基金管理有限公司', taCode:'51'}
+};
+
+Object.assign(DATA.nav, {
+  '008888': {'2026-10-23':1.2841,'2026-10-24':1.2841,'2026-10-25':1.2841,'2026-10-26':1.2846,'2026-10-27':1.2853,'2026-10-28':1.2859},
+  '010456': {'2026-10-23':1.1150,'2026-10-24':1.1150,'2026-10-25':1.1150,'2026-10-26':1.1153,'2026-10-27':1.1161,'2026-10-28':1.1168},
+  '161725': {'2026-10-23':0.8420,'2026-10-24':0.8420,'2026-10-25':0.8420,'2026-10-26':0.8360,'2026-10-27':0.8210,'2026-10-28':0.8310},
+  '519674': {'2026-10-23':2.1040,'2026-10-24':2.1040,'2026-10-25':2.1040,'2026-10-26':2.0960,'2026-10-27':2.0720,'2026-10-28':2.0880}
+});
+
+Object.assign(DATA.typeMap, {
+  '008888': {t1:'债券型基金', t2:'中长期纯债型基金'},
+  '010456': {t1:'债券型基金', t2:'被动指数型债券基金'},
+  '161725': {t1:'股票型基金', t2:'被动指数型基金'},
+  '519674': {t1:'混合型基金', t2:'偏股混合型基金'}
+});
+
+let _demoSeq = 7000;
+function demoRec(code, amount, date){
+  const fi = FUND_INFO[code];
+  const nav = code === '001821' ? 1 : ((DATA.nav[code] || {})[date] || 1);
+  const sh = +(amount / nav).toFixed(2);
+  _demoSeq++;
+  return {
+    '交易账号':'5846225','基金账号':'348589927005','交易账户名称':'专户产品',
+    '申请日期':date,'申请编号':'2026' + _demoSeq,'确认编号':'3280000' + _demoSeq,
+    '确认日期':date,'基金代码':code,'基金名称':fi.name,'业务代码':'申购确认',
+    '申请金额':String(amount),'申请份额':'0',
+    '确认金额':String(amount),'确认份额':String(sh),'净值':nav.toFixed(5),
+    '手续费':'0.00','确认标志':'确认成功','TA代码':fi.taCode,'TA名称':fi.ta,'业务辅助代码':'一般业务'
+  };
+}
+
+const PRODUCT_SEED = [
+  {id:'YC-JYJ-001', name:'永诚资产精研稳健1号', strategy:'固收+', risk:'R2', since:'2024-06-18', records:DATA.records},
+  {id:'YC-WJZ-002', name:'永诚资产稳健增利2号', strategy:'固收+', risk:'R2', since:'2024-09-05',
+   buys:[['021606',30000000,'2026-10-26'],['020619',10000000,'2026-10-23'],['001050',10000000,'2026-10-27'],['001821',5000000,'2026-10-23']]},
+  {id:'YC-CZJ-003', name:'永诚资产纯债精选3号', strategy:'纯债', risk:'R2', since:'2023-11-20',
+   buys:[['008888',40000000,'2026-10-23'],['010456',25000000,'2026-10-26'],['020619',15000000,'2026-10-26']]},
+  {id:'YC-LHZ-005', name:'永诚资产量化增强5号', strategy:'权益增强', risk:'R3', since:'2025-03-12',
+   buys:[['001050',10000000,'2026-10-27'],['025480',8000000,'2026-10-26'],['161725',5000000,'2026-10-27'],['001821',2000000,'2026-10-23']]},
+  {id:'YC-LHPZ-006', name:'永诚资产灵活配置6号', strategy:'混合', risk:'R3', since:'2024-12-02',
+   buys:[['005109',12000000,'2026-10-27'],['519674',8000000,'2026-10-26'],['021606',10000000,'2026-10-26']]},
+  {id:'YC-XJGL-007', name:'永诚资产现金管理7号', strategy:'货币', risk:'R1', since:'2023-06-30',
+   buys:[['001821',40000000,'2026-10-23'],['021606',20000000,'2026-10-26']]},
+  {id:'YC-XYZ-008', name:'永诚资产信用债优选8号', strategy:'纯债', risk:'R2', since:'2025-01-15',
+   buys:[['020619',30000000,'2026-10-23'],['021606',20000000,'2026-10-26'],['010456',10000000,'2026-10-27']]},
+  {id:'YC-HLJZ-009', name:'永诚资产红利价值9号', strategy:'混合', risk:'R3', since:'2025-05-08',
+   buys:[['005109',8000000,'2026-10-26'],['025480',5000000,'2026-10-27'],['001050',5000000,'2026-10-23'],['021606',6000000,'2026-10-26']]}
+];
+
+DATA.products = PRODUCT_SEED.map(spec => spec.records ? spec : Object.assign({}, spec, {
+  records: spec.buys.map(b => demoRec(b[0], b[1], b[2]))
+}));
+DATA.flows = DATA.products.map(p => ({productId:p.id, productName:p.name, source:'演示数据',
+  at:DATA.meta.navDate, records:p.records}));
+
+
+/* ================= core ================= */
+const NAVDATE = DATA.meta.navDate;
+
+function num(v){
+  if (v === null || v === undefined) return 0;
+  if (typeof v === 'number') return v;
+  const s = String(v).replace(/,/g,'').trim();
+  if (s === '' || s === '-' || s === '—') return 0;
+  const n = Number(s);
+  return isNaN(n) ? 0 : n;
+}
+function fmt(n, d=2){
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  const s = Math.abs(n).toLocaleString('zh-CN',{minimumFractionDigits:d,maximumFractionDigits:d});
+  return n < -0.0000001 ? '-' + s : (n > 0.0000001 ? s : s);
+}
+function fmtPct(n, d=2){
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  return (n*100).toFixed(d) + '%';
+}
+function cls(n){ return n < -0.0000001 ? 'neg' : (n > 0.0000001 ? 'pos' : ''); }
+function d2(s){ return String(s).slice(0,10); }
+function xlDate(v){
+  const n = Number(v);
+  if (v !== '' && v !== null && !isNaN(n) && n > 20000 && n < 80000){
+    const d = new Date(Date.UTC(1899,11,30) + n*86400000);
+    return d.toISOString().slice(0,10);
+  }
+  return d2(v);
+}
+
+function normalize(raw){
+  const map = {
+    '交易账号':'acc','基金账号':'facc','交易账户名称':'prod','申请日期':'apply',
+    '申请编号':'applyNo','确认编号':'cfmNo','确认日期':'cfm','基金代码':'code','基金名称':'name',
+    '业务代码':'biz','申请金额':'applyAmt','申请份额':'applySh','确认金额':'cfmAmt','确认份额':'cfmSh',
+    '净值':'nav','手续费':'fee','确认标志':'flag','TA代码':'taCode','TA名称':'ta','业务辅助代码':'aux',
+    '一级分类':'t1','二级分类':'t2'
+  };
+  return raw.map(r=>{
+    const o = {};
+    for (const k in map){ o[map[k]] = r[k]; }
+    o.acc = String(o.acc||'').trim();
+    o.code = String(o.code||'').replace(/\.OF$/i,'').trim();
+    if (/^\d{1,6}$/.test(o.code)) o.code = o.code.padStart(6,'0');
+    o.cfm = xlDate(o.cfm); o.apply = xlDate(o.apply);
+    o.applyAmt = num(o.applyAmt); o.applySh = num(o.applySh);
+    o.cfmAmt = num(o.cfmAmt); o.cfmSh = num(o.cfmSh);
+    o.nav = num(o.nav); o.fee = num(o.fee);
+    o.biz = String(o.biz||'').trim();
+    o.t1 = o.t1 || (DATA.typeMap[o.code]||{}).t1 || '未分类';
+    o.t2 = o.t2 || (DATA.typeMap[o.code]||{}).t2 || '未分类';
+    return o;
+  }).filter(r=>r.code && r.cfm);
+}
+
+function analyze(recs){
+  const R = normalize(recs);
+  const buys = R.filter(r=>r.biz==='申购确认');
+  const reds = R.filter(r=>r.biz==='赎回确认');
+  const totBuy = buys.reduce((s,r)=>s+r.cfmAmt,0);
+  const totRed = reds.reduce((s,r)=>s+r.cfmAmt,0);
+  const fee = R.reduce((s,r)=>s+r.fee,0);
+  const net = totBuy - totRed;
+  const dates = [...new Set(R.map(r=>r.cfm))].sort();
+
+  const byFund = {}, byTA = {}, byT1 = {}, byT2 = {}, byBiz = {}, byDay = {};
+  buys.forEach(r=>{
+    byFund[r.code] = byFund[r.code] || {code:r.code,name:r.name,buy:0,red:0,sh:0,amt:0,cnt:0,t1:r.t1,t2:r.t2};
+    const f = byFund[r.code];
+    f.buy += r.cfmAmt; f.sh += r.cfmSh; f.amt += r.cfmAmt; f.cnt++;
+    byTA[r.ta] = (byTA[r.ta]||0) + r.cfmAmt;
+    byT1[r.t1] = (byT1[r.t1]||0) + r.cfmAmt;
+    byT2[r.t2] = (byT2[r.t2]||0) + r.cfmAmt;
+  });
+  reds.forEach(r=>{
+    if (!byFund[r.code]) byFund[r.code] = {code:r.code,name:r.name,buy:0,red:0,sh:0,amt:0,cnt:0,t1:r.t1,t2:r.t2};
+    byFund[r.code].red += r.cfmAmt;
+  });
+  R.forEach(r=>{
+    byBiz[r.biz] = byBiz[r.biz] || {cnt:0,amt:0};
+    byBiz[r.biz].cnt++; byBiz[r.biz].amt += r.cfmAmt;
+  });
+  dates.forEach(d=>{
+    byDay[d] = {
+      buy: buys.filter(r=>r.cfm===d).reduce((s,r)=>s+r.cfmAmt,0),
+      red: reds.filter(r=>r.cfm===d).reduce((s,r)=>s+r.cfmAmt,0),
+      cnt: R.filter(r=>r.cfm===d).length
+    };
+  });
+
+  // 收益跟踪（仅限内置净值的基金）
+  const hold = [];
+  let realized = 0;
+  buys.forEach(r=>{
+    const series = DATA.nav[r.code];
+    if (r.code === '001821'){ realized += 0; return; }
+    if (!series) return;
+    const last = series[NAVDATE];
+    if (last === undefined) return;
+    const mv = +(r.cfmSh * last).toFixed(2);
+    const pnl = +(mv - r.cfmAmt).toFixed(2);
+    hold.push({code:r.code,name:r.name,cfm:r.cfm,amt:r.cfmAmt,sh:r.cfmSh,
+      buyNav:r.nav,nav:last,mv:mv,pnl:pnl,ret:pnl/r.cfmAmt,t1:r.t1,t2:r.t2});
+  });
+  const moneyBuy = buys.filter(r=>r.code==='001821').reduce((s,r)=>s+r.cfmAmt,0);
+  const moneyRed = reds.filter(r=>r.code==='001821').reduce((s,r)=>s+r.cfmAmt,0);
+  if (moneyBuy > 0 && moneyRed > 0) realized = +(moneyRed - moneyBuy).toFixed(2);
+  let moneyAccrued = 0;
+  if (moneyBuy > 0 && moneyRed <= 0){
+    const mf = buys.find(r=>r.code==='001821');
+    if (mf){
+      DATA.meta.navDays.forEach(d=>{
+        if (d >= mf.cfm && d <= NAVDATE) moneyAccrued += mf.cfmSh/10000*(DATA.wan[d]||0);
+      });
+      moneyAccrued = +moneyAccrued.toFixed(2);
+    }
+  }
+  const hCost = hold.reduce((s,h)=>s+h.amt,0);
+  const hMv = hold.reduce((s,h)=>s+h.mv,0);
+  const hPnl = +(hMv - hCost).toFixed(2);
+  const totalPnl = +(hPnl + realized + moneyAccrued).toFixed(2);
+  const totalRet = totalPnl / (hCost + moneyBuy || 1);
+
+  // 集中度
+  const maxFund = Math.max(0, ...Object.values(fundAmounts(byFund)));
+  const mfRed = reds.find(r=>r.code==='001821');
+  const moneyAtNav = moneyBuy <= 0 ? 0
+    : (moneyRed > 0 ? ((mfRed && mfRed.cfm > NAVDATE) ? moneyBuy + moneyAccrued : 0)
+                    : moneyBuy + moneyAccrued);
+  const mvAll = hMv + moneyAtNav;
+  const maxHold = mvAll ? Math.max(moneyAtNav, ...hold.map(h=>h.mv)) / mvAll : 0;
+
+  return {R,buys,reds,totBuy,totRed,fee,net,dates,byFund,byTA,byT1,byT2,byBiz,byDay,
+          hold,realized,hCost,hMv,hPnl,totalPnl,totalRet,maxFund,maxHold,moneyBuy,moneyRed,moneyAccrued};
+}
+
+function fundAmounts(byFund){
+  const o = {};
+  Object.values(byFund).forEach(f=>{ o[f.code] = f.amt; });
+  return o;
+}
+
+/* 每日收益：按内置净值与万份收益，逐日计算 */
+function dailySeries(A){
+  const days = DATA.meta.navDays;
+  const out = days.map(d=>({d, cells:{}, fee:0, total:0, cum:0}));
+  const lots = [];
+  A.buys.forEach(r=>{ if (r.code === '001821') return; lots.push({code:r.code, sh:r.cfmSh, start:r.cfm, buyNav:r.nav}); });
+  const mf = A.buys.find(r=>r.code==='001821');
+  const feeByDate = {};
+  A.R.forEach(r=>{ if (r.fee) feeByDate[r.cfm] = (feeByDate[r.cfm]||0) + r.fee; });
+  let cum = 0;
+  out.forEach(row=>{
+    const raw = {};
+    if (mf && row.d >= mf.cfm && row.d <= NAVDATE){
+      raw['001821'] = mf.cfmSh/10000*(DATA.wan[row.d]||0);
+    }
+    lots.forEach(l=>{
+      if (row.d < l.start) return;
+      const series = DATA.nav[l.code] || {};
+      const pd = prevOf(days, row.d);
+      const cur = series[row.d];
+      if (cur === undefined) return;
+      const prev = pd ? (series[pd] !== undefined ? series[pd] : cur) : cur;
+      const base = row.d === l.start ? (l.buyNav || prev) : prev;
+      raw[l.code] = (raw[l.code]||0) + l.sh*(cur-base);
+    });
+    Object.keys(raw).forEach(k=>{ row.cells[k] = +raw[k].toFixed(2); });
+    const fee = -(feeByDate[row.d]||0);
+    row.fee = fee;
+    row.total = +(Object.values(row.cells).reduce((a,b)=>a+b,0) + fee).toFixed(2);
+    cum += row.total; row.cum = +cum.toFixed(2);
+  });
+  return out;
+}
+function prevOf(arr, d){ const i = arr.indexOf(d); return i>0 ? arr[i-1] : null; }
+
+
+
+/* ================= render ================= */
+const CODES = ['001821','001050','025480','005109','020619','021606'];
+
+function render(){
+  const p = currentProduct();
+  const A = analyze(p.records);
+  renderProductBar(p);
+  document.getElementById('kpis').innerHTML = [
+    ['本期申购金额（元）', fmt(A.totBuy), ''],
+    ['本期赎回金额（元）', fmt(A.totRed), ''],
+    ['净流入（元）', fmt(A.net), cls(A.net)],
+    ['手续费合计（元）', fmt(A.fee), ''],
+    ['净流入 / 申购', fmtPct(A.net/(A.totBuy||1)), ''],
+    ['确认记录（笔）', A.R.length, ''],
+    ['涉及基金（只）', Object.keys(A.byFund).length, ''],
+    ['期末持仓集中度', fmtPct(A.maxHold), ''],
+    ['持仓浮盈亏（元）', fmt(A.hPnl), cls(A.hPnl)],
+    ['本期累计总盈亏（元）', fmt(A.totalPnl), cls(A.totalPnl)]
+  ].map(([l,v,c])=>`<div class="kpi"><div class="l">${l}</div><div class="v ${c}">${v}</div></div>`).join('');
+
+
+
+
+  /* 明细 */
+  const head = ['序号','确认日期','基金代码','基金名称 / 分类 / TA','业务代码','确认金额','确认份额','净值','手续费'];
+  document.getElementById('t-detail').innerHTML =
+    `<thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${
+      A.R.map((r,i)=>`<tr>
+        <td class="c">${i+1}</td><td class="c">${r.cfm}</td><td class="c">${r.code}</td>
+        <td class="namecell"><div class="fname">${r.name||''}</div>
+          <div class="fmeta">${r.t1} · ${r.t2}${r.ta?' · '+r.ta:''}</div></td>
+        <td class="c">${r.biz}</td>
+        <td class="n">${fmt(r.cfmAmt)}</td><td class="n">${fmt(r.cfmSh)}</td>
+        <td class="n">${r.nav?r.nav.toFixed(4):'—'}</td><td class="n">${fmt(r.fee)}</td></tr>`).join('')
+    }<tr class="total"><td colspan="5">合计（全部 ${A.R.length} 笔）</td><td class="n">${fmt(A.R.reduce((s,r)=>s+r.cfmAmt,0))}</td>
+      <td class="n">${fmt(A.R.reduce((s,r)=>s+r.cfmSh,0))}</td><td></td>
+      <td class="n">${fmt(A.fee)}</td></tr></tbody>`;
+
+  /* 资金流 */
+  let cum = 0;
+  document.getElementById('t-daily-flow').innerHTML =
+    `<thead><tr><th>确认日期</th><th>申购金额</th><th>赎回金额</th><th>净流入</th><th>累计净流入</th><th>笔数</th></tr></thead><tbody>${
+      A.dates.map(d=>{ const x = A.byDay[d]; cum += x.buy - x.red;
+        return `<tr><td class="c">${d}</td><td class="n">${fmt(x.buy)}</td><td class="n">${fmt(x.red)}</td>
+        <td class="n ${cls(x.buy-x.red)}">${fmt(x.buy-x.red)}</td><td class="n">${fmt(cum)}</td><td class="c">${x.cnt}</td></tr>`;}).join('')
+    }<tr class="total"><td>合计</td><td class="n">${fmt(A.totBuy)}</td><td class="n">${fmt(A.totRed)}</td>
+      <td class="n ${cls(A.net)}">${fmt(A.net)}</td><td></td><td class="c">${A.R.length}</td></tr></tbody>`;
+
+  const funds = Object.values(A.byFund).sort((a,b)=>b.amt-a.amt);
+  document.getElementById('t-fund-flow').innerHTML =
+    `<thead><tr><th>基金代码</th><th>基金名称</th><th>申购金额</th><th>赎回金额</th><th>净额（现金流）</th><th>其中：已实现收益</th><th>占申购比</th></tr></thead><tbody>${
+      funds.map(f=>`<tr><td class="c">${f.code}</td><td>${f.name}</td>
+        <td class="n">${fmt(f.buy)}</td><td class="n">${fmt(f.red)}</td>
+        <td class="n ${cls(f.buy-f.red)}">${fmt(f.buy-f.red)}</td>
+        <td class="n">${f.code==='001821'?fmt(A.realized):'—'}</td>
+        <td class="c">${fmtPct(f.buy/(A.totBuy||1))}</td></tr>`).join('')
+    }<tr class="total"><td colspan="2">合计</td><td class="n">${fmt(A.totBuy)}</td><td class="n">${fmt(A.totRed)}</td>
+      <td class="n">${fmt(A.net)}</td><td class="n">${fmt(A.realized)}</td><td class="c">100.00%</td></tr></tbody>`;
+
+  const tas = Object.entries(A.byTA).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('t-ta-flow').innerHTML =
+    `<thead><tr><th>TA 名称</th><th>申购金额</th><th>赎回金额</th><th>净额（现金流）</th><th>其中：已实现收益</th><th>占申购比</th><th>笔数</th></tr></thead><tbody>${
+      tas.map(([ta,v])=>{
+        const red = A.reds.filter(r=>r.ta===ta).reduce((s,r)=>s+r.cfmAmt,0);
+        const cnt = A.R.filter(r=>r.ta===ta).length;
+        return `<tr><td>${ta}</td><td class="n">${fmt(v)}</td><td class="n">${fmt(red)}</td>
+          <td class="n ${cls(v-red)}">${fmt(v-red)}</td>
+          <td class="n">${ta.includes('兴证全球')?fmt(A.realized):'—'}</td>
+          <td class="c">${fmtPct(v/(A.totBuy||1))}</td><td class="c">${cnt}</td></tr>`;}).join('')
+    }<tr class="total"><td>合计</td><td class="n">${fmt(A.totBuy)}</td><td class="n">${fmt(A.totRed)}</td>
+      <td class="n">${fmt(A.net)}</td><td class="n">${fmt(A.realized)}</td><td class="c">100.00%</td><td class="c">${A.R.length}</td></tr></tbody>`;
+
+  const bizs = Object.entries(A.byBiz).sort((a,b)=>b[1].amt-a[1].amt);
+  document.getElementById('t-biz').innerHTML =
+    `<thead><tr><th>业务代码</th><th>笔数</th><th>确认金额</th><th>笔数占比</th><th>金额占比</th></tr></thead><tbody>${
+      bizs.map(([k,v])=>`<tr><td>${k}</td><td class="c">${v.cnt}</td><td class="n">${fmt(v.amt)}</td>
+        <td class="c">${fmtPct(v.cnt/A.R.length)}</td>
+        <td class="c">${fmtPct(v.amt/(bizs.reduce((s,[,x])=>s+x.amt,0)||1))}</td></tr>`).join('')
+    }</tbody>`;
+
+  /* 配置结构 */
+  const t1s = Object.entries(A.byT1).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('t-t1').innerHTML =
+    `<thead><tr><th>一级分类</th><th>申购金额（元）</th><th>占比</th></tr></thead><tbody>${
+      t1s.map(([k,v])=>`<tr><td>${k}</td><td class="n">${fmt(v)}</td><td class="c">${fmtPct(v/A.totBuy)}</td></tr>`).join('')
+    }<tr class="total"><td>合计</td><td class="n">${fmt(A.totBuy)}</td><td class="c">100.00%</td></tr></tbody>`;
+
+  const t2s = Object.entries(A.byT2).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('t-t2').innerHTML =
+    `<thead><tr><th>二级分类</th><th>申购金额（元）</th><th>占比</th></tr></thead><tbody>${
+      t2s.map(([k,v])=>`<tr><td>${k}</td><td class="n">${fmt(v)}</td><td class="c">${fmtPct(v/A.totBuy)}</td></tr>`).join('')
+    }<tr class="total"><td>合计</td><td class="n">${fmt(A.totBuy)}</td><td class="c">100.00%</td></tr></tbody>`;
+
+  document.getElementById('t-funds').innerHTML =
+    `<thead><tr><th>基金代码</th><th>基金名称</th><th>二级分类</th><th>申购金额（元）</th><th>占比</th></tr></thead><tbody>${
+      funds.map(f=>`<tr data-code="${f.code}"><td class="c">${f.code}</td><td>${f.name}</td><td>${f.t2}</td>
+        <td class="n">${fmt(f.amt)}</td><td class="c">${fmtPct(f.amt/(A.totBuy||1))}</td></tr>`).join('')
+    }<tr class="total"><td colspan="3">合计（全部 ${funds.length} 只）</td><td class="n">${fmt(A.totBuy)}</td><td class="c">100.00%</td></tr></tbody>`;
+
+  const T1_PAL = ['#b60005','#0f244a','#b08d3f','#8c98a8','#c96b6e','#5b7f6a'];
+  const t1Color = {};
+  t1s.forEach(([k],i)=>{ t1Color[k] = T1_PAL[i % T1_PAL.length]; });
+  const t2Parent = {};
+  A.R.forEach(r=>{ if (r.t2 && !t2Parent[r.t2]) t2Parent[r.t2] = r.t1; });
+  const buyTotal = A.totBuy || 1;
+
+  document.getElementById('donut').innerHTML = donut(t1s, buyTotal, '申购总额', '万', T1_PAL) +
+    `<div class="alloc-foot">申购合计 ${fmt(A.totBuy)} 元　·　${t1s.length} 类资产</div>`;
+
+  const t2Max = t2s.length ? t2s[0][1] : 1;
+  document.getElementById('bars-t2').innerHTML = t2s.map(([k,v])=>{
+    const c = t1Color[t2Parent[k]] || '#8c98a8';
+    return `<div class="bar-row t2">
+      <div class="bar-label" title="${k}"><i style="background:${c}"></i><span>${k}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(v/t2Max*100).toFixed(1)}%;background:${c}"></div></div>
+      <div class="val">${fmt(v/10000,0)} 万</div>
+      <div class="pct">${fmtPct(v/buyTotal)}</div></div>`;
+  }).join('') + `<div class="alloc-foot">共 ${t2s.length} 个二级分类　·　颜色对应左侧一级分类</div>`;
+
+  const coTop3 = tas.slice(0,3).reduce((s,[,v])=>s+v,0)/(A.totBuy||1);
+  const coMax = tas.length ? tas[0][1] : 1;
+  document.getElementById('bars-co').innerHTML = tas.map(([k,v])=>
+    `<div class="bar-row co">
+      <div class="bar-label" title="${k}"><span>${k}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(v/coMax*100).toFixed(1)}%"></div></div>
+      <div class="val">${fmt(v/10000,0)} 万</div>
+      <div class="pct">${fmtPct(v/(A.totBuy||1))}</div></div>`).join('') +
+    `<div class="alloc-foot">前三大基金公司合计 ${fmtPct(coTop3)}　·　共 ${tas.length} 家</div>`;
+
+  /* 收益跟踪 */
+  const h = A.hold.slice().sort((a,b)=>b.amt-a.amt);
+  document.getElementById('t-hold').innerHTML =
+    `<thead><tr><th>基金代码</th><th>基金名称 / 分类</th><th>申购确认日</th><th>确认金额（元）</th><th>确认份额</th><th>买入净值</th><th>最新净值</th><th>当前市值（元）</th><th>浮盈亏（元）</th><th>收益率</th></tr></thead><tbody>${
+      h.map(x=>`<tr data-code="${x.code}"><td class="c">${x.code}</td>
+        <td class="namecell"><div class="fname">${x.name}</div><div class="fmeta">${x.t1} · ${x.t2}</div></td>
+        <td class="c">${x.cfm}</td>
+        <td class="n">${fmt(x.amt)}</td><td class="n">${fmt(x.sh)}</td><td class="n">${x.buyNav.toFixed(4)}</td>
+        <td class="n">${x.nav.toFixed(4)}</td><td class="n">${fmt(x.mv)}</td>
+        <td class="n ${cls(x.pnl)}">${fmt(x.pnl)}</td><td class="c ${cls(x.ret)}">${fmtPct(x.ret)}</td></tr>`).join('')
+    }<tr class="total"><td colspan="3">合计（存续持仓）</td><td class="n">${fmt(A.hCost)}</td><td colspan="3"></td>
+      <td class="n">${fmt(A.hMv)}</td><td class="n ${cls(A.hPnl)}">${fmt(A.hPnl)}</td>
+      <td class="c ${cls(A.hPnl/A.hCost)}">${fmtPct(A.hPnl/A.hCost)}</td></tr></tbody>`;
+
+  const realizedAll = +(A.realized + A.moneyAccrued).toFixed(2);
+  document.getElementById('pnl-total').innerHTML = `
+    <div class="kv-grid four">
+      <div class="kv"><span>浮动盈亏（元）</span><b class="${cls(A.hPnl)}">${fmt(A.hPnl)}</b></div>
+      <div class="kv"><span>已实现收益（元）</span><b class="${cls(realizedAll)}">${fmt(realizedAll)}</b></div>
+      <div class="kv"><span>累计总盈亏（元）</span><b class="${cls(A.totalPnl)}">${fmt(A.totalPnl)}</b></div>
+      <div class="kv"><span>累计总收益率</span><b class="${cls(A.totalRet)}">${fmtPct(A.totalRet,3)}</b></div>
+    </div>
+    <div class="pnl-mix">${signedRows([
+      {label:'浮动盈亏', v:A.hPnl, rate:A.hCost ? A.hPnl/A.hCost : null},
+      {label:'已实现收益', v:realizedAll, rate:A.moneyBuy ? realizedAll/A.moneyBuy : null},
+      {label:'累计总盈亏', v:A.totalPnl, rate:A.totalRet}
+    ])}</div>`;
+
+  /* 每日收益 */
+  const D = dailySeries(A);
+  const heldCodes = [...new Set(A.buys.map(r=>r.code))];
+  const fundCols = [...(heldCodes.includes('001821') ? ['001821'] : []),
+                     ...heldCodes.filter(c=>c !== '001821')];
+  const fundNames = {};
+  A.R.forEach(r=>{ if (r.code && r.name) fundNames[r.code] = r.name; });
+  const fundLabel = c => fundNames[c] ? `${fundNames[c]}（${c}）` : c;
+  document.getElementById('t-daily-pnl').innerHTML =
+    `<thead><tr><th>日期</th>${fundCols.map(c=>`<th>${fundLabel(c)}</th>`).join('')}<th>申购费</th><th>当日合计</th><th>累计</th></tr></thead><tbody>${
+      D.map(r=>`<tr><td class="c">${r.d}</td>${
+        fundCols.map(c=>`<td class="n ${cls(r.cells[c]||0)}">${r.cells[c]?fmt(r.cells[c]):'—'}</td>`).join('')
+      }<td class="n">${r.fee?fmt(r.fee):'—'}</td><td class="n ${cls(r.total)}">${fmt(r.total)}</td>
+      <td class="n ${cls(r.cum)}">${fmt(r.cum)}</td></tr>`).join('')
+    }</tbody>`;
+  document.getElementById('line').innerHTML = lineChart(D);
+  bindLineHover(D);
+
+  document.getElementById('hdr-nav').textContent = NAVDATE;
+  LAST_A = A; LAST_T1_COLOR = t1Color; LAST_T2_PARENT = t2Parent;
+  renderCatPnl(); renderFundRank(); renderQuality(A); applyTips();
+  paginateRenderTables();
+}
+
+/* 各表格分页配置：每页条数 + 计数单位 */
+const TABLE_PAGERS = {
+  't-hold':       {size: 10, unit: '只基金'},
+  't-funds':      {size: 10, unit: '只基金'},
+  't-fund-flow':  {size: 10, unit: '只基金'},
+  't-ta-flow':    {size: 10, unit: '家 TA'},
+  't-daily-flow': {size: 15, unit: '个确认日'},
+  't-daily-pnl':  {size: 15, unit: '个估值日'},
+  't-detail':     {size: 15, unit: '笔记录'},
+  't-flows':      {size: 15, unit: '条流水'}
+};
+
+function pagerBar(total, page, pages, unit){
+  if (pages <= 1) return `<span class="pg-info">共 <b>${total}</b> ${unit}</span>`;
+  const nums = [];
+  let s = Math.max(1, page - 2), e = Math.min(pages, s + 4);
+  s = Math.max(1, e - 4);
+  for (let i = s; i <= e; i++) nums.push(i);
+  return `<span class="pg-info">共 <b>${total}</b> ${unit}　·　第 ${page}/${pages} 页</span>
+    <div class="pg-btns">
+      <button type="button" data-pg="prev"${page <= 1 ? ' disabled' : ''}>上一页</button>
+      ${nums.map(n=>`<button type="button" data-pg="${n}"${n === page ? ' class="on"' : ''}>${n}</button>`).join('')}
+      <button type="button" data-pg="next"${page >= pages ? ' disabled' : ''}>下一页</button>
+    </div>`;
+}
+
+function stepPage(cur, pages, v){
+  if (v === 'prev') return Math.max(1, cur - 1);
+  if (v === 'next') return Math.min(pages, cur + 1);
+  return Math.min(pages, Math.max(1, +v || 1));
+}
+
+function pagerHost(tableId){
+  let host = document.getElementById(tableId + '-pager');
+  if (host) return host;
+  const table = document.getElementById(tableId);
+  if (!table) return null;
+  host = document.createElement('div');
+  host.className = 'tbl-foot';
+  host.id = tableId + '-pager';
+  const anchor = table.closest('.flow-table-wrap') || table.closest('.scroll') || table;
+  anchor.parentNode.insertBefore(host, anchor.nextSibling);
+  return host;
+}
+
+function hidePager(tableId){
+  const host = document.getElementById(tableId + '-pager');
+  if (host) host.style.display = 'none';
+}
+
+/* 整表 -> 快照 -> 只渲染当前页 */
+function paginate(tableId){
+  const cfg = TABLE_PAGERS[tableId];
+  const table = document.getElementById(tableId);
+  if (!cfg || !table || !table.tBodies.length) return;
+  const rows = [...table.tBodies[0].rows];
+  const last = rows[rows.length - 1];
+  const hasTotal = !!(last && last.classList.contains('total'));
+  cfg.rows = (hasTotal ? rows.slice(0, -1) : rows).map(r=>r.cloneNode(true));
+  cfg.total = hasTotal ? last.cloneNode(true) : null;
+  const pages = Math.max(1, Math.ceil(cfg.rows.length / cfg.size));
+  cfg.page = Math.min(Math.max(1, STATE['pg_' + tableId] || 1), pages);
+  STATE['pg_' + tableId] = cfg.page;
+  paintTable(tableId);
+  bindSort(tableId);
+}
+
+function paintTable(tableId){
+  const cfg = TABLE_PAGERS[tableId];
+  const table = document.getElementById(tableId);
+  if (!cfg || !cfg.rows || !table || !table.tBodies.length) return;
+  const host = pagerHost(tableId);
+  if (!host) return;
+  const pages = Math.max(1, Math.ceil(cfg.rows.length / cfg.size));
+  cfg.page = Math.min(cfg.page, pages);
+  const start = (cfg.page - 1) * cfg.size;
+  const body = table.tBodies[0];
+  body.innerHTML = '';
+  cfg.rows.slice(start, start + cfg.size).forEach(r=>body.appendChild(r.cloneNode(true)));
+  if (cfg.total) body.appendChild(cfg.total.cloneNode(true));
+  host.innerHTML = pagerBar(cfg.rows.length, cfg.page, pages, cfg.unit);
+  host.style.display = '';
+}
+
+function paginateRenderTables(){
+  ['t-hold','t-funds','t-fund-flow','t-ta-flow','t-daily-flow','t-daily-pnl','t-detail'].forEach(paginate);
+}
+
+function resetPagers(){
+  Object.keys(TABLE_PAGERS).forEach(id=>{ STATE['pg_' + id] = 1; });
+}
+
+/* 打印时展开全部分页，导出的 PDF 仍是完整明细 */
+window.addEventListener('beforeprint', ()=>{
+  Object.keys(TABLE_PAGERS).forEach(id=>{
+    const cfg = TABLE_PAGERS[id], table = document.getElementById(id);
+    if (!cfg || !cfg.rows || !table || !table.tBodies.length) return;
+    const body = table.tBodies[0];
+    body.innerHTML = '';
+    cfg.rows.forEach(r=>body.appendChild(r.cloneNode(true)));
+    if (cfg.total) body.appendChild(cfg.total.cloneNode(true));
+    const host = document.getElementById(id + '-pager');
+    if (host) host.innerHTML = `<span class="pg-info">共 <b>${cfg.rows.length}</b> ${cfg.unit}</span>`;
+  });
+});
+window.addEventListener('afterprint', ()=>{
+  Object.keys(TABLE_PAGERS).forEach(id=>{ if (TABLE_PAGERS[id].rows) paintTable(id); });
+});
+
+function currentProduct(){
+  return DATA.products.find(p => p.id === STATE.current) || DATA.products[0];
+}
+
+function statsOf(p){
+  const A = analyze(p.records);
+  const cash = A.moneyBuy > 0 ? (A.moneyRed > 0 ? A.moneyRed : A.moneyBuy + A.moneyAccrued) : 0;
+  const invested = A.hCost + A.moneyBuy;
+  const mv = A.hMv + cash;
+  const pnl = +(mv - invested).toFixed(2);
+  const ret = invested ? pnl / invested : 0;
+  const funds = new Set(A.hold.map(h=>h.code)).size + (A.moneyBuy > 0 && A.moneyRed <= 0 ? 1 : 0);
+  return {p, A, cash, invested, mv, pnl, ret, funds, count: A.R.length, days: dailySeries(A)};
+}
+
+function renderPortfolio(){
+  const stats = DATA.products.map(statsOf);
+  const totMv = stats.reduce((s,x)=>s+x.mv,0);
+
+  const hc = document.getElementById('hero-count');
+  if (hc) hc.textContent = stats.length + ' 个';
+  const hs = document.getElementById('hero-scale');
+  if (hs) hs.textContent = fmt(totMv/1e8,2) + ' 亿';
+
+  const filter = STATE.filter || '全部';
+  const list = filter === '全部' ? stats : stats.filter(x=>x.p.strategy === filter);
+  const listMv = list.reduce((s,x)=>s+x.mv,0);
+  document.getElementById('pf-count').textContent =
+    `${list.length} / ${stats.length} 个 · 合计 ${fmt(listMv/1e8,2)} 亿`;
+  document.getElementById('prod-grid').innerHTML = list.length
+    ? list.map(prodCard).join('')
+    : '<div class="empty">该策略下暂无产品</div>';
+}
+
+function prodCard(x){
+  const p = x.p;
+  const plus = x.ret > 0 ? '+' : '';
+  const plusPnl = x.pnl > 0 ? '+' : '';
+  return `<article class="prod" data-id="${p.id}" data-s="${p.strategy}" tabindex="0">
+    <div class="prod-top">
+      <div><div class="prod-name">${p.name}</div><div class="prod-code">${p.id} · ${p.risk}</div></div>
+      <span class="prod-tag">${p.strategy}</span>
+    </div>
+    <div class="prod-ret ${cls(x.ret)}">${plus}${fmtPct(x.ret)}<small>累计</small></div>
+    <div class="prod-metrics">
+      <div><span>期末规模</span><b>${fmt(x.mv/10000,0)} 万</b></div>
+      <div><span>累计盈亏</span><b class="${cls(x.pnl)}">${plusPnl}${fmt(x.pnl/10000,1)} 万</b></div>
+      <div><span>持仓基金</span><b>${x.funds} 只</b></div>
+    </div>
+    ${spark(x.days)}
+    <div class="prod-foot"><span>成立 ${p.since||'—'}</span><b>查看分析 →</b></div>
+  </article>`;
+}
+
+function spark(rows){
+  const w = 240, h = 32, pad = 3;
+  const vals = rows.map(r=>r.cum);
+  const min = Math.min(0, ...vals), max = Math.max(0, ...vals);
+  const span = (max-min) || 1;
+  const x = i => pad + (w-pad*2)*i/Math.max(rows.length-1,1);
+  const y = v => pad + (h-pad*2)*(1-(v-min)/span);
+  const pts = rows.map((r,i)=>`${x(i).toFixed(1)},${y(r.cum).toFixed(1)}`).join(' ');
+  const last = vals[vals.length-1] || 0;
+  const color = last > 0.005 ? '#c0392b' : (last < -0.005 ? '#157347' : '#8a919c');
+  return `<svg class="prod-spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="${pad}" y1="${y(0).toFixed(1)}" x2="${w-pad}" y2="${y(0).toFixed(1)}" stroke="#eee3dc" stroke-dasharray="2 3"></line>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round"></polyline>
+    <circle cx="${x(rows.length-1).toFixed(1)}" cy="${y(last).toFixed(1)}" r="2.4" fill="${color}"></circle>
+  </svg>`;
+}
+
+function openProduct(id){
+  if (!DATA.products.some(p=>p.id === id)) return;
+  STATE.current = id;
+  resetPagers();
+  renderAll();
+  setSub('overview');
+  goPage('post');
+}
+
+function renderProductBar(p){
+  const s = statsOf(p);
+  const name = document.getElementById('pb-name');
+  if (!name) return;
+  name.textContent = p.name;
+  document.getElementById('pb-code').textContent = `${p.id} · ${p.strategy} · 成立 ${p.since||'—'}`;
+  const plus = s.pnl > 0 ? '+' : '';
+  const plusRet = s.ret > 0 ? '+' : '';
+  document.getElementById('pb-sub').innerHTML =
+    `期末规模 ${fmt(s.mv/10000,0)} 万　·　累计盈亏 <b class="${cls(s.pnl)}">${plus}${fmt(s.pnl/10000,1)} 万</b>　·　累计收益率 <b class="${cls(s.ret)}">${plusRet}${fmtPct(s.ret)}</b>`;
+  const sel = document.getElementById('prod-select');
+  sel.innerHTML = DATA.products.map(x=>`<option value="${x.id}"${x.id===p.id?' selected':''}>${x.name}</option>`).join('');
+}
+
+/* charts */
+function donut(items, total, label, unit, palette){
+  const colors = palette || ['#b60005','#0f244a','#b08d3f','#8c98a8','#c96b6e'];
+  const centerLabel = label || '申购总额';
+  const centerValue = unit === '亿' ? fmt(total/1e8,2) + ' 亿' : fmt(total/10000,0) + ' 万';
+  let off = 0; const C = 2*Math.PI*62;
+  const segs = items.map(([k,v],i)=>{
+    const len = total? v/total*C : 0;
+    const s = `<circle r="62" cx="90" cy="90" fill="none" stroke="${colors[i%colors.length]}"
+      stroke-width="30" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}"
+      transform="rotate(-90 90 90)"></circle>`;
+    off += len; return s;
+  }).join('');
+  const legend = items.map(([k,v],i)=>
+    `<div class="donut-legend"><i style="background:${colors[i%colors.length]}"></i><span>${k}</span><b>${fmtPct(v/total)}</b></div>`).join('');
+  return `<div class="donut-wrap">
+    <svg width="180" height="180" viewBox="0 0 180 180">
+      <circle r="62" cx="90" cy="90" fill="none" stroke="#f3ede8" stroke-width="30"></circle>${segs}
+      <text x="90" y="85" text-anchor="middle" font-size="10" fill="#9a938c">${centerLabel}</text>
+      <text x="90" y="105" text-anchor="middle" font-size="15" font-weight="700" fill="#0f244a">${centerValue}</text>
+    </svg>
+    <div class="donut-legend-wrap">${legend}</div></div>`;
+}
+function bars(items){
+  const max = Math.max(...items.map(i=>i[1]), 1);
+  return items.map(([k,v])=>`<div class="bar-row">
+    <div title="${k}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${k}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${(v/max*100).toFixed(1)}%"></div></div>
+    <div class="val">${fmt(v/10000,0)} 万</div></div>`).join('');
+}
+function lineChart(rows){
+  const w = 1040, h = 270, pad = {l:76,r:30,t:26,b:34};
+  const vals = rows.map(r=>r.cum);
+  const rawMin = Math.min(0, ...vals), rawMax = Math.max(0, ...vals);
+  const head = (rawMax - rawMin || 1) * 0.10;
+  const min = rawMin - head, max = rawMax + head;
+  const span = (max-min)||1;
+  const x = i => pad.l + (rows.length<=1?0:(w-pad.l-pad.r)*i/(rows.length-1));
+  const y = v => pad.t + (h-pad.t-pad.b)*(1-(v-min)/span);
+  const y0 = y(0);
+  const pts = rows.map((r,i)=>`${x(i)},${y(r.cum)}`).join(' ');
+  const area = `M ${x(0)} ${y0} L ` + rows.map((r,i)=>`${x(i)} ${y(r.cum)}`).join(' L ') + ` L ${x(rows.length-1)} ${y0} Z`;
+  const rawStep = span/4;
+  const mag = Math.pow(10, Math.floor(Math.log10(rawStep||1)));
+  const step = Math.ceil((rawStep||1)/mag)*mag;
+  const tickVals = [];
+  for (let v = Math.ceil(min/step)*step; v <= max + step*0.001; v += step) tickVals.push(v);
+  const grid = tickVals.map(v=>{
+    const yy = y(v);
+    const lab = Math.abs(v) < 1 ? '0' : Math.round(v).toLocaleString('zh-CN');
+    return `<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="#efe7e1"></line>
+      <text x="${pad.l-10}" y="${yy+4}" font-size="10.5" fill="#9a938c" text-anchor="end">${lab}</text>`;
+  }).join('');
+  const labels = rows.map((r,i)=>`<text x="${x(i)}" y="${h-10}" font-size="10.5" fill="#9a938c" text-anchor="middle">${r.d.slice(5)}</text>`).join('');
+  const lineC = (vals.length ? vals[vals.length-1] : 0) >= 0 ? '#b60005' : '#157347';
+  const dots = rows.map((r,i)=>`<circle cx="${x(i)}" cy="${y(r.cum)}" r="4" fill="#fff" stroke="${lineC}" stroke-width="2" data-i="${i}"></circle>`).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto" role="img" aria-label="产品累计收益走势">
+    <defs><linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${lineC}" stop-opacity="0.13"></stop>
+      <stop offset="100%" stop-color="${lineC}" stop-opacity="0.01"></stop>
+    </linearGradient></defs>
+    ${grid}
+    <line x1="${pad.l}" y1="${y0}" x2="${w-pad.r}" y2="${y0}" stroke="#d9cfc7" stroke-dasharray="3 4"></line>
+    <path d="${area}" fill="url(#areaFill)"></path>
+    <polyline points="${pts}" fill="none" stroke="${lineC}" stroke-width="2.2" stroke-linejoin="round"></polyline>
+    ${dots}${labels}
+    <g class="line-guide" style="display:none;pointer-events:none">
+      <line x1="0" y1="${pad.t}" x2="0" y2="${h-pad.b}" stroke="#c9b7b0" stroke-dasharray="3 3"></line>
+      <circle cx="0" cy="0" r="5" fill="#fff" stroke="${lineC}" stroke-width="2"></circle>
+    </g>
+    <rect class="line-hit" x="${pad.l}" y="${pad.t}" width="${w-pad.l-pad.r}" height="${h-pad.t-pad.b}" fill="transparent" pointer-events="all"></rect>
+  </svg>`;
+}
+
+/* 累计收益走势悬停提示 */
+function bindLineHover(rows){
+  const host = document.getElementById('line');
+  if (!host) return;
+  const svg = host.querySelector('svg');
+  if (!svg) return;
+  const W = 1040, H = 270, PL = 76, PR = 30, PT = 26, PB = 34;
+  const dots = [...svg.querySelectorAll('circle[data-i]')];
+  const guide = svg.querySelector('.line-guide');
+  const gline = guide ? guide.querySelector('line') : null;
+  const gdot = guide ? guide.querySelector('circle') : null;
+  let tip = document.getElementById('chart-tip');
+  if (!tip){
+    tip = document.createElement('div');
+    tip.id = 'chart-tip';
+    tip.className = 'chart-tip';
+    document.body.appendChild(tip);
+  }
+  tip.style.display = 'none';
+
+  const hide = ()=>{ tip.style.display = 'none'; if (guide) guide.style.display = 'none'; };
+  const move = (ev)=>{
+    const box = svg.getBoundingClientRect();
+    if (!box.width || !rows.length) return;
+    const sx = box.width / W, sy = box.height / H;
+    const xv = (ev.clientX - box.left) / sx;
+    const step = rows.length > 1 ? (W - PL - PR) / (rows.length - 1) : 0;
+    let i = step ? Math.round((xv - PL) / step) : 0;
+    i = Math.max(0, Math.min(rows.length - 1, i));
+    const r = rows[i], dot = dots[i];
+    if (!r || !dot) return;
+    const cx = +dot.getAttribute('cx'), cy = +dot.getAttribute('cy');
+    if (guide && gline && gdot){
+      gline.setAttribute('x1', cx); gline.setAttribute('x2', cx);
+      gline.setAttribute('y1', PT); gline.setAttribute('y2', H - PB);
+      gdot.setAttribute('cx', cx); gdot.setAttribute('cy', cy);
+      guide.style.display = '';
+    }
+    const plusT = r.total > 0 ? '+' : '', plusC = r.cum > 0 ? '+' : '';
+    tip.innerHTML = `<div class="ct-date">${r.d}</div>
+      <div class="ct-row"><span>当日收益</span><b class="${cls(r.total)}">${plusT}${fmt(r.total)}</b></div>
+      <div class="ct-row"><span>累计收益</span><b class="${cls(r.cum)}">${plusC}${fmt(r.cum)}</b></div>`;
+    const px = box.left + cx * sx;
+    const py = box.top + cy * sy;
+    tip.style.display = 'block';
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    const vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+    let left = px + 14;
+    if (left + tw > vw - 8) left = px - tw - 14;
+    left = Math.max(8, Math.min(left, vw - tw - 8));
+    let top = py - th - 12;
+    top = Math.max(box.top + 6, Math.min(top, box.bottom - th - 6));
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  };
+  svg.addEventListener('mousemove', move);
+  svg.addEventListener('mouseleave', hide);
+  if (!window.__chartTipScroll){
+    window.addEventListener('scroll', hideChartTip, { passive: true });
+    window.addEventListener('resize', hideChartTip);
+    window.__chartTipScroll = true;
+  }
+}
+
+function hideChartTip(){
+  const t = document.getElementById('chart-tip');
+  if (t) t.style.display = 'none';
+  const g = document.querySelector('.line-guide');
+  if (g) g.style.display = 'none';
+}
+
+/* ================= upload & parse ================= */
+const REQUIRED = ['确认日期','基金代码','业务代码','确认金额','确认份额'];
+const TEMPLATE_COLS = ['交易账号','基金账号','交易账户名称','申请日期','申请编号','确认编号','确认日期',
+  '基金代码','基金名称','业务代码','申请金额','申请份额','确认金额','确认份额','净值','手续费',
+  '确认标志','TA代码','TA名称','业务辅助代码','一级分类','二级分类'];
+
+function parseCSV(text){
+  const lines = text.replace(/\r/g,'').split('\n').filter(l=>l.trim()!=='');
+  const parseLine = l => {
+    const out = []; let cur = '', q = false;
+    for (let i=0;i<l.length;i++){
+      const ch = l[i];
+      if (q){ if (ch === '"'){ if (l[i+1] === '"'){ cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ','){ out.push(cur); cur=''; }
+      else cur += ch;
+    }
+    out.push(cur); return out;
+  };
+  const hdr = parseLine(lines[0]).map(s=>s.trim());
+  return lines.slice(1).map(l=>{
+    const cells = parseLine(l); const o = {};
+    hdr.forEach((h,i)=>{ o[h] = cells[i]; });
+    return o;
+  });
+}
+
+async function parseXLSX(buf){
+  const files = await unzip(buf);
+  const dec = new TextDecoder('utf-8');
+  const shared = files['xl/sharedStrings.xml']
+    ? [...new DOMParser().parseFromString(dec.decode(files['xl/sharedStrings.xml']), 'application/xml')
+        .getElementsByTagName('si')].map(si=>[...si.getElementsByTagName('t')].map(t=>t.textContent).join(''))
+    : [];
+  const sheetKey = Object.keys(files).find(k=>/^xl\/worksheets\/sheet1\.xml$/.test(k)) ||
+                   Object.keys(files).find(k=>/^xl\/worksheets\/.*\.xml$/.test(k));
+  if (!sheetKey) throw new Error('未找到工作表');
+  const doc = new DOMParser().parseFromString(dec.decode(files[sheetKey]), 'application/xml');
+  const rows = [...doc.getElementsByTagName('row')].map(row=>{
+    const cells = [...row.getElementsByTagName('c')];
+    const obj = [];
+    cells.forEach(c=>{
+      const ref = c.getAttribute('r') || '';
+      const col = ref.replace(/\d+/g,'');
+      let idx = 0; for (const ch of col) idx = idx*26 + (ch.charCodeAt(0)-64);
+      const t = c.getAttribute('t');
+      const vNode = c.getElementsByTagName('v')[0];
+      const isNode = c.getElementsByTagName('is')[0];
+      let v = vNode ? vNode.textContent : (isNode ? isNode.textContent : '');
+      if (t === 's') v = shared[+v] || '';
+      obj[idx-1] = v;
+    });
+    return obj;
+  });
+  const hdr = (rows[0]||[]).map(s=>String(s||'').trim());
+  return rows.slice(1).map(r=>{
+    const o = {}; hdr.forEach((h,i)=>{ o[h] = r[i]; }); return o;
+  }).filter(o=>Object.values(o).some(v=>v!==undefined && v!==''));
+}
+
+/* minimal zip reader */
+async function unzip(buf){
+  const dv = new DataView(buf), u8 = new Uint8Array(buf);
+  const eocd = findEOCD(dv);
+  if (eocd < 0) throw new Error('不是有效的 xlsx 文件');
+  const count = dv.getUint16(eocd+10, true);
+  let off = dv.getUint32(eocd+16, true);
+  const out = {};
+  for (let i=0;i<count;i++){
+    if (dv.getUint32(off, true) !== 0x02014b50) break;
+    const method = dv.getUint16(off+10, true);
+    const compSize = dv.getUint32(off+20, true);
+    const nameLen = dv.getUint16(off+28, true);
+    const extraLen = dv.getUint16(off+30, true);
+    const cmtLen = dv.getUint16(off+32, true);
+    const lho = dv.getUint32(off+42, true);
+    const name = new TextDecoder().decode(u8.subarray(off+46, off+46+nameLen));
+    const lNameLen = dv.getUint16(lho+26, true);
+    const lExtraLen = dv.getUint16(lho+28, true);
+    const dataStart = lho + 30 + lNameLen + lExtraLen;
+    const data = u8.subarray(dataStart, dataStart + (compSize || 0));
+    if (method === 0) out[name] = data;
+    else if (method === 8) out[name] = await inflateRaw(data);
+    off += 46 + nameLen + extraLen + cmtLen;
+  }
+  return out;
+}
+function findEOCD(dv){
+  for (let i = dv.byteLength-22; i >= Math.max(0, dv.byteLength-65558); i--){
+    if (dv.getUint32(i, true) === 0x06054b50) return i;
+  }
+  return -1;
+}
+async function inflateRaw(data){
+  const ds = new DecompressionStream('deflate-raw');
+  const stream = new Blob([data]).stream().pipeThrough(ds);
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+
+
+
+
+/* ================= app ================= */
+const STATE = { pending: null, source: '示例数据（10 条）', generated: false,
+  current: DATA.products[0].id, filter: '全部', flowFilter: 'all' };
+const SAMPLE = JSON.parse(JSON.stringify(DATA.records));
+const CRUMB = { overview: '产品总览', post: '投后分析', upload: '上传数据', flows: '交易流水' };
+
+function setHeroState(text){
+  const el = document.getElementById('hero-state');
+  if (!el) return;
+  el.textContent = text;
+  el.classList.toggle('ready', text === '已生成');
+}
+
+function showStatus(msg, ok){
+  const el = document.getElementById('status');
+  el.className = 'status ' + (ok ? 'ok' : 'err');
+  el.textContent = msg;
+}
+
+function goPage(name){
+  hideChartTip();
+  ['overview','post','upload','flows'].forEach(n=>{
+    const el = document.getElementById('page-' + n);
+    if (el) el.style.display = (n === name ? '' : 'none');
+  });
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.toggle('active', b.dataset.page === name));
+  const crumbName = name === 'post' ? currentProduct().name : CRUMB[name];
+  const crumbRoot = (name === 'upload' || name === 'flows') ? '数据维护' : '投后分析';
+  document.getElementById('crumb').innerHTML = crumbRoot + ' <span>/</span> <b>' + crumbName + '</b>';
+  if (name === 'flows') renderFlows();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderAll(){
+  render();
+  renderPortfolio();
+}
+
+function setSub(name){
+  hideChartTip();
+  document.querySelectorAll('#subtabs button').forEach(b=>b.classList.toggle('on', b.dataset.sub === name));
+  document.querySelectorAll('#page-post .panel').forEach(p=>p.classList.toggle('on', p.id === 'sub-' + name));
+}
+
+function inspect(rows){
+  const R = normalize(rows);
+  const cfms = R.map(r=>r.cfm).filter(Boolean).sort();
+  const funds = new Set(R.map(r=>r.code));
+  const bizs = new Set(R.map(r=>r.biz));
+  const buy = R.filter(r=>r.biz==='申购确认').reduce((s,r)=>s+r.cfmAmt,0);
+  const red = R.filter(r=>r.biz==='赎回确认').reduce((s,r)=>s+r.cfmAmt,0);
+  const unknown = [...funds].filter(c=>!DATA.typeMap[c]);
+  const noNav = [...funds].filter(c=>!DATA.nav[c]);
+  const warnings = [];
+  if (!cfms.length) warnings.push('未识别到确认日期，请检查列名是否为“确认日期”。');
+  if (unknown.length) warnings.push(`有 ${unknown.length} 只基金未匹配到分类（${unknown.slice(0,5).join('、')}），将显示为“未分类”。`);
+  if (noNav.length) warnings.push(`有 ${noNav.length} 只基金无内置净值（${noNav.slice(0,5).join('、')}），收益跟踪与每日收益将显示“—”。`);
+  if (R.some(r=>!r.cfmAmt)) warnings.push('部分记录确认金额为 0，请确认是否为“设置分红方式”等非资金业务。');
+  return {R, n:R.length, from:cfms[0]||'—', to:cfms[cfms.length-1]||'—',
+          funds:funds.size, bizs:bizs.size, buy, red, warnings};
+}
+
+function setPending(rows, label){
+  const info = inspect(rows);
+  if (!info.n){ showStatus('未解析到有效记录，请检查文件内容。', false); return; }
+  STATE.pending = rows;
+  STATE.source = label;
+
+  document.getElementById('summary').innerHTML = [
+    ['有效记录', info.n + ' 条'],
+    ['确认日期区间', info.from + ' ~ ' + info.to],
+    ['涉及基金', info.funds + ' 只'],
+    ['业务类型', info.bizs + ' 类'],
+    ['申购金额', fmt(info.buy) + ' 元'],
+    ['赎回金额', fmt(info.red) + ' 元'],
+    ['净流入', fmt(info.buy - info.red) + ' 元'],
+    ['数据来源', label]
+  ].map(([l,v])=>`<div class="stat"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
+
+  document.getElementById('warns').innerHTML = info.warnings.length
+    ? `<div class="warn"><b>提示（${info.warnings.length}）</b><ul>${info.warnings.map(w=>`<li>${w}</li>`).join('')}</ul></div>`
+    : `<div class="warn" style="color:#1E6B3A;background:#EFF8F1;border-color:#CDE8D5">数据校验通过，未发现字段或匹配问题。</div>`;
+
+  document.getElementById('card-summary').style.display = 'block';
+  saveFlow(rows, label);
+  showStatus(`${label}：解析成功，共 ${info.n} 条记录，已归档到「交易流水」。`, true);
+}
+
+
+function flowOptions(){
+  const out = [{id:'all', name:'全部产品'}];
+  DATA.products.forEach(p => out.push({id:p.id, name:p.name}));
+  DATA.flows.filter(f => !f.productId).forEach(f => {
+    const id = 'name:' + f.productName;
+    if (!out.some(o => o.id === id)) out.push({id, name:f.productName + '（未匹配）'});
+  });
+  return out;
+}
+
+function saveFlow(rows, label){
+  const first = rows.find(r => r['交易账户名称']) || rows[0] || {};
+  const acc = String(first['交易账户名称'] || '').trim();
+  const prod = DATA.products.find(p => acc && acc.indexOf(p.name) !== -1);
+  const productId = prod ? prod.id : '';
+  const productName = prod ? prod.name : (acc || '未匹配产品');
+  const at = new Date().toLocaleString('zh-CN', {hour12:false});
+  const idx = DATA.flows.findIndex(f => productId ? f.productId === productId
+    : (!f.productId && f.productName === productName));
+  const flow = {productId, productName, source:label, at, records:rows};
+  if (idx >= 0) DATA.flows[idx] = flow; else DATA.flows.unshift(flow);
+  STATE.flowFilter = productId || ('name:' + productName);
+  STATE['pg_t-flows'] = 1;
+  renderFlows();
+}
+
+function renderFlows(){
+  const sel = document.getElementById('flow-prod');
+  const table = document.getElementById('t-flows');
+  if (!sel || !table) return;
+  const opts = flowOptions();
+  if (!opts.some(o => o.id === STATE.flowFilter)) STATE.flowFilter = 'all';
+  sel.innerHTML = opts.map(o => `<option value="${o.id}"${o.id === STATE.flowFilter ? ' selected' : ''}>${o.name}</option>`).join('');
+
+  let flows = DATA.flows;
+  if (STATE.flowFilter !== 'all'){
+    flows = STATE.flowFilter.indexOf('name:') === 0
+      ? flows.filter(f => 'name:' + f.productName === STATE.flowFilter)
+      : flows.filter(f => f.productId === STATE.flowFilter);
+  }
+  const rows = [];
+  flows.forEach(f => {
+    normalize(f.records).forEach(r => rows.push(Object.assign({}, r,
+      {productName:f.productName, source:f.source, at:f.at})));
+  });
+  rows.sort((a,b) => a.cfm === b.cfm ? a.code.localeCompare(b.code) : (a.cfm < b.cfm ? 1 : -1));
+
+  const buy = rows.filter(r => r.biz === '申购确认').reduce((s,r) => s + r.cfmAmt, 0);
+  const red = rows.filter(r => r.biz === '赎回确认').reduce((s,r) => s + r.cfmAmt, 0);
+  const from = rows.length ? rows[rows.length - 1].cfm : '—';
+  const to = rows.length ? rows[0].cfm : '—';
+  document.getElementById('flow-count').textContent = '共 ' + rows.length + ' 条';
+  document.getElementById('flow-meta').textContent = rows.length
+    ? `确认区间 ${from} ~ ${to}　·　申购 ${fmt(buy)} 元　·　赎回 ${fmt(red)} 元`
+    : '暂无流水';
+
+  table.innerHTML = `
+    <thead><tr><th>确认日期</th><th>基金代码</th><th>基金名称 / 产品</th><th>业务代码</th>
+      <th>确认金额（元）</th><th>确认份额</th><th>净值</th><th>手续费（元）</th></tr></thead><tbody>${
+      rows.length ? rows.map(r => `<tr>
+        <td class="c">${r.cfm}</td><td class="c">${r.code}</td>
+        <td class="namecell"><div class="fname">${r.name || ''}</div><div class="fmeta">${r.productName} · ${r.source} ${r.at}</div></td>
+        <td class="c">${r.biz}</td><td class="n">${fmt(r.cfmAmt)}</td><td class="n">${fmt(r.cfmSh)}</td>
+        <td class="n">${r.nav ? r.nav.toFixed(4) : '—'}</td><td class="n">${fmt(r.fee)}</td></tr>`).join('')
+      : '<tr><td colspan="8" class="flow-empty">暂无流水</td></tr>'
+    }</tbody>`;
+  if (rows.length) paginate('t-flows'); else hidePager('t-flows');
+}
+
+document.querySelectorAll('.menu button').forEach(b=>{
+  b.addEventListener('click', ()=>goPage(b.dataset.page));
+});
+
+document.getElementById('btn-back').addEventListener('click', ()=>goPage('overview'));
+
+document.getElementById('prod-select').addEventListener('change', e=>{
+  openProduct(e.target.value);
+});
+
+document.getElementById('prod-grid').addEventListener('click', e=>{
+  const card = e.target.closest('.prod');
+  if (card) openProduct(card.dataset.id);
+});
+document.getElementById('prod-grid').addEventListener('keydown', e=>{
+  const card = e.target.closest('.prod');
+  if (card && (e.key === 'Enter' || e.key === ' ')){
+    e.preventDefault(); openProduct(card.dataset.id);
+  }
+});
+
+document.getElementById('pf-filter').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if (!b) return;
+  STATE.filter = b.dataset.f;
+  document.querySelectorAll('#pf-filter button').forEach(x=>x.classList.toggle('on', x === b));
+  renderPortfolio();
+});
+
+
+document.getElementById('btn-goto-flows').addEventListener('click', ()=>goPage('flows'));
+document.getElementById('flow-prod').addEventListener('change', e=>{
+  STATE.flowFilter = e.target.value;
+  STATE['pg_t-flows'] = 1;
+  renderFlows();
+});
+
+document.querySelectorAll('#sub-alloc .seg').forEach(seg=>{
+  seg.addEventListener('click', e=>{
+    const b = e.target.closest('button');
+    if (!b) return;
+    const card = document.getElementById(seg.dataset.card);
+    if (!card) return;
+    card.dataset.view = b.dataset.view;
+    seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x === b));
+  });
+});
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('.tbl-foot button[data-pg]');
+  if (!b || b.disabled) return;
+  const host = b.closest('.tbl-foot');
+  const tableId = host.id.replace(/-pager$/, '');
+  const cfg = TABLE_PAGERS[tableId];
+  if (!cfg || !cfg.rows) return;
+  const pages = Math.max(1, Math.ceil(cfg.rows.length / cfg.size));
+  cfg.page = stepPage(cfg.page || 1, pages, b.dataset.pg);
+  STATE['pg_' + tableId] = cfg.page;
+  paintTable(tableId);
+});
+
+document.getElementById('subtabs').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if (!b) return;
+  setSub(b.dataset.sub);
+});
+
+document.getElementById('btn-print').addEventListener('click', ()=>window.print());
+
+const drop = document.getElementById('drop'), fileInput = document.getElementById('file');
+drop.addEventListener('click', ()=>fileInput.click());
+drop.addEventListener('dragover', e=>{ e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', ()=>drop.classList.remove('over'));
+drop.addEventListener('drop', e=>{
+  e.preventDefault(); drop.classList.remove('over');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', ()=>{ if (fileInput.files[0]) handleFile(fileInput.files[0]); });
+
+async function handleFile(f){
+  try {
+    const name = f.name.toLowerCase();
+    if (name.endsWith('.xls')) { showStatus('暂不支持老版 .xls，请在 Excel 中另存为 .xlsx 或 .csv 后再上传。', false); return; }
+    if (name.endsWith('.csv')){
+      setPending(parseCSV(await f.text()), f.name);
+    } else if (name.endsWith('.xlsx')){
+      setPending(await parseXLSX(await f.arrayBuffer()), f.name);
+    } else {
+      showStatus('仅支持 .xlsx 或 .csv 文件。', false);
+    }
+  } catch (err){
+    showStatus('解析失败：' + err.message, false);
+  }
+}
+
+document.getElementById('btn-sample').addEventListener('click', ()=>{
+  setPending(JSON.parse(JSON.stringify(SAMPLE)), '示例数据（10 条）');
+});
+
+
+/* ================= 参考原型补充：收益构成 / 贡献 / 下钻 / 排序 / 口径 ================= */
+let LAST_A = null, LAST_T1_COLOR = {}, LAST_T2_PARENT = {};
+
+function signedRows(items){
+  const max = Math.max(1, ...items.map(x=>Math.abs(+x.v || 0)));
+  return items.map(x=>{
+    const v = +x.v || 0;
+    const up = v >= 0;
+    const w = Math.min(50, Math.abs(v)/max*50);
+    return `<div class="sgn-row">
+      <div class="sgn-label" title="${x.title || x.label}"><span>${x.label}</span></div>
+      <div class="sgn-track"><i class="sgn-fill ${up ? 'up' : 'down'}" style="width:${w.toFixed(2)}%;${up ? 'left:50%' : 'right:50%'}"></i></div>
+      <div class="sgn-val ${up ? 'pos' : 'neg'}">${fmt(v)}</div>
+      <div class="sgn-rate">${x.rate == null ? '' : fmtPct(x.rate)}</div>
+    </div>`;
+  }).join('');
+}
+
+function catPnlRows(A, key){
+  const map = {};
+  const add = (k, pnl, cost, code) => {
+    if (!k) return;
+    if (!map[k]) map[k] = {pnl:0, cost:0, codes:{}};
+    map[k].pnl += pnl; map[k].cost += cost; map[k].codes[code] = 1;
+  };
+  A.hold.forEach(h=>add(h[key], h.pnl, h.amt, h.code));
+  const realizedAll = +(A.realized + A.moneyAccrued).toFixed(2);
+  if (A.moneyBuy > 0){
+    const mf = A.buys.find(r=>r.code === '001821');
+    if (mf) add(mf[key], realizedAll, A.moneyBuy, mf.code);
+  }
+  return Object.entries(map).map(([k,x])=>({
+    label:k, title:k + ' · ' + Object.keys(x.codes).length + ' 只基金',
+    v:+x.pnl.toFixed(2), rate:x.cost ? x.pnl/x.cost : null
+  })).sort((a,b)=>b.v - a.v);
+}
+
+function fundPnlRows(A){
+  const map = {};
+  const add = (code, name, pnl, cost) => {
+    if (!map[code]) map[code] = {code, name, pnl:0, cost:0};
+    map[code].pnl += pnl; map[code].cost += cost;
+  };
+  A.hold.forEach(h=>add(h.code, h.name, h.pnl, h.amt));
+  const realizedAll = +(A.realized + A.moneyAccrued).toFixed(2);
+  if (A.moneyBuy > 0){
+    const mf = A.buys.find(r=>r.code === '001821');
+    if (mf) add(mf.code, mf.name, realizedAll, A.moneyBuy);
+  }
+  return Object.values(map).map(x=>({
+    label:x.name + '（' + x.code + '）', title:x.name,
+    v:+x.pnl.toFixed(2), rate:x.cost ? x.pnl/x.cost : null
+  })).sort((a,b)=>b.v - a.v);
+}
+
+function renderCatPnl(){
+  const host = document.getElementById('cat-pnl');
+  if (!host || !LAST_A) return;
+  const rows = catPnlRows(LAST_A, STATE.catKey || 't1');
+  host.innerHTML = rows.length
+    ? signedRows(rows) + `<div class="alloc-foot">收益率 = 区间收益 ÷ 建仓成本　·　合计 ${fmt(rows.reduce((s,x)=>s+x.v,0))} 元</div>`
+    : '<div class="empty" style="display:block">暂无收益数据</div>';
+}
+
+function renderFundRank(){
+  const host = document.getElementById('fund-rank');
+  if (!host || !LAST_A) return;
+  const rows = fundPnlRows(LAST_A).slice(0, 10);
+  host.innerHTML = rows.length
+    ? signedRows(rows) + `<div class="alloc-foot">共 ${rows.length} 只基金　·　合计 ${fmt(rows.reduce((s,x)=>s+x.v,0))} 元</div>`
+    : '<div class="empty" style="display:block">暂无持仓收益</div>';
+}
+
+function renderQuality(A){
+  const host = document.getElementById('dq');
+  if (!host) return;
+  const R = A.R || [];
+  const buys = R.filter(r=>r.biz === '申购确认');
+  let diffN = 0, maxDiff = 0;
+  buys.forEach(r=>{
+    if (!r.nav || !r.cfmSh) return;
+    const d = Math.abs((r.cfmAmt - (r.fee || 0)) - r.cfmSh*r.nav);
+    if (d > 0.05){ diffN++; maxDiff = Math.max(maxDiff, d); }
+  });
+  const valued = R.filter(r=>r.biz === '申购确认' || r.biz === '赎回确认');
+  const noNav = valued.filter(r=>!r.nav).length;
+  const unmatched = R.filter(r=>!r.t1 || r.t1 === '未分类').length;
+  const seen = {}, dup = {};
+  R.forEach(r=>{ const k = r.cfmNo || ''; if (!k) return; if (seen[k]) dup[k] = 1; seen[k] = 1; });
+  const dupN = Object.keys(dup).length;
+  const items = [
+    {l:'有效记录', v:R.length + ' 笔', ok:true, tip:'当前产品全部确认记录'},
+    {l:'申购金额勾稽', v:diffN ? diffN + ' 笔差异' : '全部通过', ok:!diffN,
+      tip:'确认金额 − 手续费 vs 确认份额 × 净值，单笔差异超过 0.05 元计为异常' + (diffN ? '；最大差异 ' + fmt(maxDiff) + ' 元' : '')},
+    {l:'分类匹配', v:(R.length - unmatched) + ' / ' + R.length, ok:!unmatched, tip:'已匹配 Wind 一级 / 二级分类的记录'},
+    {l:'净值覆盖', v:(valued.length - noNav) + ' / ' + valued.length, ok:!noNav, tip:'申购 / 赎回记录中有净值可用于收益计算的笔数'},
+    {l:'重复确认编号', v:dupN ? dupN + ' 个' : '0 个', ok:!dupN, tip:'同一确认编号出现多次的记录'}
+  ];
+  host.innerHTML = `<div class="dq-grid">${items.map(i=>
+    `<div class="dq-item ${i.ok ? 'ok' : 'warn'}" title="${i.tip}"><span>${i.l}</span><b>${i.v}</b></div>`).join('')}</div>`;
+}
+
+const TIPS = {
+  '净流入（元）':'申购确认金额 − 赎回确认金额，按当前产品全部确认记录汇总。',
+  '持仓浮盈亏（元）':'当前市值 − 申购成本，按最新净值计算，不含已实现收益。',
+  '本期累计总盈亏（元）':'持仓浮盈亏 + 已实现收益（含货币基金万份收益结转），未扣产品费用。',
+  '浮动盈亏（元）':'当前市值 − 申购成本，反映未卖出部分的浮盈或浮亏。',
+  '已实现收益（元）':'赎回确认金额 − 对应申购成本，含货币基金万份收益结转。',
+  '累计总盈亏（元）':'浮动盈亏 + 已实现收益，为本期累计口径。',
+  '累计总收益率':'累计总盈亏 ÷（持仓成本 + 货币基金申购投入）。',
+  '一级分类':'按本期申购确认金额统计的分类占比，不是期末市值占比。',
+  '二级分类':'按本期申购确认金额统计的分类占比，不是期末市值占比。',
+  '基金公司':'按本期申购确认金额汇总；前三大合计反映集中度。',
+  '单只基金':'按本期申购确认金额统计；同一基金多笔申购合并展示，点击行查看明细。',
+  '持仓收益明细跟踪':'点击任意一行，查看该基金的交易记录与每日收益。',
+  '分类收益贡献':'按一级 / 二级分类汇总区间收益，收益率以建仓成本为分母。',
+  '基金收益贡献排行':'按单只基金区间收益排序，含浮动盈亏与货币基金已实现收益。'
+};
+
+function applyTips(){
+  document.querySelectorAll('.kpi .l, .kv span, .card h2').forEach(el=>{
+    if (el.querySelector('.q')) return;
+    const text = el.textContent.replace(/\s+/g, ' ').trim();
+    const key = Object.keys(TIPS).find(k=>text.indexOf(k) === 0);
+    if (!key) return;
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'q'; btn.dataset.tip = TIPS[key];
+    btn.setAttribute('aria-label', '口径说明'); btn.textContent = 'i';
+    const meta = el.querySelector('.h2-meta');
+    if (meta) meta.insertAdjacentElement('beforebegin', btn); else el.appendChild(btn);
+  });
+}
+
+let UI_TIP = null;
+function showUiTip(target){
+  const text = target.dataset.tip;
+  if (!text) return;
+  if (!UI_TIP){ UI_TIP = document.createElement('div'); UI_TIP.className = 'ui-tip'; document.body.appendChild(UI_TIP); }
+  UI_TIP.textContent = text;
+  UI_TIP.style.display = 'block';
+  const r = target.getBoundingClientRect();
+  const w = UI_TIP.offsetWidth, h = UI_TIP.offsetHeight;
+  let left = r.left + r.width/2 - w/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
+  let top = r.top - h - 8;
+  if (top < 8) top = r.bottom + 8;
+  UI_TIP.style.left = left + 'px';
+  UI_TIP.style.top = top + 'px';
+}
+function hideUiTip(){ if (UI_TIP) UI_TIP.style.display = 'none'; }
+
+function openFundDrawer(code){
+  const A = LAST_A;
+  if (!A) return;
+  const recs = A.R.filter(r=>r.code === code);
+  if (!recs.length) return;
+  const first = recs[0];
+  const lots = A.hold.filter(h=>h.code === code);
+  const buys = recs.filter(r=>r.biz === '申购确认');
+  const reds = recs.filter(r=>r.biz === '赎回确认');
+  const buyAmt = buys.reduce((s,r)=>s + r.cfmAmt, 0);
+  const redAmt = reds.reduce((s,r)=>s + r.cfmAmt, 0);
+  const amt = lots.reduce((s,h)=>s + h.amt, 0);
+  const sh = lots.reduce((s,h)=>s + h.sh, 0);
+  const mv = lots.reduce((s,h)=>s + h.mv, 0);
+  const pnl = lots.reduce((s,h)=>s + h.pnl, 0);
+  const isMoney = code === '001821';
+  const realized = isMoney ? +(A.realized + A.moneyAccrued).toFixed(2) : 0;
+
+  const metrics = isMoney ? [
+    ['申购金额（元）', fmt(buyAmt)],
+    ['赎回金额（元）', fmt(redAmt)],
+    ['已实现收益（元）', `<b class="${cls(realized)}">${fmt(realized)}</b>`],
+    ['收益率', `<b class="${cls(realized)}">${fmtPct(buyAmt ? realized/buyAmt : 0)}</b>`],
+    ['当前状态', reds.length ? '已赎回' : '持有中']
+  ] : [
+    ['确认金额（元）', fmt(amt)],
+    ['确认份额', fmt(sh)],
+    ['当前市值（元）', fmt(mv)],
+    ['浮盈亏（元）', `<b class="${cls(pnl)}">${fmt(pnl)}</b>`],
+    ['收益率', `<b class="${cls(pnl)}">${fmtPct(amt ? pnl/amt : 0)}</b>`],
+    ['最新净值', lots.length ? lots[0].nav.toFixed(4) : '—']
+  ];
+
+  const tradeRows = recs.map(r=>`<tr>
+    <td class="c">${r.cfm}</td><td class="c">${r.biz}</td>
+    <td class="n">${fmt(r.cfmAmt)}</td><td class="n">${fmt(r.cfmSh)}</td>
+    <td class="n">${r.nav ? r.nav.toFixed(4) : '—'}</td><td class="n">${fmt(r.fee)}</td></tr>`).join('');
+
+  let dailyHtml = '';
+  if (!isMoney){
+    const D = dailySeries(A);
+    let cum = 0;
+    const rows = D.filter(r=>r.cells[code] !== undefined).map(r=>{
+      cum += r.cells[code];
+      return `<tr><td class="c">${r.d}</td><td class="n ${cls(r.cells[code])}">${fmt(r.cells[code])}</td>
+        <td class="n ${cls(cum)}">${fmt(cum)}</td></tr>`;
+    }).join('');
+    if (rows) dailyHtml = `<div class="fd-sec"><h3>每日收益</h3><div class="scroll"><table>
+      <thead><tr><th>日期</th><th>当日收益（元）</th><th>累计（元）</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="alloc-foot">按相邻估值日净值变动计算，不含申购费</div></div>`;
+  }
+
+  document.getElementById('fd-title').textContent = first.name || code;
+  document.getElementById('fd-sub').textContent = `${code}${first.t1 ? ' · ' + first.t1 : ''}${first.t2 ? ' · ' + first.t2 : ''}`;
+  document.getElementById('fd-body').innerHTML = `
+    <div class="fd-metrics">${metrics.map(([l,v])=>`<div class="fd-metric"><span>${l}</span><b>${v}</b></div>`).join('')}</div>
+    <div class="fd-sec"><h3>交易记录</h3><div class="scroll"><table>
+      <thead><tr><th>确认日期</th><th>业务代码</th><th>确认金额（元）</th><th>确认份额</th><th>净值</th><th>手续费（元）</th></tr></thead>
+      <tbody>${tradeRows}</tbody></table></div></div>
+    ${dailyHtml}`;
+  const mask = document.getElementById('fund-drawer');
+  mask.classList.add('show');
+  mask.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFundDrawer(){
+  const mask = document.getElementById('fund-drawer');
+  if (!mask || !mask.classList.contains('show')) return;
+  mask.classList.remove('show');
+  mask.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function sortVal(td){
+  const s = td ? (td.textContent || '').trim() : '';
+  if (!s || s === '—' || s === '-') return {t:9, v:''};
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return {t:1, v:s};
+  const n = Number(s.replace(/[,\s%％+＋]/g, '').replace(/元|万|只|笔|个|家|日/g, ''));
+  if (Number.isFinite(n)) return {t:1, v:n};
+  return {t:2, v:s};
+}
+
+function bindSort(tableId){
+  const table = document.getElementById(tableId);
+  const cfg = TABLE_PAGERS[tableId];
+  if (!table || !table.tHead || !cfg) return;
+  const ths = [...table.tHead.rows[0].cells];
+  ths.forEach((th, idx)=>{
+    if (th.dataset.sorted === '1' || th.colSpan > 1 || !th.textContent.trim()) return;
+    th.dataset.sorted = '1';
+    th.classList.add('sortable');
+    th.addEventListener('click', ()=>{
+      const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+      ths.forEach(x=>{ if (x !== th) delete x.dataset.dir; });
+      th.dataset.dir = dir;
+      cfg.rows.sort((a,b)=>{
+        const av = sortVal(a.cells[idx]), bv = sortVal(b.cells[idx]);
+        if (av.t !== bv.t) return av.t - bv.t;
+        if (av.v < bv.v) return dir === 'asc' ? -1 : 1;
+        if (av.v > bv.v) return dir === 'asc' ? 1 : -1;
+        return 0;
+      });
+      cfg.page = 1;
+      STATE['pg_' + tableId] = 1;
+      paintTable(tableId);
+    });
+  });
+}
+
+document.getElementById('cat-seg').addEventListener('click', e=>{
+  const b = e.target.closest('button');
+  if (!b) return;
+  STATE.catKey = b.dataset.cat;
+  document.querySelectorAll('#cat-seg button').forEach(x=>x.classList.toggle('on', x === b));
+  renderCatPnl();
+});
+
+document.getElementById('fd-close').addEventListener('click', closeFundDrawer);
+document.getElementById('fund-drawer').addEventListener('click', e=>{
+  if (e.target.id === 'fund-drawer') closeFundDrawer();
+});
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape') closeFundDrawer(); });
+document.addEventListener('click', e=>{
+  const tr = e.target.closest('#t-hold tr[data-code], #t-funds tr[data-code]');
+  if (tr) openFundDrawer(tr.dataset.code);
+});
+document.addEventListener('mouseover', e=>{
+  const q = e.target.closest('.q');
+  if (q) showUiTip(q);
+});
+document.addEventListener('mouseout', e=>{
+  if (e.target.closest('.q')) hideUiTip();
+});
+document.addEventListener('focusin', e=>{
+  const q = e.target.closest('.q');
+  if (q) showUiTip(q);
+});
+document.addEventListener('focusout', e=>{
+  if (e.target.closest('.q')) hideUiTip();
+});
+window.addEventListener('scroll', hideUiTip, {passive:true});
+
+/* 初始化：默认载入示例数据并生成，便于演示时直接看到成品 */
+renderAll();
+STATE.generated = true;
+setHeroState('已生成');
+</script>
+</body>
+</html>

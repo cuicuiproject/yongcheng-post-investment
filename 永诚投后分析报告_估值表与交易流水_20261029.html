@@ -1,0 +1,231 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>永诚资产精研稳健1号 · 投后分析报告</title>
+<style>
+:root{--red:#9E1B32;--ink:#1b2533;--muted:#7d8795;--line:#e9e3de}
+*{box-sizing:border-box}
+body{margin:0;background:#e9e4dd;font:12px/1.62 "Microsoft YaHei","PingFang SC",sans-serif;color:var(--ink)}
+.page{width:1040px;margin:0 auto;padding:24px 30px 30px;background:#fff;box-shadow:0 12px 44px rgba(20,32,50,.14)}
+.cover{position:relative;overflow:hidden;border-radius:12px;padding:24px 28px;color:#fff;background:linear-gradient(115deg,#4c1a24,#6b2431 55%,#84303e);margin-bottom:14px}
+.cover:after{content:"";position:absolute;right:-70px;top:-90px;width:280px;height:280px;border:1px solid rgba(255,255,255,.18);border-radius:50%;box-shadow:0 0 0 38px rgba(255,255,255,.05)}
+.kicker{font-size:10.5px;letter-spacing:.14em;opacity:.82}
+.cover h1{margin:8px 0 3px;font-size:25px;letter-spacing:-.01em}
+.cover .sub{font-size:12px;opacity:.86}
+.tags{margin-top:13px;display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+.tags span{font-size:10px;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.kpi{border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:linear-gradient(180deg,#fff,#fcf9f6)}
+.kpi small{display:block;font-size:10px;color:var(--muted)}
+.kpi b{display:block;margin-top:3px;font-size:18px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi em{display:block;font-style:normal;font-size:9.5px;color:#9a938c;margin-top:1px}
+.pos{color:#c0392b}.neg{color:#157347}
+section{margin-top:16px;page-break-inside:avoid}
+.sec-head{display:flex;align-items:baseline;gap:9px;border-bottom:2px solid var(--red);padding-bottom:5px;margin-bottom:11px}
+.sec-head .no{font:700 11px/1 Georgia,serif;color:var(--red);letter-spacing:.06em}
+.sec-head h2{margin:0;font-size:14.5px}
+.sec-head p{margin:0 0 0 auto;font-size:10px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1.55fr .95fr;gap:12px}
+.grid2.even{grid-template-columns:1fr 1fr}
+.card{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:#fff}
+.card h3{margin:0 0 8px;font-size:12px;color:#3f3f3f;font-weight:700}
+.card h3 span{float:right;font-weight:400;font-size:10px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+table{width:100%;border-collapse:collapse;font-size:10.5px}
+th,td{padding:5.5px 8px;border-bottom:1px solid #f1ebe6;text-align:left;white-space:nowrap}
+th{background:#f8f2ee;color:#6b544b;font-weight:600;font-size:9.5px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.total td{border-top:2px solid var(--red);background:#fbf7f8;font-weight:700}
+ul.bullets{margin:8px 0 0;padding-left:15px;font-size:10.5px;color:#4c5563}
+ul.bullets li{margin:3px 0}
+.dot{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:6px;vertical-align:0}
+.fund-row{display:grid;grid-template-columns:minmax(150px,1fr) 1.15fr 80px 52px;gap:8px;align-items:center;margin:6.5px 0;font-size:10px}
+.fund-row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#4c5563}
+.fund-row .nm em{font-style:normal;color:#a2968c;font-size:9px;margin-left:4px}
+.bar{position:relative;height:11px;background:#f1ece7;border-radius:3px}
+.bar:before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:#d8cec6}
+.bar i{position:absolute;top:0;bottom:0;border-radius:3px;opacity:.92}
+.fund-row b{text-align:right;font-variant-numeric:tabular-nums}
+.fund-row span{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.tx-table td,.tx-table th{font-size:9.5px;padding:4.5px 6px}
+.donut-wrap{display:flex;align-items:center;gap:16px}
+.lg{display:grid;grid-template-columns:10px 1fr auto;gap:6px;align-items:center;font-size:10px;color:#4c5563;margin:7px 0}
+.lg i{width:9px;height:9px;border-radius:2px}
+.lg b{font-variant-numeric:tabular-nums}
+.lg em{font-style:normal;color:#9a938c;font-size:9.5px;text-align:right;min-width:74px}
+.stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.stat4 .kpi b{font-size:16px}
+.chip{display:inline-block;margin:2px 3px 2px 0;padding:2px 7px;border-radius:9px;background:#fff7e9;border:1px solid #f2d9ae;color:#9a6a12;font-size:9px}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;background:#eef8f2;color:#157347;font-size:9.5px;border:1px solid #cfe8da}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.mini div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fcfaf8}
+.mini small{display:block;font-size:9.5px;color:var(--muted)}
+.mini b{display:block;font-size:14px;margin-top:1px;font-variant-numeric:tabular-nums}
+.note{margin-top:7px;font-size:9.5px;color:#9a938c;line-height:1.6}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.two-col ol,.two-col ul{margin:0;padding-left:16px;font-size:9.5px;color:#6b625a;line-height:1.7}
+.footer{margin-top:18px;padding-top:9px;border-top:1px solid var(--line);font-size:9px;color:#9a938c;display:flex;justify-content:space-between}
+@media print{body{background:#fff}.page{width:auto;box-shadow:none;padding:0}section{page-break-inside:avoid}}
+@page{size:A4 landscape;margin:9mm}
+</style></head><body><div class="page">
+
+<div class="cover">
+  <div class="kicker">永诚保险资管 · 投后分析报告</div>
+  <h1>永诚资产精研稳健1号</h1>
+  <div class="sub">分析区间 2026-04-30 至 2026-10-28　·　产品代码 YC-JYJ-001　·　固收+　·　R2</div>
+  <div class="tags"><span>数据来源：估值表 118 份 · 交易流水 14 笔</span><span>报告生成 2026-10-29</span><span>数据为模拟样本</span></div>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><small>期末资产（元）</small><b>64,222,818.22</b><em>期初 29,686,400.00</em></div>
+  <div class="kpi"><small>区间收益（元）</small><b class="pos">2,036,418.22</b><em>持有涨跌 − 费用</em></div>
+  <div class="kpi"><small>区间收益率</small><b class="pos">+4.78%</b><em>时间加权，剔除申赎</em></div>
+  <div class="kpi"><small>年化收益率</small><b class="pos">+9.87%</b><em>按 181 天折算</em></div>
+  <div class="kpi"><small>最大回撤</small><b class="neg">-1.33%</b><em>波动率 3.41%</em></div>
+</div>
+
+<section>
+<div class="sec-head"><span class="no">01</span><h2>组合表现</h2><p>累计收益率与回撤 · 2026-04-30 至 2026-10-28</p></div>
+<div class="grid2">
+  <div class="card"><h3>累计收益率走势 <span>时间加权</span></h3><svg viewBox="0 0 640 300" class="chart">
+<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b60005" stop-opacity=".16"/><stop offset="100%" stop-color="#b60005" stop-opacity=".01"/></linearGradient>
+<linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9E1B32" stop-opacity=".26"/><stop offset="100%" stop-color="#9E1B32" stop-opacity=".04"/></linearGradient></defs>
+<line x1="52" y1="192.0" x2="626" y2="192.0" stroke="#efe7e1"/><text x="45" y="195.0" font-size="8.5" fill="#9a938c" text-anchor="end">-2.0%</text><line x1="52" y1="147.5" x2="626" y2="147.5" stroke="#efe7e1"/><text x="45" y="150.5" font-size="8.5" fill="#9a938c" text-anchor="end">0.0%</text><line x1="52" y1="103.0" x2="626" y2="103.0" stroke="#efe7e1"/><text x="45" y="106.0" font-size="8.5" fill="#9a938c" text-anchor="end">2.0%</text><line x1="52" y1="58.5" x2="626" y2="58.5" stroke="#efe7e1"/><text x="45" y="61.5" font-size="8.5" fill="#9a938c" text-anchor="end">4.0%</text><line x1="52" y1="14.0" x2="626" y2="14.0" stroke="#efe7e1"/><text x="45" y="17.0" font-size="8.5" fill="#9a938c" text-anchor="end">6.0%</text>
+<line x1="52" y1="147.5" x2="626" y2="147.5" stroke="#d9cfc7" stroke-dasharray="3 4"/>
+<path d="M 52.0 147.5 L 52.0 147.5 L 56.9 148.5 L 61.8 148.0 L 66.7 140.8 L 71.6 137.4 L 76.5 137.1 L 81.4 136.4 L 86.3 133.0 L 91.2 132.1 L 96.2 132.3 L 101.1 125.5 L 106.0 130.0 L 110.9 134.2 L 115.8 137.4 L 120.7 135.9 L 125.6 136.0 L 130.5 141.3 L 135.4 145.1 L 140.3 143.1 L 145.2 136.1 L 150.1 132.3 L 155.0 125.4 L 159.9 117.3 L 164.8 122.3 L 169.7 119.8 L 174.6 120.1 L 179.6 116.6 L 184.5 124.3 L 189.4 123.2 L 194.3 121.2 L 199.2 127.0 L 204.1 126.9 L 209.0 125.5 L 213.9 127.8 L 218.8 124.2 L 223.7 117.7 L 228.6 110.4 L 233.5 108.5 L 238.4 115.2 L 243.3 111.7 L 248.2 110.6 L 253.1 94.8 L 258.1 89.0 L 263.0 81.7 L 267.9 81.4 L 272.8 82.4 L 277.7 72.6 L 282.6 67.4 L 287.5 70.4 L 292.4 76.7 L 297.3 81.2 L 302.2 84.7 L 307.1 87.1 L 312.0 79.7 L 316.9 73.7 L 321.8 72.9 L 326.7 76.2 L 331.6 70.3 L 336.5 67.2 L 341.5 61.0 L 346.4 66.5 L 351.3 60.9 L 356.2 60.6 L 361.1 62.2 L 366.0 61.3 L 370.9 53.2 L 375.8 48.8 L 380.7 52.6 L 385.6 52.0 L 390.5 49.5 L 395.4 48.7 L 400.3 33.2 L 405.2 25.5 L 410.1 30.2 L 415.0 41.7 L 419.9 53.8 L 424.9 45.7 L 429.8 43.8 L 434.7 38.2 L 439.6 31.6 L 444.5 28.7 L 449.4 30.1 L 454.3 31.9 L 459.2 28.5 L 464.1 30.3 L 469.0 33.5 L 473.9 35.3 L 478.8 37.3 L 483.7 34.1 L 488.6 37.4 L 493.5 40.3 L 498.4 41.9 L 503.4 49.4 L 508.3 53.4 L 513.2 56.6 L 518.1 50.4 L 523.0 49.1 L 527.9 49.2 L 532.8 51.5 L 537.7 49.2 L 542.6 52.7 L 547.5 48.7 L 552.4 44.4 L 557.3 49.2 L 562.2 50.4 L 567.1 46.6 L 572.0 47.8 L 576.9 50.2 L 581.8 37.9 L 586.8 40.2 L 591.7 36.5 L 596.6 33.7 L 601.5 33.9 L 606.4 34.5 L 611.3 35.9 L 616.2 31.7 L 621.1 38.8 L 626.0 41.2 L 626.0 147.5 Z" fill="url(#ag)"/><polyline points="52.0,147.5 56.9,148.5 61.8,148.0 66.7,140.8 71.6,137.4 76.5,137.1 81.4,136.4 86.3,133.0 91.2,132.1 96.2,132.3 101.1,125.5 106.0,130.0 110.9,134.2 115.8,137.4 120.7,135.9 125.6,136.0 130.5,141.3 135.4,145.1 140.3,143.1 145.2,136.1 150.1,132.3 155.0,125.4 159.9,117.3 164.8,122.3 169.7,119.8 174.6,120.1 179.6,116.6 184.5,124.3 189.4,123.2 194.3,121.2 199.2,127.0 204.1,126.9 209.0,125.5 213.9,127.8 218.8,124.2 223.7,117.7 228.6,110.4 233.5,108.5 238.4,115.2 243.3,111.7 248.2,110.6 253.1,94.8 258.1,89.0 263.0,81.7 267.9,81.4 272.8,82.4 277.7,72.6 282.6,67.4 287.5,70.4 292.4,76.7 297.3,81.2 302.2,84.7 307.1,87.1 312.0,79.7 316.9,73.7 321.8,72.9 326.7,76.2 331.6,70.3 336.5,67.2 341.5,61.0 346.4,66.5 351.3,60.9 356.2,60.6 361.1,62.2 366.0,61.3 370.9,53.2 375.8,48.8 380.7,52.6 385.6,52.0 390.5,49.5 395.4,48.7 400.3,33.2 405.2,25.5 410.1,30.2 415.0,41.7 419.9,53.8 424.9,45.7 429.8,43.8 434.7,38.2 439.6,31.6 444.5,28.7 449.4,30.1 454.3,31.9 459.2,28.5 464.1,30.3 469.0,33.5 473.9,35.3 478.8,37.3 483.7,34.1 488.6,37.4 493.5,40.3 498.4,41.9 503.4,49.4 508.3,53.4 513.2,56.6 518.1,50.4 523.0,49.1 527.9,49.2 532.8,51.5 537.7,49.2 542.6,52.7 547.5,48.7 552.4,44.4 557.3,49.2 562.2,50.4 567.1,46.6 572.0,47.8 576.9,50.2 581.8,37.9 586.8,40.2 591.7,36.5 596.6,33.7 601.5,33.9 606.4,34.5 611.3,35.9 616.2,31.7 621.1,38.8 626.0,41.2" fill="none" stroke="#b60005" stroke-width="2.2" stroke-linejoin="round"/>
+<text x="52.0" y="295" font-size="8.5" fill="#9a938c" text-anchor="middle">04月</text><text x="56.9" y="295" font-size="8.5" fill="#9a938c" text-anchor="middle">05月</text><text x="140.3" y="295" font-size="8.5" fill="#9a938c" text-anchor="middle">06月</text><text x="243.3" y="295" font-size="8.5" fill="#9a938c" text-anchor="middle">07月</text><text x="356.2" y="295" font-size="8.5" fill="#9a938c" text-anchor="middle">08月</text><text x="454.3" y="295" font-size="8.5" fill="#9a938c" text-anchor="middle">09月</text><text x="557.3" y="295" font-size="8.5" fill="#9a938c" text-anchor="middle">10月</text>
+<line x1="52" y1="208" x2="626" y2="208" stroke="#efe7e1"/>
+<path d="M 52.0 208 L 52.0 208.0 L 56.9 209.6 L 61.8 208.8 L 66.7 208.0 L 71.6 208.0 L 76.5 208.0 L 81.4 208.0 L 86.3 208.0 L 91.2 208.0 L 96.2 208.3 L 101.1 208.0 L 106.0 214.9 L 110.9 221.3 L 115.8 226.1 L 120.7 223.9 L 125.6 224.1 L 130.5 232.2 L 135.4 238.0 L 140.3 234.9 L 145.2 224.1 L 150.1 218.4 L 155.0 208.0 L 159.9 208.0 L 164.8 215.6 L 169.7 211.8 L 174.6 212.2 L 179.6 208.0 L 184.5 219.8 L 189.4 218.0 L 194.3 215.1 L 199.2 223.9 L 204.1 223.7 L 209.0 221.5 L 213.9 225.1 L 218.8 219.6 L 223.7 209.7 L 228.6 208.0 L 233.5 208.0 L 238.4 218.1 L 243.3 212.9 L 248.2 211.2 L 253.1 208.0 L 258.1 208.0 L 263.0 208.0 L 267.9 208.0 L 272.8 209.5 L 277.7 208.0 L 282.6 208.0 L 287.5 212.5 L 292.4 221.8 L 297.3 228.5 L 302.2 233.7 L 307.1 237.3 L 312.0 226.3 L 316.9 217.4 L 321.8 216.2 L 326.7 221.1 L 331.6 212.3 L 336.5 208.0 L 341.5 208.0 L 346.4 216.0 L 351.3 208.0 L 356.2 208.0 L 361.1 210.4 L 366.0 209.0 L 370.9 208.0 L 375.8 208.0 L 380.7 213.7 L 385.6 212.7 L 390.5 209.1 L 395.4 208.0 L 400.3 208.0 L 405.2 208.0 L 410.1 214.9 L 415.0 231.7 L 419.9 249.4 L 424.9 237.5 L 429.8 234.7 L 434.7 226.6 L 439.6 216.9 L 444.5 212.7 L 449.4 214.8 L 454.3 217.3 L 459.2 212.4 L 464.1 214.9 L 469.0 219.7 L 473.9 222.3 L 478.8 225.2 L 483.7 220.6 L 488.6 225.3 L 493.5 229.7 L 498.4 231.9 L 503.4 242.9 L 508.3 248.8 L 513.2 253.4 L 518.1 244.4 L 523.0 242.4 L 527.9 242.5 L 532.8 246.0 L 537.7 242.7 L 542.6 247.7 L 547.5 241.9 L 552.4 235.6 L 557.3 242.6 L 562.2 244.4 L 567.1 238.8 L 572.0 240.6 L 576.9 244.0 L 581.8 226.1 L 586.8 229.5 L 591.7 224.0 L 596.6 220.0 L 601.5 220.2 L 606.4 221.2 L 611.3 223.1 L 616.2 217.1 L 621.1 227.5 L 626.0 230.9 L 626.0 208 Z" fill="url(#dg)"/><polyline points="52.0,208.0 56.9,209.6 61.8,208.8 66.7,208.0 71.6,208.0 76.5,208.0 81.4,208.0 86.3,208.0 91.2,208.0 96.2,208.3 101.1,208.0 106.0,214.9 110.9,221.3 115.8,226.1 120.7,223.9 125.6,224.1 130.5,232.2 135.4,238.0 140.3,234.9 145.2,224.1 150.1,218.4 155.0,208.0 159.9,208.0 164.8,215.6 169.7,211.8 174.6,212.2 179.6,208.0 184.5,219.8 189.4,218.0 194.3,215.1 199.2,223.9 204.1,223.7 209.0,221.5 213.9,225.1 218.8,219.6 223.7,209.7 228.6,208.0 233.5,208.0 238.4,218.1 243.3,212.9 248.2,211.2 253.1,208.0 258.1,208.0 263.0,208.0 267.9,208.0 272.8,209.5 277.7,208.0 282.6,208.0 287.5,212.5 292.4,221.8 297.3,228.5 302.2,233.7 307.1,237.3 312.0,226.3 316.9,217.4 321.8,216.2 326.7,221.1 331.6,212.3 336.5,208.0 341.5,208.0 346.4,216.0 351.3,208.0 356.2,208.0 361.1,210.4 366.0,209.0 370.9,208.0 375.8,208.0 380.7,213.7 385.6,212.7 390.5,209.1 395.4,208.0 400.3,208.0 405.2,208.0 410.1,214.9 415.0,231.7 419.9,249.4 424.9,237.5 429.8,234.7 434.7,226.6 439.6,216.9 444.5,212.7 449.4,214.8 454.3,217.3 459.2,212.4 464.1,214.9 469.0,219.7 473.9,222.3 478.8,225.2 483.7,220.6 488.6,225.3 493.5,229.7 498.4,231.9 503.4,242.9 508.3,248.8 513.2,253.4 518.1,244.4 523.0,242.4 527.9,242.5 532.8,246.0 537.7,242.7 542.6,247.7 547.5,241.9 552.4,235.6 557.3,242.6 562.2,244.4 567.1,238.8 572.0,240.6 576.9,244.0 581.8,226.1 586.8,229.5 591.7,224.0 596.6,220.0 601.5,220.2 606.4,221.2 611.3,223.1 616.2,217.1 621.1,227.5 626.0,230.9" fill="none" stroke="#9E1B32" stroke-width="1.2"/>
+<text x="52" y="204" font-size="8.5" fill="#9a938c">回撤</text>
+<text x="45" y="216" font-size="8" fill="#9a938c" text-anchor="end">0%</text>
+<text x="45" y="274" font-size="8" fill="#9a938c" text-anchor="end">-1.3%</text>
+</svg></div>
+  <div class="card"><h3>区间指标</h3>
+    <table>
+      <tr><td>期初资产（元）</td><td class="n">29,686,400.00</td></tr>
+      <tr><td>期末资产（元）</td><td class="n">64,222,818.22</td></tr>
+      <tr><td>净申购（元）</td><td class="n pos">32,500,000.00</td></tr>
+      <tr><td>区间收益（元）</td><td class="n pos">2,036,418.22</td></tr>
+      <tr><td>区间收益率</td><td class="n pos">+4.78%</td></tr>
+      <tr><td>年化收益率</td><td class="n pos">+9.87%</td></tr>
+      <tr><td>年化波动率</td><td class="n">3.41%</td></tr>
+      <tr><td>最大回撤</td><td class="n neg">-1.33%</td></tr>
+      <tr><td>夏普比率（无风险 1.5%）</td><td class="n">2.45</td></tr>
+      <tr><td>盈利月份</td><td class="n">5 / 6</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>区间收益 2,036,418.22 元，时间加权收益率 +4.78%，年化 +9.87%。</li>
+      <li>最大回撤 -1.33%，收益风险比 2.45；5/6 个月为正收益。</li>
+    </ul>
+  </div>
+</div>
+<div class="card" style="margin-top:12px"><h3>月度收益率 <span>按自然月</span></h3><svg viewBox="0 0 1000 210" class="chart"><line x1="44" y1="182.0" x2="984" y2="182.0" stroke="#f2ebe6"/><text x="38" y="185.0" font-size="8.5" fill="#9a938c" text-anchor="end">-2.0%</text><line x1="44" y1="101.0" x2="984" y2="101.0" stroke="#f2ebe6"/><text x="38" y="104.0" font-size="8.5" fill="#9a938c" text-anchor="end">0.0%</text><line x1="44" y1="20.0" x2="984" y2="20.0" stroke="#f2ebe6"/><text x="38" y="23.0" font-size="8.5" fill="#9a938c" text-anchor="end">2.0%</text><rect x="84.7" y="96.7" width="75.2" height="4.3" rx="2" fill="#c0392b" opacity=".92"/><text x="122.3" y="90.7" font-size="9.5" fill="#c0392b" text-anchor="middle">+0.11%</text><text x="122.3" y="202" font-size="9.5" fill="#9a938c" text-anchor="middle">05月</text><rect x="241.4" y="46.5" width="75.2" height="54.5" rx="2" fill="#c0392b" opacity=".92"/><text x="279.0" y="40.5" font-size="9.5" fill="#c0392b" text-anchor="middle">+1.35%</text><text x="279.0" y="202" font-size="9.5" fill="#9a938c" text-anchor="middle">06月</text><rect x="398.1" y="3.7" width="75.2" height="97.3" rx="2" fill="#c0392b" opacity=".92"/><text x="435.7" y="-2.3" font-size="9.5" fill="#c0392b" text-anchor="middle">+2.40%</text><text x="435.7" y="202" font-size="9.5" fill="#9a938c" text-anchor="middle">07月</text><rect x="554.7" y="47.1" width="75.2" height="53.9" rx="2" fill="#c0392b" opacity=".92"/><text x="592.3" y="41.1" font-size="9.5" fill="#c0392b" text-anchor="middle">+1.33%</text><text x="592.3" y="202" font-size="9.5" fill="#9a938c" text-anchor="middle">08月</text><rect x="711.4" y="101.0" width="75.2" height="24.7" rx="2" fill="#157347" opacity=".92"/><text x="749.0" y="137.7" font-size="9.5" fill="#157347" text-anchor="middle">-0.61%</text><text x="749.0" y="202" font-size="9.5" fill="#9a938c" text-anchor="middle">09月</text><rect x="868.1" y="95.3" width="75.2" height="5.7" rx="2" fill="#c0392b" opacity=".92"/><text x="905.7" y="89.3" font-size="9.5" fill="#c0392b" text-anchor="middle">+0.14%</text><text x="905.7" y="202" font-size="9.5" fill="#9a938c" text-anchor="middle">10月</text><line x1="44" y1="101.0" x2="984" y2="101.0" stroke="#d9cfc7"/></svg></div>
+</section>
+
+<section>
+<div class="sec-head"><span class="no">02</span><h2>收益归因</h2><p>持有涨跌 + 交易费用 = 区间收益</p></div>
+<div class="grid2 even">
+  <div class="card"><h3>收益构成（元）</h3><svg viewBox="0 0 520 250" class="chart"><rect x="50.3" y="47.5" width="96.8" height="168.5" rx="2" fill="#c0392b" opacity=".92"/><text x="98.7" y="41.5" font-size="10" fill="#4c5563" text-anchor="middle">2,041,268.23</text><text x="98.7" y="238" font-size="9.5" fill="#6b625a" text-anchor="middle">持有涨跌</text><rect x="211.6" y="47.5" width="96.8" height="3.0" rx="2" fill="#157347" opacity=".92"/><text x="260.0" y="41.5" font-size="10" fill="#4c5563" text-anchor="middle">-4,850.00</text><text x="260.0" y="238" font-size="9.5" fill="#6b625a" text-anchor="middle">交易费用</text><rect x="372.9" y="47.9" width="96.8" height="168.1" rx="2" fill="#0f244a" opacity=".92"/><text x="421.3" y="41.9" font-size="10" fill="#4c5563" text-anchor="middle">2,036,418.22</text><text x="421.3" y="238" font-size="9.5" fill="#6b625a" text-anchor="middle">区间收益</text><line x1="147.1" y1="47.5" x2="211.6" y2="47.5" stroke="#d9cfc7" stroke-dasharray="3 3"/><line x1="308.4" y1="47.9" x2="372.9" y2="47.9" stroke="#d9cfc7" stroke-dasharray="3 3"/></svg>
+    <div class="note">区间收益 = 各基金持有涨跌 − 申购费用；不含申购赎回现金流本身。</div>
+  </div>
+  <div class="card"><h3>基金收益贡献 <span>按区间收益排序</span></h3><div class="fund-row"><div class="nm" title="汇添富成长多因子量化策略股票型投资基金">汇添富成长多因子量化策略股票型投资基金<em>001050</em></div><div class="bar"><i style="width:50.0%;left:50%;background:#b60005"></i></div><b class="pos">675,664.79</b><span>33.2%</span></div><div class="fund-row"><div class="nm" title="易方达中债新综指发起式D">易方达中债新综指发起式D<em>021606</em></div><div class="bar"><i style="width:49.4%;left:50%;background:#1f5f7a"></i></div><b class="pos">667,952.63</b><span>32.8%</span></div><div class="fund-row"><div class="nm" title="汇添富投资级信用债指数A">汇添富投资级信用债指数A<em>020619</em></div><div class="bar"><i style="width:41.8%;left:50%;background:#1f5f7a"></i></div><b class="pos">564,535.31</b><span>27.7%</span></div><div class="fund-row"><div class="nm" title="华夏沪深300指数量化增强A">华夏沪深300指数量化增强A<em>025480</em></div><div class="bar"><i style="width:4.8%;left:50%;background:#b60005"></i></div><b class="pos">65,357.22</b><span>3.2%</span></div><div class="fund-row"><div class="nm" title="汇安多策略混合A">汇安多策略混合A<em>005109</em></div><div class="bar"><i style="width:3.6%;left:50%;background:#b08d3f"></i></div><b class="pos">49,010.42</b><span>2.4%</span></div><div class="fund-row"><div class="nm" title="兴全天添益B">兴全天添益B<em>001821</em></div><div class="bar"><i style="width:1.0%;left:50%;background:#0f244a"></i></div><b class="pos">13,897.86</b><span>0.7%</span></div>
+    <div class="note">金额为区间收益（元），右侧为占区间收益比例。</div>
+  </div>
+</div>
+<div class="card" style="margin-top:12px"><h3>分类收益 <span>收益率 = 收益 ÷ 平均占用资金</span></h3>
+  <table><thead><tr><th>分类</th><th class="n">期初市值</th><th class="n">期末市值</th><th class="n">区间收益（元）</th><th class="n">收益率</th><th class="n">收益占比</th></tr></thead>
+  <tbody><tr><td><i class="dot" style="background:#1f5f7a"></i>债券型基金</td><td class="n">26,280,000.00</td><td class="n">49,512,487.93</td><td class="n pos">1,232,487.94</td><td class="n pos">3.48%</td><td class="n">60.5%</td></tr><tr><td><i class="dot" style="background:#b60005"></i>股票型基金</td><td class="n">2,920,000.00</td><td class="n">12,661,022.01</td><td class="n pos">741,022.01</td><td class="n pos">7.10%</td><td class="n">36.4%</td></tr><tr><td><i class="dot" style="background:#b08d3f"></i>混合型基金</td><td class="n">486,400.00</td><td class="n">2,035,410.43</td><td class="n pos">49,010.42</td><td class="n pos">3.58%</td><td class="n">2.4%</td></tr><tr><td><i class="dot" style="background:#0f244a"></i>货币市场型基金</td><td class="n">0.00</td><td class="n">13,897.86</td><td class="n pos">13,897.86</td><td class="n pos">0.86%</td><td class="n">0.7%</td></tr><tr class="total"><td>合计</td><td class="n">29,686,400.00</td><td class="n">64,222,818.22</td><td class="n pos">2,036,418.22</td><td class="n pos">4.78%</td><td class="n">100.0%</td></tr></tbody></table>
+  <div class="note">4 个分类为正收益；债券类贡献 60.5%。</div>
+</div>
+</section>
+
+<section>
+<div class="sec-head"><span class="no">03</span><h2>配置结构</h2><p>期末市值口径 · 与期初对比</p></div>
+<div class="grid2 even">
+  <div class="card"><h3>期末市值结构</h3><div class="donut-wrap"><svg viewBox="0 0 190 190" style="width:190px;height:190px;flex:none"><circle cx="95" cy="95" r="60" fill="none" stroke="#f3ede8" stroke-width="24"/><circle cx="95" cy="95" r="60" fill="none" stroke="#1f5f7a" stroke-width="24" stroke-dasharray="290.64 86.35" stroke-dashoffset="-0.00" transform="rotate(-90 95 95)"/><circle cx="95" cy="95" r="60" fill="none" stroke="#b60005" stroke-width="24" stroke-dasharray="74.32 302.67" stroke-dashoffset="-290.64" transform="rotate(-90 95 95)"/><circle cx="95" cy="95" r="60" fill="none" stroke="#b08d3f" stroke-width="24" stroke-dasharray="11.95 365.04" stroke-dashoffset="-364.96" transform="rotate(-90 95 95)"/><circle cx="95" cy="95" r="60" fill="none" stroke="#0f244a" stroke-width="24" stroke-dasharray="0.08 376.91" stroke-dashoffset="-376.91" transform="rotate(-90 95 95)"/><text x="95" y="92" text-anchor="middle" font-size="9.5" fill="#9a938c">期末市值</text><text x="95" y="109" text-anchor="middle" font-size="14" font-weight="700" fill="#0f244a">0.64 亿</text></svg><div style="flex:1"><div class="lg"><i style="background:#1f5f7a"></i><span>债券型基金</span><b>77.1%</b><em>49,512,487.93</em></div><div class="lg"><i style="background:#b60005"></i><span>股票型基金</span><b>19.7%</b><em>12,661,022.01</em></div><div class="lg"><i style="background:#b08d3f"></i><span>混合型基金</span><b>3.2%</b><em>2,035,410.43</em></div><div class="lg"><i style="background:#0f244a"></i><span>货币市场型基金</span><b>0.0%</b><em>13,897.86</em></div></div></div></div>
+  <div class="card"><h3>配置变化</h3>
+    <table><thead><tr><th>分类</th><th class="n">期初占比</th><th class="n">期末占比</th><th class="n">变化</th></tr></thead>
+    <tbody><tr><td><i class="dot" style="background:#1f5f7a"></i>债券型基金</td><td class="n">88.5%</td><td class="n">77.1%</td><td class="n neg">-11.4pp</td></tr><tr><td><i class="dot" style="background:#b60005"></i>股票型基金</td><td class="n">9.8%</td><td class="n">19.7%</td><td class="n pos">+9.9pp</td></tr><tr><td><i class="dot" style="background:#b08d3f"></i>混合型基金</td><td class="n">1.6%</td><td class="n">3.2%</td><td class="n pos">+1.5pp</td></tr><tr><td><i class="dot" style="background:#0f244a"></i>货币市场型基金</td><td class="n">0.0%</td><td class="n">0.0%</td><td class="n pos">+0.0pp</td></tr><tr class="total"><td>合计</td><td class="n">100.0%</td><td class="n">100.0%</td><td class="n">—</td></tr></tbody></table>
+    <ul class="bullets"><li>前三大基金合计占期末市值 87.2%，集中度偏高，需关注单只基金波动。</li><li>股票型占比由 9.8% 变为 19.7%。</li></ul>
+  </div>
+</div>
+<div class="card" style="margin-top:12px"><h3>期末持仓明细 <span>份额 × 最新估值净值</span></h3>
+  <table><thead><tr><th>基金代码</th><th>基金名称</th><th>二级分类</th><th class="n">期末份额</th><th class="n">期末净值</th><th class="n">期末市值（元）</th><th class="n">占比</th><th class="n">区间收益（元）</th></tr></thead>
+  <tbody><tr><td>020619</td><td class="name">汇添富投资级信用债指数A</td><td>被动指数型债券基金</td><td class="n">28,164,268.52</td><td class="n">1.0625</td><td class="n">29,924,535.30</td><td class="n">46.59%</td><td class="n pos">564,535.31</td></tr><tr><td>021606</td><td class="name">易方达中债新综指发起式D</td><td>被动指数型债券基金</td><td class="n">10,784,535.94</td><td class="n">1.8163</td><td class="n">19,587,952.63</td><td class="n">30.50%</td><td class="n pos">667,952.63</td></tr><tr><td>025480</td><td class="name">华夏沪深300指数量化增强A</td><td>增强指数型基金</td><td class="n">6,623,715.56</td><td class="n">0.9773</td><td class="n">6,473,357.22</td><td class="n">10.08%</td><td class="n pos">65,357.22</td></tr><tr><td>001050</td><td class="name">汇添富成长多因子量化策略股票型投资基金</td><td>增强指数型基金</td><td class="n">3,297,098.52</td><td class="n">1.8767</td><td class="n">6,187,664.79</td><td class="n">9.63%</td><td class="n pos">675,664.79</td></tr><tr><td>005109</td><td class="name">汇安多策略混合A</td><td>灵活配置型基金</td><td class="n">1,258,990.80</td><td class="n">1.6167</td><td class="n">2,035,410.43</td><td class="n">3.17%</td><td class="n pos">49,010.42</td></tr><tr><td>001821</td><td class="name">兴全天添益B</td><td>货币市场型基金</td><td class="n">13,762.98</td><td class="n">1.0098</td><td class="n">13,897.86</td><td class="n">0.02%</td><td class="n pos">13,897.86</td></tr><tr class="total"><td colspan="5">合计</td><td class="n">64,222,818.22</td><td class="n">100.00%</td><td class="n pos">2,036,418.22</td></tr></tbody></table>
+</div>
+</section>
+
+<section>
+<div class="sec-head"><span class="no">04</span><h2>交易与风险</h2><p>区间申购赎回与风险指标</p></div>
+<div class="stat4">
+  <div class="kpi"><small>申购金额（元）</small><b>48,500,000.00</b><em>10 笔</em></div>
+  <div class="kpi"><small>赎回金额（元）</small><b>16,000,000.00</b><em>4 笔</em></div>
+  <div class="kpi"><small>净流入（元）</small><b class="pos">32,500,000.00</b><em>申购 − 赎回</em></div>
+  <div class="kpi"><small>区间换手率</small><b>137.4%</b><em>（申购+赎回）/ 平均市值</em></div>
+</div>
+<div class="grid2">
+  <div class="card"><h3>交易流水 <span>共 14 笔</span></h3>
+    <table class="tx-table"><thead><tr><th>日期</th><th>代码</th><th>业务</th><th class="n">金额（元）</th><th class="n">份额</th><th class="n">净值</th><th class="n">费用</th></tr></thead>
+    <tbody><tr><td>2026-05-15</td><td>001050</td><td>申购</td><td class="n">5,000,000.00</td><td class="n">2,966,006.17</td><td class="n">1.6856</td><td class="n">500.00</td></tr><tr><td>2026-05-28</td><td>021606</td><td>申购</td><td class="n">3,000,000.00</td><td class="n">1,699,739.35</td><td class="n">1.7648</td><td class="n">300.00</td></tr><tr><td>2026-06-12</td><td>020619</td><td>申购</td><td class="n">8,000,000.00</td><td class="n">7,676,775.43</td><td class="n">1.0420</td><td class="n">800.00</td></tr><tr><td>2026-06-25</td><td>025480</td><td>赎回</td><td class="n">1,000,000.00</td><td class="n">1,072,616.11</td><td class="n">0.9323</td><td class="n">0.00</td></tr><tr><td>2026-07-08</td><td>025480</td><td>申购</td><td class="n">6,000,000.00</td><td class="n">6,096,331.67</td><td class="n">0.9841</td><td class="n">600.00</td></tr><tr><td>2026-07-22</td><td>005109</td><td>申购</td><td class="n">1,500,000.00</td><td class="n">938,990.80</td><td class="n">1.5973</td><td class="n">150.00</td></tr><tr><td>2026-08-11</td><td>021606</td><td>赎回</td><td class="n">3,000,000.00</td><td class="n">1,666,111.30</td><td class="n">1.8006</td><td class="n">0.00</td></tr><tr><td>2026-08-25</td><td>001050</td><td>赎回</td><td class="n">2,000,000.00</td><td class="n">1,097,815.35</td><td class="n">1.8218</td><td class="n">0.00</td></tr><tr><td>2026-09-09</td><td>001821</td><td>申购</td><td class="n">10,000,000.00</td><td class="n">9,924,565.76</td><td class="n">1.0075</td><td class="n">1,000.00</td></tr><tr><td>2026-09-22</td><td>020619</td><td>申购</td><td class="n">4,000,000.00</td><td class="n">3,771,428.57</td><td class="n">1.0605</td><td class="n">400.00</td></tr><tr><td>2026-10-14</td><td>001821</td><td>赎回</td><td class="n">10,000,000.00</td><td class="n">9,910,802.78</td><td class="n">1.0090</td><td class="n">0.00</td></tr><tr><td>2026-10-26</td><td>020619</td><td>申购</td><td class="n">5,000,000.00</td><td class="n">4,716,064.52</td><td class="n">1.0601</td><td class="n">500.00</td></tr><tr><td>2026-10-26</td><td>021606</td><td>申购</td><td class="n">5,000,000.00</td><td class="n">2,750,907.89</td><td class="n">1.8174</td><td class="n">500.00</td></tr><tr><td>2026-10-27</td><td>001050</td><td>申购</td><td class="n">1,000,000.00</td><td class="n">528,907.70</td><td class="n">1.8905</td><td class="n">100.00</td></tr></tbody></table>
+  </div>
+  <div class="card"><h3>风险指标</h3>
+    <table>
+      <tr><td>年化波动率</td><td class="n">3.41%</td></tr>
+      <tr><td>最大回撤</td><td class="n neg">-1.33%</td></tr>
+      <tr><td>最长回撤持续</td><td class="n">45 个估值日</td></tr>
+      <tr><td>夏普比率</td><td class="n">2.45</td></tr>
+      <tr><td>前三大基金集中度</td><td class="n">87.2%</td></tr>
+      <tr><td>股票型暴露</td><td class="n">19.7%</td></tr>
+    </table>
+    <ul class="bullets">
+      <li>组合以债券型打底，股票型作为收益增强，区间最大回撤 1.33%。</li>
+      <li>区间净流入 32,500,000.00 元，收益按时间加权口径计算，不受申赎规模影响。</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="sec-head"><span class="no">05</span><h2>数据质量与核对</h2><p>估值表覆盖 · 交易匹配 · 收益核对</p></div>
+<div class="grid2 even">
+  <div class="card"><h3>估值表覆盖</h3>
+    <div class="mini">
+      <div><small>应有估值日</small><b>120</b></div>
+      <div><small>实收估值表</small><b>118</b></div>
+      <div><small>覆盖率</small><b>98.3%</b></div>
+    </div>
+    <div class="note">缺失估值日（2 天）：</div>
+    <div><span class="chip">2026-05-20</span><span class="chip">2026-08-06</span></div>
+    <div class="note">缺失日期已按相邻估值日净值顺延计算，未影响收益核对；建议补传后复核。</div>
+  </div>
+  <div class="card"><h3>收益核对</h3>
+    <table>
+      <tr><td>期初资产</td><td class="n">29,686,400.00</td></tr>
+      <tr><td>+ 申购金额</td><td class="n">48,500,000.00</td></tr>
+      <tr><td>− 赎回金额</td><td class="n">16,000,000.00</td></tr>
+      <tr><td>+ 区间收益</td><td class="n pos">2,036,418.22</td></tr>
+      <tr class="total"><td>= 期末资产</td><td class="n">64,222,818.22</td></tr>
+      <tr><td>核对差异</td><td class="n"><span class="badge">0.00 元</span></td></tr>
+    </table>
+    <div class="note">交易流水 14 笔全部匹配到估值日；分类收益合计与区间收益一致。</div>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="card"><h3>口径说明</h3>
+  <div class="two-col">
+    <ul>
+      <li>估值表：按估值日提供各基金持仓数量、单位净值与持仓市值；期末市值 = 份额 × 最新估值净值。</li>
+      <li>区间收益 = 各基金持有涨跌之和 − 申购费用；持有涨跌按“上期份额 × 净值变动”逐日累计。</li>
+      <li>区间收益率采用时间加权（TWR），以每日收益 ÷ 当日平均资产计算并连乘，剔除申购赎回影响。</li>
+    </ul>
+    <ul>
+      <li>分类收益按 Wind 一级 / 二级分类汇总；收益率以平均占用资金为分母（按日持仓市值均值）。</li>
+      <li>年化收益率按 365 天折算；年化波动率 = 日收益标准差 × √252；夏普比率无风险利率取 1.5%。</li>
+      <li>数据为演示样例，估值表与交易流水均为模拟数据，仅用于展示分析口径与报告形态。</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<div class="footer"><span>永诚保险资管 · 投后分析报告｜永诚资产精研稳健1号</span><span>数据截止 2026-10-28　·　模拟样本数据</span></div>
+
+</div></body></html>

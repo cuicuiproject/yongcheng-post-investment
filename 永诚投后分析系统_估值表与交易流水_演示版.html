@@ -1,0 +1,1050 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>永诚投后分析系统｜估值表 + 交易流水</title><style>
+:root{--red:#9E1B32;--red2:#b60005;--ink:#1b2533;--navy:#16233a;--muted:#7d8795;--line:#e9e3de;--bg:#f4f1ed}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.6 "Microsoft YaHei","PingFang SC",sans-serif}
+.layout{display:grid;grid-template-columns:226px 1fr;min-height:100vh}
+.side{background:linear-gradient(178deg,#191c23,#222630 60%,#262a34);color:#c9ced8;padding:18px 12px;position:sticky;top:0;height:100vh}
+.logo{font-size:15px;font-weight:700;color:#fff;padding:2px 8px 14px;line-height:1.4}
+.logo span{display:block;font-size:9px;color:#8f97a4;letter-spacing:.12em;font-weight:400;margin-top:2px}
+.group{margin:18px 8px 6px;font-size:10px;color:#8a92a0;letter-spacing:.12em}
+.side nav{display:grid;gap:3px}
+.side nav button{height:38px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:#c9ced8;text-align:left;font:inherit;cursor:pointer;transition:.15s}
+.side nav button:hover{background:rgba(255,255,255,.06);color:#fff}
+.side nav button.on{background:linear-gradient(90deg,#8e1f2f,#a82c3c);color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.22)}
+.side-note{position:absolute;left:16px;right:16px;bottom:18px;font-size:10px;color:#8a92a0;line-height:1.6}
+.top{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.crumb{font-size:12px;color:#8a817a}.crumb b{color:var(--ink)}
+.top-right{display:flex;align-items:center;gap:10px}
+.ribbon{font-size:10.5px;color:#9a938c;border:1px solid #e6dfd8;padding:3px 9px;border-radius:12px}
+.btn{height:34px;padding:0 15px;border:1px solid #8e1f2f;border-radius:7px;background:#8e1f2f;color:#fff;font:inherit;font-size:12px;cursor:pointer}
+.btn:hover{filter:brightness(1.06)}
+.btn.white{background:#fff;color:#5f5147;border-color:#ded5cd}
+.btn:disabled{opacity:.5;cursor:default}
+.content{padding:22px 26px 40px;max-width:1560px;margin:0 auto}
+.page{display:none}.page.on{display:block}
+.hero{position:relative;overflow:hidden;border-radius:14px;padding:24px 28px;color:#fff;background:linear-gradient(115deg,#4c1a24,#6b2431 55%,#84303e);margin-bottom:16px}
+.hero:after{content:"";position:absolute;right:-60px;top:-90px;width:280px;height:280px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 38px rgba(255,255,255,.05)}
+.hero .k{font-size:10.5px;letter-spacing:.14em;opacity:.82}
+.hero h1{margin:8px 0 4px;font-size:24px;letter-spacing:-.01em}
+.hero p{margin:0;font-size:12px;opacity:.85}
+.hero-stats{display:flex;gap:44px;margin-top:18px;position:relative;z-index:1}
+.hero-stats small{display:block;font-size:10px;opacity:.7}
+.hero-stats strong{display:block;font-size:19px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.pf-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 12px}
+.pf-title{font-size:14px;font-weight:700}
+.pf-title span{font-weight:400;color:var(--muted);font-size:11.5px;margin-left:6px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{padding:4px 11px;border-radius:14px;border:1px solid #e5ded7;background:#fff;color:#6b625a;font:inherit;font-size:11.5px;cursor:pointer}
+.filters button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 16px;box-shadow:0 8px 24px rgba(24,32,48,.05)}
+.prod{cursor:pointer;transition:.16s}
+.prod:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(24,32,48,.10);border-color:#e3c9c8}
+.prod h3{margin:0;font-size:13.5px;line-height:1.4}
+.prod .code{font-size:10.5px;color:var(--muted);margin-top:2px}
+.prod .tag{position:absolute;right:12px;top:12px;font-size:10px;padding:2px 7px;border-radius:4px;background:#f6f3ef;border:1px solid #ece6e0;color:#7a6a5a}
+.prod .ret{font-size:24px;font-weight:700;margin-top:10px;font-variant-numeric:tabular-nums}
+.prod .ret small{font-size:10.5px;font-weight:400;color:var(--muted);margin-left:6px}
+.prod .m{display:flex;gap:14px;margin-top:10px;padding-top:9px;border-top:1px dashed #eee3dc}
+.prod .m span{display:block;font-size:9.5px;color:var(--muted)}
+.prod .m b{display:block;font-size:11.5px;margin-top:1px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.spark{display:block;width:100%;height:30px;margin-top:6px}
+.pos{color:#c0392b}.neg{color:#157347}
+.pb{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.pb-back{width:28px;height:28px;border:1px solid #e6dfd8;border-radius:6px;background:#fbf8f5;color:#6b625a;cursor:pointer;font-size:14px}
+.pb-main{flex:1;min-width:0}
+.pb-name{font-size:14px;font-weight:700}
+.pb-sub{font-size:11px;color:#8a817a;margin-top:2px}
+.pb-sub b{font-weight:600}
+select,input{height:32px;border:1px solid #ded5cd;border-radius:7px;padding:0 9px;background:#fff;color:#3f4650;font:inherit;font-size:12px}
+select:focus,input:focus{outline:none;border-color:#c9a9a9;box-shadow:0 0 0 3px rgba(158,27,50,.06)}
+.filterbar{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.filterbar label{display:grid;gap:4px;font-size:10.5px;color:#8a817a}
+.filterbar input[type="date"]{width:178px;font-size:12.5px;padding:0 10px}
+.filterbar .hint{font-size:10.5px;color:#9a938c;margin-left:auto}
+.tabs{display:inline-flex;gap:3px;padding:3px;border-radius:9px;background:#ece7e1;border:1px solid #e3ddd6;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{border:0;background:transparent;padding:6px 14px;border-radius:7px;font:inherit;font-size:12px;color:#6b625a;cursor:pointer}
+.tabs button.on{background:#fff;color:var(--red);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.panel{display:none}.panel.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
+.kpi{border:1px solid var(--line);border-radius:9px;padding:11px 13px;background:linear-gradient(180deg,#fff,#fcf9f6)}
+.kpi small{display:block;font-size:10px;color:var(--muted)}
+.kpi b{display:block;margin-top:3px;font-size:17px;font-variant-numeric:tabular-nums}
+.kpi em{display:block;font-style:normal;font-size:9.5px;color:#9a938c;margin-top:1px}
+.sec-head{display:flex;align-items:baseline;gap:9px;border-bottom:2px solid var(--red);padding-bottom:5px;margin:16px 0 11px}
+.sec-head h2{margin:0;font-size:14px}
+.sec-head p{margin:0 0 0 auto;font-size:10.5px;color:var(--muted)}
+.two{display:grid;grid-template-columns:1.55fr .95fr;gap:12px}
+.two.even{grid-template-columns:1fr 1fr}
+.card h3{margin:0 0 8px;font-size:12.5px;color:#3f3f3f}
+.card h3 span{float:right;font-weight:400;font-size:10px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th,td{padding:6px 8px;border-bottom:1px solid #f1ebe6;text-align:left;white-space:nowrap}
+th{background:#f8f2ee;color:#6b544b;font-weight:600;font-size:10px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.total td{border-top:2px solid var(--red);background:#fbf7f8;font-weight:700}
+.note{margin-top:7px;font-size:10px;color:#9a938c;line-height:1.6}
+.fund-row{display:grid;grid-template-columns:minmax(150px,1fr) 1.2fr 90px 54px;gap:8px;align-items:center;margin:7px 0;font-size:10.5px}
+.fund-row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#4c5563}
+.fund-row .nm em{font-style:normal;color:#a2968c;font-size:9.5px;margin-left:4px}
+.bar{position:relative;height:11px;background:#f1ece7;border-radius:3px}
+.bar:before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:#d8cec6}
+.bar i{position:absolute;top:0;bottom:0;border-radius:3px;opacity:.9}
+.fund-row b{text-align:right;font-variant-numeric:tabular-nums}
+.fund-row span{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.donut-wrap{display:flex;align-items:center;gap:16px}
+.lg{display:grid;grid-template-columns:10px 1fr auto;gap:6px;align-items:center;font-size:10.5px;color:#4c5563;margin:7px 0}
+.lg i{width:9px;height:9px;border-radius:2px}
+.lg b{font-variant-numeric:tabular-nums}
+.lg em{font-style:normal;color:#9a938c;font-size:9.5px;text-align:right;min-width:78px}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mini div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fcfaf8}
+.mini small{display:block;font-size:9.5px;color:var(--muted)}
+.mini b{display:block;font-size:14px;margin-top:1px;font-variant-numeric:tabular-nums}
+.stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.chip{display:inline-block;margin:2px 3px 2px 0;padding:2px 7px;border-radius:9px;background:#fff7e9;border:1px solid #f2d9ae;color:#9a6a12;font-size:9.5px}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;background:#eef8f2;color:#157347;font-size:10px;border:1px solid #cfe8da}
+.badge.warn{background:#fff7e9;color:#9a6a12;border-color:#f2d9ae}
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.up{border:1px dashed #c9b7b0;border-radius:12px;background:linear-gradient(145deg,#fff,#fbf7f5);padding:22px;text-align:center}
+.up h3{margin:0 0 4px;font-size:14px}
+.up p{margin:0;color:#8a817a;font-size:11px}
+.up .cnt{display:block;margin:8px 0;font-size:11px;color:#9a938c}
+.up .row{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.up .btn{height:32px;font-size:11.5px}
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.toolbar .hint{font-size:11px;color:#8a817a}
+.toolbar .sp{flex:1}
+.empty{padding:26px;text-align:center;color:#9a938c}
+.hist-filters{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.hist-filters label{display:grid;gap:4px;font-size:10.5px;color:#8a817a}
+.status{display:inline-block;padding:1px 7px;border-radius:8px;font-size:9.5px}
+.st-ok{background:#eef8f2;color:#157347;border:1px solid #cfe8da}
+.st-warn{background:#fff7e9;color:#9a6a12;border:1px solid #f2d9ae}
+.st-fail{background:#fdecec;color:#b3261e;border:1px solid #f3c9c6}
+@media(max-width:1280px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.side{position:relative;height:auto}.side-note{position:static}.grid{grid-template-columns:repeat(2,1fr)}.kpis{grid-template-columns:repeat(3,1fr)}.two,.two.even{grid-template-columns:1fr}}
+/* benchmark + calendar + drawer + modal + sort */
+.bench-pick{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;color:#8a817a}
+.bench-pick select{height:26px;font-size:11px;border-radius:6px}
+.bench-legend{display:flex;gap:16px;font-size:10px;color:#8a817a;margin-top:6px}
+.bench-legend i{display:inline-block;width:14px;height:0;border-top:2px solid;margin-right:5px;vertical-align:3px}
+.matrix th,.matrix td{padding:7px 6px;font-size:10.5px;text-align:center;white-space:nowrap}
+.matrix th{font-size:9.5px;font-weight:600;color:#6b544b;background:#f8f2ee}
+.matrix th.wide{white-space:normal;min-width:86px;line-height:1.35}
+.matrix td:first-child,.matrix th:first-child{text-align:left;padding-left:12px;font-weight:600}
+.matrix .muted{color:#cfc6bd}
+.matrix tbody tr:hover{background:#fdf8f6}
+.drawer-mask{position:fixed;inset:0;z-index:80;display:none;justify-content:flex-end;background:rgba(15,23,42,.32)}
+.drawer-mask.show{display:flex}
+.drawer{width:min(620px,94vw);height:100%;background:#fff;box-shadow:-20px 0 50px rgba(16,32,56,.18);display:flex;flex-direction:column}
+.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 20px 13px;border-bottom:1px solid #f1e7e3;background:linear-gradient(90deg,#fbf4f2,#fff)}
+.drawer-head h2{margin:0;font-size:15px;color:#1b2533;line-height:1.4}
+.drawer-head p{margin:4px 0 0;font-size:11px;color:#8a817a}
+.drawer-x{flex:none;width:30px;height:30px;border:1px solid #e6dfd8;border-radius:7px;background:#fff;color:#6b625a;font-size:16px;cursor:pointer}
+.drawer-x:hover{border-color:#e3c9c8;color:#c0392b}
+.drawer-body{flex:1;padding:16px 20px 26px;overflow:auto}
+.dr-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.dr-metric{padding:9px 11px;border:1px solid #efe8e2;border-radius:8px;background:#fcfaf8;font-size:13px;font-weight:600;color:#16233a;font-variant-numeric:tabular-nums}
+.dr-metric small{display:block;font-size:9.5px;color:#8a817a}
+.dr-metric b{display:block;margin-top:3px;font-size:13px;font-variant-numeric:tabular-nums}
+.dr-sec{margin-top:14px}
+.dr-sec h3{margin:0 0 7px;font-size:12px;color:#3f3f3f}
+.dr-sec table{font-size:10.5px}
+.modal-mask{position:fixed;inset:0;z-index:90;display:none;place-items:center;background:rgba(15,23,42,.42)}
+.modal-mask.show{display:grid}
+.modal{width:min(520px,92vw);background:#fff;border-radius:12px;padding:20px 22px;box-shadow:0 24px 60px rgba(10,20,36,.28)}
+.modal h3{margin:0 0 6px;font-size:15px}
+.modal p{margin:0 0 12px;font-size:11.5px;color:#8a817a}
+.modal .dates{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.modal .dates label{font-size:11px;border:1px solid #e6dfd8;border-radius:8px;padding:4px 9px;display:flex;gap:5px;align-items:center;cursor:pointer}
+.modal .foot{display:flex;justify-content:flex-end;gap:8px}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:after{content:"⇅";margin-left:4px;font-size:9px;color:#b9afa6}
+th.sortable[data-dir="asc"]:after{content:"↑";color:#8e1f2f}
+th.sortable[data-dir="desc"]:after{content:"↓";color:#8e1f2f}
+#at-funds .fund-row,#al-hold tbody tr,#at-cat tbody tr{cursor:pointer}
+#at-funds .fund-row:hover,#al-hold tbody tr:hover,#at-cat tbody tr:hover{background:#fdf6f4}
+.tagline{display:inline-block;padding:1px 7px;border-radius:8px;font-size:9.5px;background:#f6f3ef;border:1px solid #ece6e0;color:#7a6a5a}
+.tagline.off{background:#f2f2f4;color:#8a8a94}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:11px;color:#8a817a}
+.pager .btns{display:flex;gap:4px;flex-wrap:wrap}
+.pager button{min-width:26px;height:26px;padding:0 8px;border:1px solid #e6dfd8;background:#fff;border-radius:6px;font:inherit;font-size:11px;color:#5f5852;cursor:pointer}
+.pager button:hover:not(:disabled):not(.on){border-color:#d9b8bd;color:#8e1f2f}
+.pager button.on{background:#8e1f2f;border-color:#8e1f2f;color:#fff}
+.pager button:disabled{opacity:.4;cursor:default}
+@media print{.side,.top,.tabs,.filterbar,.pb{display:none!important}.content{padding:0}}
+</style></head><body>
+<div class="layout">
+  <aside class="side">
+    <div class="logo">永诚投后分析系统<span>ALLASSET POST-INVESTMENT</span></div>
+    <div class="group">投后分析</div>
+    <nav id="nav1">
+      <button data-page="overview" class="on">产品总览</button>
+      <button data-page="post">持仓分析</button>
+    </nav>
+    <div class="group">数据维护</div>
+    <nav id="nav2">
+      <button data-page="upload">上传数据</button>
+      <button data-page="history">上传历史</button>
+      <button data-page="products">产品管理</button>
+    </nav>
+    <div class="side-note">演示版 · 估值表 + 交易流水<br>所有数据均为模拟样本</div>
+  </aside>
+  <main>
+    <header class="top">
+      <div class="crumb" id="crumb">投后分析 / <b>产品总览</b></div>
+      <div class="top-right"><span class="ribbon">客户演示版</span><button class="btn" id="btn-export">导出分析结果</button></div>
+    </header>
+    <div class="content">
+
+      <section class="page on" id="page-overview">
+        <div class="hero">
+          <div class="k">永诚保险资管 · 投后分析</div>
+          <h1>从估值表与交易流水，看组合的收益、结构与风险</h1>
+          <p>按产品查看区间收益、收益归因、持仓结构与数据质量，支持期初/期末自由筛选。</p>
+          <div class="hero-stats">
+            <div><small>管理产品</small><strong id="h-count">—</strong></div>
+            <div><small>资产总规模</small><strong id="h-scale">—</strong></div>
+            <div><small>最新估值日</small><strong id="h-date">—</strong></div>
+          </div>
+        </div>
+        <div class="pf-head">
+          <div class="pf-title">产品列表 <span id="pf-count">—</span></div>
+          <div class="filters" id="pf-filter">
+            <button class="on" data-f="全部">全部</button><button data-f="固收+">固收+</button><button data-f="纯债">纯债</button>
+            <button data-f="混合">混合</button><button data-f="权益增强">权益增强</button><button data-f="货币">货币</button>
+          </div>
+        </div>
+        <div class="grid" id="prod-grid"></div>
+      </section>
+
+      <section class="page" id="page-post">
+        <div class="pb">
+          <button class="pb-back" id="pb-back">←</button>
+          <div class="pb-main"><div class="pb-name" id="pb-name">—</div><div class="pb-sub" id="pb-sub">—</div></div>
+          <select id="pb-select"></select>
+        </div>
+        <div class="filterbar">
+          <label>期初日期<input type="date" id="f-start"></label>
+          <label>期末日期<input type="date" id="f-end"></label>
+          <button class="btn" id="f-query">查询</button>
+          <button class="btn white" id="f-reset">重置</button>
+          <span class="hint" id="f-hint"></span>
+        </div>
+        <div class="tabs" id="tabs">
+          <button data-tab="overview" class="on">概览</button>
+          <button data-tab="attr">收益归因</button>
+          <button data-tab="alloc">配置结构</button>
+          <button data-tab="trade">交易与风险</button>
+          <button data-tab="quality">数据质量</button>
+        </div>
+        <div class="panel on" id="tab-overview">
+          <div class="kpis" id="ov-kpis"></div>
+          <div class="two">
+            <div class="card"><h3>累计收益率走势 <span class="bench-pick">对比基准 <select id="bench-select"></select></span></h3>
+              <div id="ov-chart"></div>
+              <div class="bench-legend"><span><i style="border-color:#b60005"></i>产品累计</span><span><i style="border-color:#8a7a6a;border-top-style:dashed"></i>基准累计</span></div>
+            </div>
+            <div class="card"><h3>区间指标</h3><div id="ov-side"></div></div>
+          </div>
+          <div class="card" style="margin-top:12px"><h3>月度收益与基准 <span id="matrix-bench"></span></h3><div id="ov-matrix"></div></div>
+        </div>
+        <div class="panel" id="tab-attr">
+          <div class="two even">
+            <div class="card"><h3>收益构成（元）</h3><div id="at-water"></div></div>
+            <div class="card"><h3>基金收益贡献 <span>按区间收益排序</span></h3><div id="at-funds"></div></div>
+          </div>
+          <div class="card" style="margin-top:12px"><h3>分类收益</h3><div id="at-cat"></div></div>
+        </div>
+        <div class="panel" id="tab-alloc">
+          <div class="two even">
+            <div class="card"><h3>期末市值结构</h3><div id="al-donut"></div></div>
+            <div class="card"><h3>配置变化</h3><div id="al-conf"></div></div>
+          </div>
+          <div class="card" style="margin-top:12px"><h3>期末持仓明细</h3><div id="al-hold"></div></div>
+        </div>
+        <div class="panel" id="tab-trade">
+          <div class="stat4" id="tr-stats"></div>
+          <div class="two">
+            <div class="card"><h3>交易流水 <span id="tr-count"></span></h3>
+              <div class="toolbar" style="gap:8px;margin-bottom:8px">
+                <select id="tx-type" style="height:30px;font-size:11px"><option value="">全部业务</option><option>申购</option><option>赎回</option></select>
+                <input id="tx-q" placeholder="基金代码 / 名称" style="height:30px;font-size:11px;min-width:190px">
+                <button class="btn white" id="tx-reset" style="height:30px;font-size:11px">重置</button>
+              </div>
+              <div id="tr-table"></div><div id="tr-pager"></div></div>
+            <div class="card"><h3>风险指标</h3><div id="tr-risk"></div></div>
+          </div>
+        </div>
+        <div class="panel" id="tab-quality">
+          <div class="two even">
+            <div class="card"><h3>估值表覆盖 <button class="btn" id="fix-open" style="float:right;height:26px;padding:0 10px;font-size:11px">补传缺失估值表</button></h3><div id="q-cover"></div></div>
+            <div class="card"><h3>收益核对</h3><div id="q-bridge"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-upload">
+        <div class="card" style="margin-bottom:14px">
+          <div class="toolbar">
+            <label style="font-size:11px;color:#8a817a">当前产品</label>
+            <select id="up-prod" style="min-width:280px"></select>
+            <span class="hint">选择产品后添加估值表与交易流水，系统会校验文件与产品是否一致。</span>
+          </div>
+          <div class="upload-grid">
+            <div class="up">
+              <h3>估值表</h3><p>上传当前产品的每日估值表，支持多文件/文件夹</p>
+              <span class="cnt" id="up-cnt-v">已选 0 · 通过 0 · 异常 0</span>
+              <div class="row"><button class="btn" data-kind="估值表" id="pick-v">选择文件</button><button class="btn white" data-kind="估值表" id="pick-v2">选择文件夹</button></div>
+            </div>
+            <div class="up">
+              <h3>交易流水</h3><p>上传当前产品的交易流水，支持多文件</p>
+              <span class="cnt" id="up-cnt-t">已选 0 · 通过 0 · 异常 0</span>
+              <div class="row"><button class="btn" data-kind="交易流水" id="pick-t">选择交易流水</button></div>
+            </div>
+          </div>
+          <input type="file" id="file-v" accept=".xlsx,.xls,.csv" multiple hidden><input type="file" id="file-t" accept=".xlsx,.xls,.csv" multiple hidden>
+          <div class="toolbar"><b style="font-size:12.5px">待保存文件</b><span class="hint" id="up-sum">已选 0 · 通过 0 · 异常 0</span><span class="sp"></span><button class="btn white" id="up-clear">清空全部</button><button class="btn" id="up-save" disabled>校验并保存</button></div>
+          <div id="up-queue"></div>
+          <div id="up-result"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-history">
+        <div class="card">
+          <div class="hist-filters" style="margin-bottom:12px">
+            <label>产品<select id="h-prod"><option value="">全部产品</option></select></label>
+            <label>文件类型<select id="h-type"><option value="">全部类型</option><option>估值表</option><option>交易流水</option></select></label>
+            <label>处理状态<select id="h-status"><option value="">全部状态</option><option>成功</option><option>失败</option></select></label>
+            <button class="btn white" id="h-reset">重置</button>
+            <span class="hint" id="h-count" style="margin-left:auto"></span>
+          </div>
+          <div id="h-table"></div>
+          <div id="h-pager"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-products">
+        <div class="card">
+          <div class="pf-head"><div class="pf-title">产品管理 <span>别名 / 估值日历 / 状态</span></div></div>
+          <div id="prod-table"></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="drawer-mask" id="drawer" aria-hidden="true">
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title">
+    <div class="drawer-head"><div><h2 id="dr-title">—</h2><p id="dr-sub">—</p></div><button class="drawer-x" id="dr-close" aria-label="关闭">×</button></div>
+    <div class="drawer-body" id="dr-body"></div>
+  </aside>
+</div>
+
+<div class="modal-mask" id="fix-modal" aria-hidden="true">
+  <div class="modal">
+    <h3>补传缺失估值表</h3>
+    <p>选择需要补传的估值日，系统将按已上传的净值补齐估值表；演示环境直接补全并重算。</p>
+    <div class="dates" id="fix-dates"></div>
+    <div class="foot"><button class="btn white" id="fix-cancel">取消</button><button class="btn" id="fix-confirm">确认补传</button></div>
+  </div>
+</div>
+
+<script>const DATA={"navDates":["2026-04-30","2026-05-06","2026-05-07","2026-05-08","2026-05-11","2026-05-12","2026-05-13","2026-05-14","2026-05-15","2026-05-18","2026-05-19","2026-05-20","2026-05-21","2026-05-22","2026-05-25","2026-05-26","2026-05-27","2026-05-28","2026-05-29","2026-06-01","2026-06-02","2026-06-03","2026-06-04","2026-06-05","2026-06-08","2026-06-09","2026-06-10","2026-06-11","2026-06-12","2026-06-15","2026-06-16","2026-06-17","2026-06-18","2026-06-22","2026-06-23","2026-06-24","2026-06-25","2026-06-26","2026-06-29","2026-06-30","2026-07-01","2026-07-02","2026-07-03","2026-07-06","2026-07-07","2026-07-08","2026-07-09","2026-07-10","2026-07-13","2026-07-14","2026-07-15","2026-07-16","2026-07-17","2026-07-20","2026-07-21","2026-07-22","2026-07-23","2026-07-24","2026-07-27","2026-07-28","2026-07-29","2026-07-30","2026-07-31","2026-08-03","2026-08-04","2026-08-05","2026-08-06","2026-08-07","2026-08-10","2026-08-11","2026-08-12","2026-08-13","2026-08-14","2026-08-17","2026-08-18","2026-08-19","2026-08-20","2026-08-21","2026-08-24","2026-08-25","2026-08-26","2026-08-27","2026-08-28","2026-08-31","2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-28","2026-09-29","2026-09-30","2026-10-08","2026-10-09","2026-10-12","2026-10-13","2026-10-14","2026-10-15","2026-10-16","2026-10-19","2026-10-20","2026-10-21","2026-10-22","2026-10-23","2026-10-26","2026-10-27","2026-10-28"],"missing":["2026-05-20","2026-08-06"],"funds":{"001821":{"name":"兴全天添益B","t1":"货币市场型基金","t2":"货币市场型基金","color":"#0f244a","start":1.0,"end":1.0098,"vol":8e-05},"001050":{"name":"汇添富成长多因子量化策略股票型投资基金","t1":"股票型基金","t2":"增强指数型基金","color":"#b60005","start":1.68,"end":1.8767,"vol":0.0135},"025480":{"name":"华夏沪深300指数量化增强A","t1":"股票型基金","t2":"增强指数型基金","color":"#b08d3f","start":0.88,"end":0.9773,"vol":0.0125},"005109":{"name":"汇安多策略混合A","t1":"混合型基金","t2":"灵活配置型基金","color":"#8c98a8","start":1.52,"end":1.6167,"vol":0.0092},"020619":{"name":"汇添富投资级信用债指数A","t1":"债券型基金","t2":"被动指数型债券基金","color":"#1f5f7a","start":1.03,"end":1.0625,"vol":0.0011},"021606":{"name":"易方达中债新综指发起式D","t1":"债券型基金","t2":"被动指数型债券基金","color":"#c96b6e","start":1.74,"end":1.8163,"vol":0.0013}},"navs":{"001821":[1.0,1.0,1.0001,1.0002,1.0003,1.0004,1.0006,1.0008,1.0009,1.001,1.0011,1.0012,1.0013,1.0014,1.0015,1.0015,1.0016,1.0017,1.0018,1.0019,1.0019,1.002,1.0022,1.0022,1.0024,1.0025,1.0026,1.0028,1.0029,1.0029,1.003,1.0032,1.0032,1.0033,1.0034,1.0036,1.0036,1.0035,1.0035,1.0035,1.0036,1.0037,1.0036,1.0039,1.0038,1.004,1.0041,1.0041,1.0041,1.0042,1.0042,1.0043,1.0044,1.0044,1.0044,1.0045,1.0047,1.0047,1.0048,1.0051,1.0054,1.0054,1.0056,1.0057,1.0057,1.0056,1.0056,1.0056,1.0057,1.0057,1.0057,1.0058,1.0058,1.0059,1.006,1.0063,1.0064,1.0065,1.0067,1.0067,1.0067,1.0069,1.0068,1.0069,1.0071,1.0072,1.0072,1.0072,1.0074,1.0074,1.0075,1.0077,1.0077,1.0077,1.0078,1.008,1.0082,1.0083,1.0083,1.0083,1.0085,1.0085,1.0085,1.0086,1.0086,1.0088,1.0089,1.009,1.009,1.009,1.0092,1.0091,1.0092,1.0092,1.0092,1.0092,1.0093,1.0095,1.0097,1.0098],"001050":[1.68,1.6387,1.6224,1.6664,1.6872,1.6638,1.6566,1.66,1.6856,1.688,1.7128,1.6896,1.6794,1.6587,1.6497,1.647,1.6473,1.6275,1.6144,1.6113,1.6367,1.6566,1.6988,1.7227,1.7052,1.7116,1.7005,1.7024,1.6685,1.6647,1.6626,1.6208,1.6133,1.6041,1.5934,1.6018,1.6197,1.6503,1.6582,1.6351,1.6547,1.6626,1.7348,1.7635,1.7949,1.7946,1.8165,1.8609,1.8701,1.8758,1.8522,1.8236,1.8155,1.7948,1.8126,1.8184,1.8284,1.8248,1.8676,1.9052,1.936,1.8947,1.8997,1.8931,1.8783,1.8903,1.8817,1.8493,1.8597,1.8627,1.8712,1.8683,1.854,1.884,1.9128,1.8966,1.8689,1.8215,1.8591,1.8218,1.8626,1.8935,1.9111,1.9248,1.9224,1.9355,1.9023,1.8886,1.8989,1.9165,1.9281,1.9035,1.8559,1.8389,1.8184,1.7832,1.7582,1.7688,1.757,1.7545,1.7852,1.7994,1.8195,1.8359,1.8657,1.8261,1.8048,1.8158,1.8229,1.8451,1.8684,1.8465,1.8789,1.8716,1.9049,1.9141,1.8989,1.8889,1.8905,1.8767],"025480":[0.88,0.8952,0.9016,0.9158,0.9182,0.9382,0.933,0.9247,0.9184,0.9092,0.9149,0.9288,0.9288,0.9311,0.9233,0.9268,0.9143,0.9075,0.8995,0.9128,0.9073,0.9091,0.8995,0.8806,0.8777,0.8882,0.9104,0.9314,0.9138,0.9111,0.9083,0.9246,0.9118,0.9078,0.9077,0.9159,0.9323,0.9349,0.947,0.9546,0.9626,0.9657,0.9888,1.0156,1.0153,0.9841,0.9689,0.9697,0.9826,0.9663,0.9477,0.9431,0.932,0.9366,0.946,0.9552,0.9509,0.9383,0.9345,0.9253,0.9288,0.9343,0.9538,0.9535,0.9587,0.9562,0.9703,1.0048,1.0098,0.9919,0.9783,0.9872,0.9993,1.0177,1.0312,1.0215,1.0025,0.9942,0.9954,1.0225,1.0111,1.0208,1.0203,1.0114,1.0063,1.0154,1.0202,1.018,1.012,0.9843,0.9929,0.9841,0.9772,0.9814,0.9652,0.9646,0.9647,0.9892,0.9964,0.9931,0.983,0.9902,0.9765,0.9941,1.0009,0.9997,0.9898,1.0045,0.9984,0.9861,1.0091,1.0095,1.0101,1.0189,0.9964,0.9913,0.9933,1.0078,0.9904,0.9773],"005109":[1.52,1.5303,1.5252,1.5329,1.5253,1.5251,1.5532,1.5555,1.5392,1.5395,1.5342,1.5556,1.5671,1.5518,1.5261,1.5222,1.5141,1.5153,1.5166,1.5319,1.5316,1.5392,1.518,1.5156,1.513,1.5231,1.5235,1.5045,1.5228,1.5094,1.5287,1.5435,1.5308,1.5316,1.5201,1.5197,1.529,1.5263,1.5295,1.5441,1.5467,1.5368,1.5743,1.5609,1.5896,1.5816,1.5818,1.5921,1.5942,1.5831,1.5747,1.595,1.6036,1.6068,1.5958,1.5973,1.6212,1.6214,1.6239,1.6347,1.6332,1.6509,1.6538,1.6413,1.6441,1.6404,1.6447,1.6648,1.6733,1.6777,1.6777,1.6697,1.6724,1.693,1.675,1.6651,1.6685,1.6452,1.6539,1.6492,1.704,1.6966,1.6853,1.6865,1.6796,1.6737,1.6752,1.6669,1.6737,1.7113,1.6902,1.6987,1.7259,1.7138,1.7211,1.7139,1.7215,1.6852,1.7009,1.7174,1.7064,1.71,1.7009,1.6827,1.6844,1.6731,1.69,1.6931,1.6697,1.6815,1.6883,1.6829,1.6619,1.6549,1.6576,1.6667,1.6577,1.6734,1.6262,1.6167],"020619":[1.03,1.029,1.0288,1.0291,1.0297,1.0282,1.0292,1.0306,1.0323,1.0327,1.0326,1.0337,1.0331,1.032,1.0323,1.0341,1.0341,1.0332,1.0327,1.0346,1.037,1.0373,1.0377,1.0382,1.0394,1.0402,1.0401,1.0423,1.042,1.0428,1.0439,1.0442,1.0451,1.0478,1.0483,1.05,1.0496,1.0487,1.0482,1.0476,1.0464,1.0456,1.0456,1.0447,1.0449,1.0456,1.0441,1.0445,1.0445,1.0449,1.0478,1.0488,1.0498,1.0504,1.051,1.0522,1.0508,1.0526,1.0516,1.0517,1.0517,1.0509,1.0495,1.051,1.0513,1.0504,1.0504,1.0514,1.052,1.0521,1.0534,1.055,1.0543,1.057,1.0568,1.0592,1.0595,1.0586,1.0585,1.0585,1.0586,1.0578,1.0585,1.0574,1.0585,1.0572,1.0584,1.0571,1.0566,1.0587,1.0594,1.0597,1.0621,1.0621,1.0608,1.0616,1.0595,1.0589,1.0586,1.0605,1.0587,1.0576,1.0556,1.0559,1.0548,1.0553,1.0568,1.0566,1.0581,1.0569,1.0579,1.0576,1.0577,1.0586,1.0599,1.0591,1.0597,1.0601,1.0596,1.0625],"021606":[1.74,1.741,1.7429,1.7464,1.7487,1.7501,1.7505,1.7551,1.7534,1.7531,1.7535,1.7536,1.756,1.7596,1.76,1.7609,1.7633,1.7648,1.7653,1.765,1.7651,1.7628,1.7599,1.767,1.7643,1.7631,1.7635,1.7633,1.7646,1.7679,1.7704,1.771,1.7749,1.7768,1.7755,1.775,1.7793,1.7839,1.785,1.7807,1.7819,1.7829,1.7843,1.7856,1.7868,1.7881,1.7904,1.794,1.7936,1.795,1.7968,1.7982,1.7985,1.7967,1.7995,1.8027,1.8033,1.8018,1.8032,1.8004,1.8006,1.7996,1.8001,1.8022,1.7997,1.8012,1.8006,1.7986,1.7994,1.8006,1.8064,1.8045,1.8049,1.808,1.8073,1.8058,1.8021,1.8044,1.8065,1.8079,1.8091,1.8111,1.813,1.8144,1.8133,1.8141,1.8139,1.8164,1.8133,1.8137,1.8135,1.8167,1.8192,1.8186,1.8172,1.816,1.8181,1.8209,1.8215,1.8177,1.8142,1.8137,1.8137,1.8088,1.8104,1.809,1.8131,1.8101,1.8079,1.8047,1.8087,1.811,1.813,1.8146,1.8169,1.817,1.8165,1.8174,1.8164,1.8163]},"products":[{"id":"YC-JYJ-001","name":"永诚资产精研稳健1号","strategy":"固收+","risk":"R2","since":"2024-06-18","scale":35500000.0,"shares":{"001821":[4260000.0,4260000.0,4260000.0,4260000.0,4260000.0,4260000.0,4260000.0,4260000.0,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,7411656.07,5412941.44,5412941.44,5412941.44,5412941.44,5412941.44,5412941.44,5412941.44,5412941.44,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,7605328.78,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,5520838.32,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24,3510382.24],"001050":[2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,2747023.81,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63,1152462.63],"025480":[3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,3227272.73,6644473.18,6644473.18,6644473.18,6644473.18,6644473.18,6644473.18,6644473.18,6644473.18,6644473.18,6644473.18,4006596.8,4006596.8,4006596.8,4006596.8,4006596.8,4006596.8,4006596.8,4006596.8,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,6286001.39,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,8440965.26,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23,11957639.23],"005109":[1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16,1167763.16],"020619":[11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21,11029126.21],"021606":[6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,6120689.66,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73,7588618.73]},"tx":[{"d":"2026-05-15","code":"001821","type":"申购","amt":3154808.04,"sh":3151656.07,"nav":1.0009,"fee":315.48},{"d":"2026-05-27","code":"025480","type":"申购","amt":3124658.84,"sh":3417200.45,"nav":0.9143,"fee":312.47},{"d":"2026-06-10","code":"025480","type":"赎回","amt":2401522.66,"sh":2637876.38,"nav":0.9104,"fee":0.0},{"d":"2026-06-23","code":"025480","type":"申购","amt":2069222.47,"sh":2279404.59,"nav":0.9077,"fee":206.92},{"d":"2026-07-07","code":"001821","type":"赎回","amt":2006309.75,"sh":1998714.63,"nav":1.0038,"fee":0.0},{"d":"2026-07-17","code":"001821","type":"申购","amt":2202254.07,"sh":2192387.34,"nav":1.0044,"fee":220.23},{"d":"2026-07-31","code":"021606","type":"申购","amt":2642683.38,"sh":1467929.07,"nav":1.8001,"fee":264.27},{"d":"2026-08-12","code":"001050","type":"赎回","amt":2983742.88,"sh":1594561.18,"nav":1.8712,"fee":0.0},{"d":"2026-08-26","code":"025480","type":"申购","amt":2179101.88,"sh":2154963.87,"nav":1.0111,"fee":217.91},{"d":"2026-09-07","code":"001821","type":"赎回","amt":2099915.69,"sh":2084490.46,"nav":1.0074,"fee":0.0},{"d":"2026-09-21","code":"025480","type":"申购","amt":3504364.39,"sh":3516673.97,"nav":0.9964,"fee":350.44},{"d":"2026-10-09","code":"001821","type":"赎回","amt":2028349.14,"sh":2010456.08,"nav":1.0089,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"},{"id":"YC-WJZ-002","name":"永诚资产稳健增利2号","strategy":"固收+","risk":"R2","since":"2024-09-05","scale":55200000.0,"shares":{"001821":[6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,6624000.0,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,3800332.41,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"001050":[4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57,4271428.57],"025480":[5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,5018181.82,9747731.41,9747731.41,9747731.41,9747731.41,9747731.41,9747731.41,9747731.41,9747731.41,9747731.41,9747731.41,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,4892936.65,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,9664227.55,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18,14502417.18],"005109":[1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,1815789.47,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24,4779240.24],"020619":[17149514.56,17149514.56,17149514.56,17149514.56,17149514.56,17149514.56,17149514.56,17149514.56,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,21952634.58,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,17009780.7,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05,21201227.05],"021606":[9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,9517241.38,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,12272802.88,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57,9551334.57]},"tx":[{"d":"2026-05-15","code":"020619","type":"申购","amt":4958756.67,"sh":4803120.02,"nav":1.0323,"fee":495.88},{"d":"2026-05-27","code":"021606","type":"申购","amt":4859367.53,"sh":2755561.5,"nav":1.7633,"fee":485.94},{"d":"2026-06-10","code":"020619","type":"赎回","amt":5141062.32,"sh":4942853.88,"nav":1.0401,"fee":0.0},{"d":"2026-06-23","code":"025480","type":"申购","amt":4293441.51,"sh":4729549.59,"nav":0.9077,"fee":429.34},{"d":"2026-07-07","code":"025480","type":"赎回","amt":4929073.12,"sh":4854794.76,"nav":1.0153,"fee":0.0},{"d":"2026-07-17","code":"005109","type":"申购","amt":4752664.93,"sh":2963450.77,"nav":1.6036,"fee":475.27},{"d":"2026-07-31","code":"025480","type":"申购","amt":4551312.39,"sh":4771290.9,"nav":0.9538,"fee":455.13},{"d":"2026-08-12","code":"021606","type":"赎回","amt":4916060.36,"sh":2721468.31,"nav":1.8064,"fee":0.0},{"d":"2026-08-26","code":"020619","type":"申购","amt":4437508.85,"sh":4191446.35,"nav":1.0586,"fee":443.75},{"d":"2026-09-07","code":"001821","type":"赎回","amt":2844562.73,"sh":2823667.59,"nav":1.0074,"fee":0.0},{"d":"2026-09-21","code":"025480","type":"申购","amt":4821254.28,"sh":4838189.63,"nav":0.9964,"fee":482.13},{"d":"2026-10-09","code":"001821","type":"赎回","amt":3834155.37,"sh":3800332.41,"nav":1.0089,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"},{"id":"YC-CZJ-003","name":"永诚资产纯债精选3号","strategy":"纯债","risk":"R2","since":"2023-11-20","scale":80100000.0,"shares":{"001821":[12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,12015000.0,16512908.8,16512908.8,16512908.8,16512908.8,16512908.8,16512908.8,16512908.8,16512908.8,16512908.8,16512908.8,10044894.32,10044894.32,10044894.32,10044894.32,10044894.32,10044894.32,10044894.32,10044894.32,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,18002438.09,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,23655454.79,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7,18447690.7],"001050":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"025480":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"005109":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"020619":[34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,34995145.63,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,42350284.2,46349534.09,46349534.09,46349534.09,46349534.09,46349534.09,46349534.09,46349534.09,46349534.09,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,38759437.04,32860426.9,32860426.9,32860426.9,32860426.9,32860426.9,32860426.9,32860426.9,32860426.9,32860426.9,32860426.9,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65,39506384.65],"021606":[18413793.1,18413793.1,18413793.1,18413793.1,18413793.1,18413793.1,18413793.1,18413793.1,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,21887495.18,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01,19320441.01]},"tx":[{"d":"2026-05-15","code":"021606","type":"申购","amt":6091398.37,"sh":3473702.08,"nav":1.7534,"fee":609.14},{"d":"2026-05-27","code":"020619","type":"申购","amt":7606709.46,"sh":7355138.57,"nav":1.0341,"fee":760.67},{"d":"2026-06-10","code":"021606","type":"赎回","amt":4527000.03,"sh":2567054.17,"nav":1.7635,"fee":0.0},{"d":"2026-06-23","code":"001821","type":"申购","amt":4513653.06,"sh":4497908.8,"nav":1.0034,"fee":451.37},{"d":"2026-07-07","code":"001821","type":"赎回","amt":6492592.94,"sh":6468014.48,"nav":1.0038,"fee":0.0},{"d":"2026-07-17","code":"001821","type":"申购","amt":7993356.3,"sh":7957543.77,"nav":1.0044,"fee":799.34},{"d":"2026-07-31","code":"020619","type":"申购","amt":4197632.52,"sh":3999249.89,"nav":1.0495,"fee":419.76},{"d":"2026-08-12","code":"020619","type":"赎回","amt":7995408.23,"sh":7590097.05,"nav":1.0534,"fee":0.0},{"d":"2026-08-26","code":"001821","type":"申购","amt":5691461.06,"sh":5653016.7,"nav":1.0067,"fee":569.15},{"d":"2026-09-07","code":"020619","type":"赎回","amt":6232894.11,"sh":5899010.14,"nav":1.0566,"fee":0.0},{"d":"2026-09-21","code":"020619","type":"申购","amt":7036114.49,"sh":6645957.75,"nav":1.0586,"fee":703.61},{"d":"2026-10-09","code":"001821","type":"赎回","amt":5254113.19,"sh":5207764.09,"nav":1.0089,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"},{"id":"YC-LHZ-005","name":"永诚资产量化增强5号","strategy":"权益增强","risk":"R3","since":"2025-03-12","scale":25200000.0,"shares":{"001821":[3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,3024000.0,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,1685859.58,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46,1648914.46],"001050":[4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,4800000.0,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,5807152.2,6968776.44,6968776.44,6968776.44,6968776.44,6968776.44,6968776.44,6968776.44,6968776.44,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92,5878266.92],"025480":[6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,6300000.0,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26,4323696.26],"005109":[2652631.58,2652631.58,2652631.58,2652631.58,2652631.58,2652631.58,2652631.58,2652631.58,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,3878243.27,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,5041997.42,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68,6486830.68],"020619":[4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,4403883.5,5892030.55,5892030.55,5892030.55,5892030.55,5892030.55,5892030.55,5892030.55,5892030.55,5892030.55,5892030.55,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61,4139440.61],"021606":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},"tx":[{"d":"2026-05-15","code":"005109","type":"申购","amt":1886650.19,"sh":1225611.69,"nav":1.5392,"fee":188.67},{"d":"2026-05-27","code":"020619","type":"申购","amt":1539046.77,"sh":1488147.05,"nav":1.0341,"fee":153.9},{"d":"2026-06-10","code":"020619","type":"赎回","amt":1822868.8,"sh":1752589.94,"nav":1.0401,"fee":0.0},{"d":"2026-06-23","code":"005109","type":"申购","amt":1769199.61,"sh":1163754.15,"nav":1.5201,"fee":176.92},{"d":"2026-07-07","code":"001821","type":"赎回","amt":1343225.35,"sh":1338140.42,"nav":1.0038,"fee":0.0},{"d":"2026-07-17","code":"001050","type":"申购","amt":1828667.69,"sh":1007152.2,"nav":1.8155,"fee":182.87},{"d":"2026-07-31","code":"005109","type":"申购","amt":2389704.21,"sh":1444833.26,"nav":1.6538,"fee":238.97},{"d":"2026-08-12","code":"001821","type":"赎回","amt":1695468.98,"sh":1685859.58,"nav":1.0057,"fee":0.0},{"d":"2026-08-26","code":"001050","type":"申购","amt":2163857.69,"sh":1161624.24,"nav":1.8626,"fee":216.39},{"d":"2026-09-07","code":"001050","type":"赎回","amt":2070768.53,"sh":1090509.52,"nav":1.8989,"fee":0.0},{"d":"2026-09-21","code":"001821","type":"申购","amt":1662766.73,"sh":1648914.46,"nav":1.0083,"fee":166.28},{"d":"2026-10-09","code":"025480","type":"赎回","amt":1956145.44,"sh":1976303.74,"nav":0.9898,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"},{"id":"YC-LHPZ-006","name":"永诚资产灵活配置6号","strategy":"混合","risk":"R3","since":"2024-12-02","scale":30200000.0,"shares":{"001821":[2416000.0,2416000.0,2416000.0,2416000.0,2416000.0,2416000.0,2416000.0,2416000.0,4559754.64,4559754.64,4559754.64,4559754.64,4559754.64,4559754.64,4559754.64,4559754.64,6991672.8,6991672.8,6991672.8,6991672.8,6991672.8,6991672.8,6991672.8,6991672.8,6991672.8,6991672.8,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,4477792.1,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71,7033789.71],"001050":[3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,3595238.1,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0,2106221.0],"025480":[3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18,3431818.18],"005109":[3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,3973684.21,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36,2943117.36],"020619":[8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,8209708.74,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87,6271026.87],"021606":[2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,2429885.06,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,3439975.8,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,4992898.61,5884821.69,5884821.69,5884821.69,5884821.69,5884821.69,5884821.69,5884821.69,5884821.69,4452004.59,4452004.59,4452004.59,4452004.59,4452004.59,4452004.59,4452004.59,4452004.59,4452004.59,4452004.59,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11,5873199.11]},"tx":[{"d":"2026-05-15","code":"001821","type":"申购","amt":2145898.61,"sh":2143754.64,"nav":1.0009,"fee":214.59},{"d":"2026-05-27","code":"001821","type":"申购","amt":2436052.84,"sh":2431918.16,"nav":1.0016,"fee":243.61},{"d":"2026-06-10","code":"001821","type":"赎回","amt":2520416.79,"sh":2513880.7,"nav":1.0026,"fee":0.0},{"d":"2026-06-23","code":"021606","type":"申购","amt":1793595.47,"sh":1010090.74,"nav":1.7755,"fee":179.36},{"d":"2026-07-07","code":"020619","type":"赎回","amt":2025728.69,"sh":1938681.87,"nav":1.0449,"fee":0.0},{"d":"2026-07-17","code":"001821","type":"申购","amt":2567500.74,"sh":2555997.61,"nav":1.0044,"fee":256.75},{"d":"2026-07-31","code":"021606","type":"申购","amt":2795695.93,"sh":1552922.81,"nav":1.8001,"fee":279.57},{"d":"2026-08-12","code":"001050","type":"赎回","amt":2786248.8,"sh":1489017.1,"nav":1.8712,"fee":0.0},{"d":"2026-08-26","code":"021606","type":"申购","amt":1613739.41,"sh":891923.08,"nav":1.8091,"fee":161.37},{"d":"2026-09-07","code":"021606","type":"赎回","amt":2598127.25,"sh":1432817.1,"nav":1.8133,"fee":0.0},{"d":"2026-09-21","code":"021606","type":"申购","amt":2588964.72,"sh":1421194.52,"nav":1.8215,"fee":258.9},{"d":"2026-10-09","code":"005109","type":"赎回","amt":1741657.98,"sh":1030566.85,"nav":1.69,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"},{"id":"YC-XJGL-007","name":"永诚资产现金管理7号","strategy":"货币","risk":"R1","since":"2023-06-30","scale":60000000.0,"shares":{"001821":[42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,42000000.0,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,37938220.91,33850976.16,33850976.16,33850976.16,33850976.16,33850976.16,33850976.16,33850976.16,33850976.16,39252862.46,39252862.46,39252862.46,39252862.46,39252862.46,39252862.46,39252862.46,39252862.46,39252862.46,39252862.46,43121769.92,43121769.92,43121769.92,43121769.92,43121769.92,43121769.92,43121769.92,43121769.92,39124012.67,39124012.67,39124012.67,39124012.67,39124012.67,39124012.67,39124012.67,39124012.67,39124012.67,39124012.67,42893380.4,42893380.4,42893380.4,42893380.4,42893380.4,42893380.4,42893380.4,42893380.4,39036666.35,39036666.35,39036666.35,39036666.35,39036666.35,39036666.35,39036666.35,39036666.35,39036666.35,39036666.35,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12,44626452.12],"001050":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"025480":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"005109":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"020619":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"021606":[10344827.59,10344827.59,10344827.59,10344827.59,10344827.59,10344827.59,10344827.59,10344827.59,12882118.72,12882118.72,12882118.72,12882118.72,12882118.72,12882118.72,12882118.72,12882118.72,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,15497618.26,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,18012073.45,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29,14911412.29]},"tx":[{"d":"2026-05-15","code":"021606","type":"申购","amt":4449331.19,"sh":2537291.13,"nav":1.7534,"fee":444.93},{"d":"2026-05-27","code":"021606","type":"申购","amt":4612371.58,"sh":2615499.54,"nav":1.7633,"fee":461.24},{"d":"2026-06-10","code":"001821","type":"赎回","amt":4072339.72,"sh":4061779.09,"nav":1.0026,"fee":0.0},{"d":"2026-06-23","code":"021606","type":"申购","amt":4464861.68,"sh":2514455.19,"nav":1.7755,"fee":446.49},{"d":"2026-07-07","code":"001821","type":"赎回","amt":4102776.28,"sh":4087244.75,"nav":1.0038,"fee":0.0},{"d":"2026-07-17","code":"001821","type":"申购","amt":5426197.22,"sh":5401886.3,"nav":1.0044,"fee":542.62},{"d":"2026-07-31","code":"001821","type":"申购","amt":3890962.44,"sh":3868907.46,"nav":1.0056,"fee":389.1},{"d":"2026-08-12","code":"001821","type":"赎回","amt":4020544.47,"sh":3997757.25,"nav":1.0057,"fee":0.0},{"d":"2026-08-26","code":"001821","type":"申购","amt":3795002.0,"sh":3769367.73,"nav":1.0067,"fee":379.5},{"d":"2026-09-07","code":"001821","type":"赎回","amt":3885253.73,"sh":3856714.05,"nav":1.0074,"fee":0.0},{"d":"2026-09-21","code":"001821","type":"申购","amt":5636744.67,"sh":5589785.77,"nav":1.0083,"fee":563.67},{"d":"2026-10-09","code":"021606","type":"赎回","amt":5621808.75,"sh":3100661.16,"nav":1.8131,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"},{"id":"YC-XYZ-008","name":"永诚资产信用债优选8号","strategy":"纯债","risk":"R2","since":"2025-01-15","scale":60000000.0,"shares":{"001821":[9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,9000000.0,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,13882100.68,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21,8704888.21],"001050":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"025480":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"005109":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"020619":[26213592.23,26213592.23,26213592.23,26213592.23,26213592.23,26213592.23,26213592.23,26213592.23,30126656.15,30126656.15,30126656.15,30126656.15,30126656.15,30126656.15,30126656.15,30126656.15,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,34314607.57,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,39062820.42,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,42122422.16,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61,37060131.61],"021606":[13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,13793103.45,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,10508452.99,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,7320049.2,5148606.32,5148606.32,5148606.32,5148606.32,5148606.32,5148606.32,5148606.32,5148606.32,5148606.32,5148606.32,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,6888791.87,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73,8550598.73]},"tx":[{"d":"2026-05-15","code":"020619","type":"申购","amt":4039859.87,"sh":3913063.92,"nav":1.0323,"fee":403.99},{"d":"2026-05-27","code":"020619","type":"申购","amt":4331193.68,"sh":4187951.42,"nav":1.0341,"fee":433.12},{"d":"2026-06-10","code":"021606","type":"赎回","amt":5792481.09,"sh":3284650.46,"nav":1.7635,"fee":0.0},{"d":"2026-06-23","code":"020619","type":"申购","amt":4978049.33,"sh":4748212.85,"nav":1.0483,"fee":497.8},{"d":"2026-07-07","code":"021606","type":"赎回","amt":5697039.89,"sh":3188403.79,"nav":1.7868,"fee":0.0},{"d":"2026-07-17","code":"001821","type":"申购","amt":4904072.33,"sh":4882100.68,"nav":1.0044,"fee":490.41},{"d":"2026-07-31","code":"020619","type":"申购","amt":3211373.17,"sh":3059601.74,"nav":1.0495,"fee":321.14},{"d":"2026-08-12","code":"021606","type":"赎回","amt":3922494.42,"sh":2171442.88,"nav":1.8064,"fee":0.0},{"d":"2026-08-26","code":"021606","type":"申购","amt":3148484.52,"sh":1740185.55,"nav":1.8091,"fee":314.85},{"d":"2026-09-07","code":"001821","type":"赎回","amt":5215523.84,"sh":5177212.47,"nav":1.0074,"fee":0.0},{"d":"2026-09-21","code":"021606","type":"申购","amt":3027283.92,"sh":1661806.86,"nav":1.8215,"fee":302.73},{"d":"2026-10-09","code":"020619","type":"赎回","amt":5349828.65,"sh":5062290.55,"nav":1.0568,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"},{"id":"YC-HLJZ-009","name":"永诚资产红利价值9号","strategy":"混合","risk":"R3","since":"2025-05-08","scale":23800000.0,"shares":{"001821":[1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,1904000.0,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74,3226977.74],"001050":[2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,2833333.33,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,3681365.61,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28,2983758.28],"025480":[2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,2704545.45,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68,1448391.68],"005109":[3131578.95,3131578.95,3131578.95,3131578.95,3131578.95,3131578.95,3131578.95,3131578.95,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,4566315.83,3343149.24,3343149.24,3343149.24,3343149.24,3343149.24,3343149.24,3343149.24,3343149.24,4124812.16,4124812.16,4124812.16,4124812.16,4124812.16,4124812.16,4124812.16,4124812.16,4124812.16,4124812.16,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21,5048171.21],"020619":[6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,6469902.91,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,7860044.88,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72,5691995.72],"021606":[1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,1914942.53,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,739748.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76,1944356.76]},"tx":[{"d":"2026-05-15","code":"005109","type":"申购","amt":2208567.87,"sh":1434736.88,"nav":1.5392,"fee":220.86},{"d":"2026-05-27","code":"001050","type":"申购","amt":1397103.28,"sh":848032.28,"nav":1.6473,"fee":139.71},{"d":"2026-06-10","code":"021606","type":"赎回","amt":2072454.21,"sh":1175193.77,"nav":1.7635,"fee":0.0},{"d":"2026-06-23","code":"020619","type":"申购","amt":1457431.57,"sh":1390141.97,"nav":1.0483,"fee":145.74},{"d":"2026-07-07","code":"005109","type":"赎回","amt":1944345.61,"sh":1223166.59,"nav":1.5896,"fee":0.0},{"d":"2026-07-17","code":"005109","type":"申购","amt":1253600.02,"sh":781662.92,"nav":1.6036,"fee":125.36},{"d":"2026-07-31","code":"005109","type":"申购","amt":1527203.91,"sh":923359.05,"nav":1.6538,"fee":152.72},{"d":"2026-08-12","code":"025480","type":"赎回","amt":1228895.23,"sh":1256153.77,"nav":0.9783,"fee":0.0},{"d":"2026-08-26","code":"021606","type":"申购","amt":2179474.28,"sh":1204608.0,"nav":1.8091,"fee":217.95},{"d":"2026-09-07","code":"020619","type":"赎回","amt":2290760.74,"sh":2168049.16,"nav":1.0566,"fee":0.0},{"d":"2026-09-21","code":"001821","type":"申购","amt":1334091.87,"sh":1322977.74,"nav":1.0083,"fee":133.41},{"d":"2026-10-09","code":"001050","type":"赎回","amt":1259041.71,"sh":697607.33,"nav":1.8048,"fee":0.0}],"alias":"","calendar":"交易日","status":"正常"}],"bench":{"中债综合":[100.0,99.9795,100.0709,100.2587,100.2847,100.3997,100.2149,100.2284,100.2852,100.3392,100.3694,100.4776,100.5085,100.4517,100.5514,100.572,100.5331,100.5778,100.643,100.7457,100.7791,100.8087,100.8575,100.924,100.8991,101.0761,101.0365,101.0298,101.0074,101.0517,101.1052,101.1161,101.0607,101.0743,101.1021,101.0831,101.1489,101.2076,101.244,101.2432,101.3207,101.2592,101.2793,101.326,101.3018,101.3616,101.4076,101.4415,101.5365,101.5005,101.5255,101.6267,101.7008,101.6572,101.6144,101.5965,101.499,101.5545,101.5802,101.504,101.5378,101.4826,101.4978,101.4988,101.5584,101.6975,101.5908,101.5394,101.5566,101.6308,101.7076,101.7451,101.8453,101.8501,101.9347,101.9869,101.9644,101.9292,101.9347,101.8294,101.8576,101.7168,101.7414,101.7023,101.7561,101.7291,101.6893,101.6825,101.655,101.7358,101.7583,101.8178,101.8531,101.7937,101.7569,101.8516,101.8193,101.7836,101.7816,101.7489,101.7732,101.8507,101.9132,101.8947,101.8734,101.8856,101.8278,101.8014,101.9296,101.9947,102.0185,101.9961,102.0958,102.1101,102.3013,102.3715,102.4299,102.3474,102.3838,102.4],"沪深300":[100.0,100.9693,101.4291,102.1652,102.0587,101.1973,100.917,100.7788,99.4265,97.4964,96.1297,95.861,95.0969,94.2126,94.9397,94.6862,94.1039,94.3698,93.5069,93.5065,93.1136,93.0029,93.0904,92.5167,92.768,92.401,92.807,93.4257,92.4717,91.8825,92.5756,93.2755,94.9622,95.7823,95.1392,96.2296,97.8401,97.8468,98.0687,97.3103,97.6535,97.8771,97.4473,98.2248,98.5097,99.6506,99.9191,98.1433,98.2199,98.7283,98.4343,98.6087,97.5978,97.8676,97.7125,95.4214,95.9847,96.5868,96.7764,96.4402,97.112,97.5975,97.5211,97.7614,97.1247,97.4013,97.0194,98.9131,100.3107,101.4753,101.5247,101.7961,102.8318,102.2733,103.3267,102.6325,101.2739,102.3876,103.4661,103.495,104.6171,105.1207,103.6367,102.5683,102.3188,103.2776,104.7104,103.3897,102.4891,103.7566,103.4143,103.0481,103.9464,104.2242,104.8003,105.571,104.4748,104.9571,105.8405,104.3941,105.2234,105.5774,104.7925,105.2353,105.4684,104.6291,104.241,105.6137,105.8838,105.2268,104.6478,105.4097,105.5127,105.1787,104.9572,105.1043,105.2105,106.3614,106.5491,106.2],"70/30 组合":[100.0,99.9338,100.3091,99.9851,99.8498,99.5383,99.3516,99.1435,99.1237,99.3151,99.4752,99.4929,99.4261,99.2307,99.5013,99.1848,99.0782,99.5412,98.9543,98.765,98.6803,99.1239,98.6869,98.1405,98.2698,98.8511,98.3395,98.3726,98.5952,98.6809,98.4478,98.4367,98.5395,98.5614,98.3343,98.5473,98.9325,99.4153,99.701,100.4477,100.8749,101.0002,101.1366,100.6049,100.738,100.2377,100.2827,100.3195,100.9572,101.0583,101.3803,101.4909,101.1888,101.674,101.866,102.1534,102.3375,102.132,102.4522,102.9433,103.5134,103.6778,103.2959,103.1988,103.5131,103.4985,103.8412,103.2944,103.3382,103.9774,104.4184,104.7533,104.5084,104.3737,104.3352,104.3595,104.4633,104.8814,105.2269,105.3983,105.8947,105.9614,105.6203,105.4324,105.0291,104.704,104.404,104.2883,104.1403,104.3707,104.3682,104.5369,104.7255,105.1113,104.2702,104.4537,104.4456,104.0336,104.4098,104.6798,104.9041,104.6636,104.5601,104.4485,104.814,105.2899,105.8274,105.6281,105.6703,105.3532,105.3664,105.2885,105.1984,105.1169,105.216,104.8979,104.6815,104.8132,104.3607,103.9]},"benchNames":["中债综合","沪深300","70/30 组合"]};</script>
+<script>
+const $ = id => document.getElementById(id);
+const N = DATA.navDates, FUNDS = DATA.funds, NAVS = DATA.navs, MISS = new Set(DATA.missing);
+const S = {page:'overview', pi:0, tab:'overview', start:N[0], end:N[N.length-1], filter:'全部', queue:[], bench:(DATA.benchNames[2]||DATA.benchNames[0]), txPage:1, txPages:1, txType:'', txQ:'', hPage:1, hPages:1, history:[
+  {file:'2026年10月28日永诚资产精研稳健1号估值表.xlsx', kind:'估值表', product:'永诚资产精研稳健1号', date:'2026-10-28', at:'2026-10-28 18:12:33', status:'成功'},
+  {file:'永诚资产精研稳健1号交易流水_20261028.xlsx', kind:'交易流水', product:'永诚资产精研稳健1号', date:'2026-10-28', at:'2026-10-28 18:13:05', status:'成功'},
+  {file:'2026年10月27日永诚资产稳健增利2号估值表.xlsx', kind:'估值表', product:'永诚资产稳健增利2号', date:'2026-10-27', at:'2026-10-27 17:40:22', status:'成功'}
+]};
+const money = v => (v<0?'-':'') + Math.abs(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct = (v,d=2) => (v*100).toFixed(d) + '%';
+const spct = (v,d=2) => (v>=0?'+':'') + (v*100).toFixed(d) + '%';
+const cls = v => v>0?'pos':(v<0?'neg':'');
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const shortName = (s,n=14) => s.length>n ? s.slice(0,n)+'…' : s;
+
+function fp(d){ return d; }
+function idxOf(d){ return N.indexOf(d); }
+function availDays(s,e){ return N.filter(d=>d>=s && d<=e && !MISS.has(d)); }
+
+function analyze(pi, s, e){
+  const p = DATA.products[pi];
+  const days = availDays(s, e);
+  if (days.length < 2) return null;
+  const idxs = days.map(d=>idxOf(d));
+  const codes = Object.keys(FUNDS);
+  const txByDay = {};
+  p.tx.forEach(t=>{ (txByDay[t.d]=txByDay[t.d]||[]).push(t); });
+  const txDelta = (di,c) => {
+    let d = 0;
+    (txByDay[N[di]]||[]).forEach(t=>{ if (t.code===c) d += t.type==='申购'? t.sh : -t.sh; });
+    return d;
+  };
+  const mvAt = (di, before=false) => codes.reduce((sum,c)=>{
+    const sh = p.shares[c][di] - (before ? txDelta(di,c) : 0);
+    return sum + sh*NAVS[c][di];
+  },0);
+  let prevMV = mvAt(idxs[0], true), prevDi = idxs[0];
+  const rows = [], hold = {}, fees = {};
+  codes.forEach(c=>{ hold[c]=0; fees[c]=0; });
+  let profit = 0;
+  idxs.forEach((di,k)=>{
+    // market move of shares held before today's trades
+    if (k>0){
+      codes.forEach(c=>{ hold[c] += p.shares[c][prevDi] * (NAVS[c][di]-NAVS[c][prevDi]); });
+    }
+    let cf = 0, fee = 0;
+    (txByDay[N[di]]||[]).forEach(t=>{ cf += t.type==='申购'? t.amt : -t.amt; fee += t.fee || 0; if (t.fee) fees[t.code] += t.fee; });
+    const mv = mvAt(di);
+    const pnl = mv - prevMV - cf;
+    profit += pnl;
+    rows.push({d:N[di], mv, cf, pnl, fee});
+    prevMV = mv; prevDi = di;
+  });
+  const mv0 = mvAt(idxs[0], true), mv1 = rows[rows.length-1].mv;
+  const netIn = rows.reduce((a,r)=>a+r.cf,0);
+  // TWR
+  const ser = [1]; let idx = 1;
+  const dret = [];
+  for (let k=1;k<rows.length;k++){
+    const base = rows[k-1].mv + 0.5*rows[k].cf;
+    const r = base>0 ? rows[k].pnl/base : 0;
+    rows[k].r = r;
+    dret.push(r); idx *= (1+r); ser.push(idx);
+  }
+  rows[0].r = 0;
+  const ret = idx-1;
+  const calDays = Math.max(1,(new Date(days[days.length-1])-new Date(days[0]))/86400000);
+  const ann = Math.pow(1+ret,365/calDays)-1;
+  const mean = dret.reduce((a,b)=>a+b,0)/Math.max(dret.length,1);
+  const vol = Math.sqrt(dret.reduce((a,b)=>a+(b-mean)*(b-mean),0)/Math.max(dret.length-1,1))*Math.sqrt(252);
+  let peak = ser[0], mdd = 0; const ddser = [];
+  ser.forEach(v=>{ peak = Math.max(peak,v); const dd=v/peak-1; ddser.push(dd); mdd=Math.min(mdd,dd); });
+  const sharpe = vol ? (ann-0.015)/vol : 0;
+  // months
+  const bym = {};
+  for (let k=1;k<rows.length;k++){
+    const base = rows[k-1].mv + 0.5*rows[k].cf;
+    (bym[rows[k].d.slice(0,7)] = bym[rows[k].d.slice(0,7)]||[]).push(base>0?rows[k].pnl/base:0);
+  }
+  const months = Object.keys(bym).sort().map(m=>{ let x=1; bym[m].forEach(r=>x*=1+r); return [m, x-1]; });
+  // benchmarks
+  const bStart = idxs[0], bEnd = idxs[idxs.length-1];
+  const bench = {};
+  DATA.benchNames.forEach(key=>{
+    const arr = DATA.bench[key], b0 = arr[bStart];
+    const bm = {};
+    for (let t=1;t<idxs.length;t++){
+      const mo = N[idxs[t]].slice(0,7);
+      if (!bm[mo]) bm[mo] = {start: arr[idxs[t-1]], end: arr[idxs[t]]};
+      else bm[mo].end = arr[idxs[t]];
+    }
+    bench[key] = {total: arr[bEnd]/b0 - 1, series: idxs.map(di=>arr[di]/b0 - 1),
+      months: Object.keys(bm).sort().map(mo=>[mo, bm[mo].end/bm[mo].start - 1])};
+  });
+  // funds
+  const fundRows = codes.map(c=>{
+    const sh = p.shares[c][idxs[idxs.length-1]];
+    const nav = NAVS[c][idxs[idxs.length-1]];
+    const mv = sh*nav;
+    const shares0 = p.shares[c][idxs[0]] - txDelta(idxs[0],c);
+    const mv0f = shares0*NAVS[c][idxs[0]];
+    const fee = fees[c]||0;
+    let bsh = shares0, bcost = mv0f, realized = 0;
+    p.tx.filter(t=>t.code===c && t.d>=s && t.d<=e).sort((a,b)=>a.d<b.d?-1:1).forEach(t=>{
+      if (t.type==='申购'){ bsh += t.sh; bcost += t.amt; }
+      else { const avg = bsh>0 ? bcost/bsh : 0; realized += t.amt - avg*t.sh; bcost -= avg*t.sh; bsh -= t.sh; }
+    });
+    const unreal = mv - bcost;
+    return {code:c, name:FUNDS[c].name, t1:FUNDS[c].t1, t2:FUNDS[c].t2, color:FUNDS[c].color,
+      pnl: hold[c]-fee, hold: hold[c], fee, mv, mv0: mv0f, sh, nav, realized, unreal,
+      share: profit ? (hold[c]-fee)/profit : 0};
+  }).filter(x=>x.mv>0 || Math.abs(x.pnl)>0.5).sort((a,b)=>b.pnl-a.pnl);
+  // categories
+  const cat = {};
+  fundRows.forEach(x=>{
+    const k = x.t1;
+    cat[k] = cat[k] || {pnl:0, mv0:0, mv1:0, avg:0};
+    cat[k].pnl += x.pnl; cat[k].mv0 += x.mv0; cat[k].mv1 += x.mv;
+  });
+  // avg mv per fund for rates
+  const avg = {}; codes.forEach(c=>avg[c]=0);
+  idxs.forEach(di=>codes.forEach(c=>{ avg[c]+=p.shares[c][di]*NAVS[c][di]; }));
+  codes.forEach(c=>avg[c]/=idxs.length);
+  Object.keys(cat).forEach(k=>{
+    let a=0; fundRows.forEach(x=>{ if (x.t1===k) a+=avg[x.code]; });
+    cat[k].avg=a; cat[k].rate = a? cat[k].pnl/a : 0;
+  });
+  const tx = p.tx.filter(t=>t.d>=s && t.d<=e).sort((a,b)=>a.d<b.d?-1:1);
+  const missing = N.filter(d=>d>=s && d<=e && MISS.has(d));
+  const expected = N.filter(d=>d>=s && d<=e).length;
+  return {p, days, idxs, rows, ser, ddser, mv0, mv1, netIn, profit, ret, ann, vol, mdd, sharpe,
+    months, fundRows, cat, tx, avg, missing, expected, fees, hold, bench};
+}
+
+/* charts */
+function perfChart(A){
+  const w=700,h=300, pad={l:52,r:12,t:14,b:24}, top=190;
+  const vals=A.ser.map(v=>(v-1)*100);
+  const bser=(A.bench && A.bench[S.bench]) ? A.bench[S.bench].series.map(v=>v*100) : null;
+  const all=bser ? vals.concat(bser) : vals;
+  let lo=Math.min(0,...all)-0.6, hi=Math.max(0,...all)+0.6;
+  const step=(hi-lo)/4, mag=Math.pow(10,Math.floor(Math.log10(step||1)));
+  let st=mag; [1,2,5,10].some(m=>{ if (step<=m*mag){ st=m*mag; return true; } });
+  const t0=Math.floor(lo/st)*st, t1=Math.ceil(hi/st)*st, ticks=[]; for(let v=t0; v<=t1+1e-9; v+=st) ticks.push(v);
+  const lo2=ticks[0], hi2=ticks[ticks.length-1], n=vals.length;
+  const X=i=>pad.l+(w-pad.l-pad.r)*i/(n-1), Y=v=>pad.t+(top-pad.t)*(1-(v-lo2)/(hi2-lo2));
+  const pts=vals.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+  const bpts=bser ? bser.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ') : '';
+  const area=`M ${X(0)} ${Y(0)} L `+vals.map((v,i)=>`${X(i)} ${Y(v)}`).join(' L ')+` L ${X(n-1)} ${Y(0)} Z`;
+  let grid=''; ticks.forEach(t=>{ const y=Y(t); grid+=`<line x1="${pad.l}" y1="${y.toFixed(1)}" x2="${w-pad.r}" y2="${y.toFixed(1)}" stroke="#efe7e1"/><text x="${pad.l-7}" y="${(y+3).toFixed(1)}" font-size="9" fill="#9a938c" text-anchor="end">${t.toFixed(1)}%</text>`; });
+  let labels='', last=null;
+  A.rows.forEach((r,i)=>{ const mo=r.d.slice(5,7); if (mo!==last){ labels+=`<text x="${X(i).toFixed(1)}" y="${h-5}" font-size="9" fill="#9a938c" text-anchor="middle">${mo}月</text>`; last=mo; } });
+  const d0=top+16, d1=h-26, dlo=Math.min(...A.ddser)*100 || -1;
+  const DY=v=>d0+(d1-d0)*(v/(dlo-0.6));
+  const dpts=A.ddser.map((v,i)=>`${X(i).toFixed(1)},${DY(v*100).toFixed(1)}`).join(' ');
+  const darea=`M ${X(0)} ${d0} L `+A.ddser.map((v,i)=>`${X(i)} ${DY(v*100)}`).join(' L ')+` L ${X(n-1)} ${d0} Z`;
+  return `<svg viewBox="0 0 ${w} ${h}" class="chart"><defs>
+  <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b60005" stop-opacity=".16"/><stop offset="100%" stop-color="#b60005" stop-opacity=".01"/></linearGradient>
+  <linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9E1B32" stop-opacity=".25"/><stop offset="100%" stop-color="#9E1B32" stop-opacity=".04"/></linearGradient></defs>
+  ${grid}<line x1="${pad.l}" y1="${Y(0).toFixed(1)}" x2="${w-pad.r}" y2="${Y(0).toFixed(1)}" stroke="#d9cfc7" stroke-dasharray="3 4"/>
+  <path d="${area}" fill="url(#ag)"/><polyline points="${pts}" fill="none" stroke="#b60005" stroke-width="2.2" stroke-linejoin="round"/>${bpts?`<polyline points="${bpts}" fill="none" stroke="#8a7a6a" stroke-width="1.4" stroke-dasharray="5 4"/>`:''}${labels}
+  <line x1="${pad.l}" y1="${d0}" x2="${w-pad.r}" y2="${d0}" stroke="#efe7e1"/><path d="${darea}" fill="url(#dg)"/>
+  <polyline points="${dpts}" fill="none" stroke="#9E1B32" stroke-width="1.2"/>
+  <text x="${pad.l}" y="${d0-4}" font-size="9" fill="#9a938c">回撤</text>
+  <text x="${pad.l-7}" y="${d0+8}" font-size="8" fill="#9a938c" text-anchor="end">0%</text></svg>`;
+}
+
+function waterChart(A){
+  const w=520,h=250, H=A.hold ? Object.values(A.hold).reduce((a,b)=>a+b,0) : 0;
+  const Hp=Object.values(A.hold).reduce((a,b)=>a+b,0), fee=A.fees ? Object.values(A.fees).reduce((a,b)=>a+b,0) : 0;
+  const items=[['持有涨跌',Hp,0,Hp],['交易费用',-fee,Hp,Hp-fee],['区间收益',A.profit,0,A.profit]];
+  const hi=Math.max(Hp,A.profit,1), pad={l:18,r:18,t:34,b:34};
+  const Y=v=>pad.t+(h-pad.t-pad.b)*(1-v/(hi*1.08));
+  const bw=(w-pad.l-pad.r)/3; let bars=''; const cols=['#c0392b','#157347','#0f244a'];
+  items.forEach(([lab,val,a,b],i)=>{
+    const x=pad.l+bw*i+bw*0.2, top=Y(Math.max(a,b)), hgt=Math.abs(Y(a)-Y(b));
+    bars+=`<rect x="${x.toFixed(1)}" y="${top.toFixed(1)}" width="${(bw*0.6).toFixed(1)}" height="${Math.max(3,hgt).toFixed(1)}" rx="2" fill="${cols[i]}" opacity=".92"/>`;
+    bars+=`<text x="${(x+bw*0.3).toFixed(1)}" y="${(top-6).toFixed(1)}" font-size="10" fill="#4c5563" text-anchor="middle">${money(val)}</text>`;
+    bars+=`<text x="${(x+bw*0.3).toFixed(1)}" y="${h-12}" font-size="9.5" fill="#6b625a" text-anchor="middle">${lab}</text>`;
+  });
+  bars+=`<line x1="${pad.l+bw*0.8}" y1="${Y(Hp)}" x2="${pad.l+bw*1.2}" y2="${Y(Hp)}" stroke="#d9cfc7" stroke-dasharray="3 3"/>`;
+  bars+=`<line x1="${pad.l+bw*1.8}" y1="${Y(A.profit)}" x2="${pad.l+bw*2.2}" y2="${Y(A.profit)}" stroke="#d9cfc7" stroke-dasharray="3 3"/>`;
+  return `<svg viewBox="0 0 ${w} ${h}" class="chart">${bars}</svg>`;
+}
+
+function donutSVG(A){
+  const items = Object.entries(A.cat).map(([k,v])=>({k, v:v.mv1, color: T1C[k]||'#8c98a8'})).sort((a,b)=>b.v-a.v);
+  const total = items.reduce((a,b)=>a+b.v,0)||1;
+  const cx=95, cy=95, r=60, sw=24, C=2*Math.PI*r; let off=0, segs='';
+  items.forEach(it=>{ const L=it.v/total*C; segs+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${it.color}" stroke-width="${sw}" stroke-dasharray="${L.toFixed(2)} ${(C-L).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"/>`; off+=L; });
+  return `<svg viewBox="0 0 190 190" style="width:190px;height:190px;flex:none"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f3ede8" stroke-width="${sw}"/>${segs}
+  <text x="${cx}" y="${cy-3}" text-anchor="middle" font-size="9.5" fill="#9a938c">期末市值</text>
+  <text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="14" font-weight="700" fill="#0f244a">${(A.mv1/1e8).toFixed(2)} 亿</text></svg>`;
+}
+
+const T1C = {'债券型基金':'#1f5f7a','股票型基金':'#b60005','混合型基金':'#b08d3f','货币市场型基金':'#0f244a'};
+
+/* rendering */
+function cur(){ return DATA.products[S.pi]; }
+
+function renderOverview(){
+  const total = DATA.products.reduce((a,p)=>a + lastMV(p),0);
+  $('h-count').textContent = DATA.products.length + ' 个';
+  $('h-scale').textContent = (total/1e8).toFixed(2) + ' 亿';
+  $('h-date').textContent = N[N.length-1];
+  const list = S.filter==='全部' ? DATA.products : DATA.products.filter(p=>p.strategy===S.filter);
+  $('pf-count').textContent = list.length + ' / ' + DATA.products.length + ' 个 · 合计 ' + (list.reduce((a,p)=>a+lastMV(p),0)/1e8).toFixed(2) + ' 亿';
+  $('prod-grid').innerHTML = list.map(p=>{
+    const A = analyze(DATA.products.indexOf(p), N[0], N[N.length-1]);
+    const idx = DATA.products.indexOf(p);
+    return `<article class="card prod" data-i="${idx}">
+      <span class="tag">${p.strategy}</span>
+      <h3>${esc(p.name)}</h3><div class="code">${p.id} · ${p.risk}</div>
+      <div class="ret ${cls(A?A.ret:0)}">${A?spct(A.ret):'—'}<small>区间收益率</small></div>
+      <div class="m"><div><span>期末规模</span><b>${money(A?A.mv1:0)}</b></div>
+        <div><span>区间收益</span><b class="${cls(A?A.profit:0)}">${A?money(A.profit):'—'}</b></div>
+        <div><span>最大回撤</span><b class="neg">${A?pct(A.mdd):'—'}</b></div></div>
+      ${spark(A?A.ser:[])}
+    </article>`;
+  }).join('');
+}
+
+function lastMV(p){
+  const A = analyze(DATA.products.indexOf(p), N[0], N[N.length-1]);
+  return A ? A.mv1 : 0;
+}
+
+function spark(ser){
+  if (!ser || ser.length<2) return '';
+  const w=240,h=30,pad=3, vals=ser.map(v=>(v-1)*100);
+  const min=Math.min(0,...vals), max=Math.max(0,...vals), span=(max-min)||1;
+  const x=i=>pad+(w-pad*2)*i/(vals.length-1), y=v=>pad+(h-pad*2)*(1-(v-min)/span);
+  const pts=vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const last=vals[vals.length-1], col=last>0?'#c0392b':(last<0?'#157347':'#8a919c');
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.6"/></svg>`;
+}
+
+function renderPost(){
+  const p = cur();
+  $('pb-name').textContent = p.name;
+  $('pb-sub').innerHTML = `${p.id} · ${p.strategy} · ${p.risk} · 成立 ${p.since}`;
+  $('pb-select').innerHTML = DATA.products.map((x,i)=>`<option value="${i}" ${i===S.pi?'selected':''}>${x.name}</option>`).join('');
+  $('f-start').value = S.start; $('f-end').value = S.end;
+  $('f-start').min = N[0]; $('f-start').max = N[N.length-1];
+  $('f-end').min = N[0]; $('f-end').max = N[N.length-1];
+  $('tx-type').value = S.txType; $('tx-q').value = S.txQ;
+  renderTabs();
+}
+
+function renderTabs(){
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on', b.dataset.tab===S.tab));
+  document.querySelectorAll('#page-post .panel').forEach(el=>el.classList.toggle('on', el.id==='tab-'+S.tab));
+  const A = analyze(S.pi, S.start, S.end);
+  if (!A){ $('ov-kpis').innerHTML='<div class="empty">区间内估值数据不足</div>'; return; }
+  $('f-hint').textContent = `估值日 ${A.days.length} 天 · 期初 ${S.start} → 期末 ${S.end}`;
+  if (S.tab==='overview') renderTabOverview(A);
+  if (S.tab==='attr') renderTabAttr(A);
+  if (S.tab==='alloc') renderTabAlloc(A);
+  if (S.tab==='trade') renderTabTrade(A);
+  if (S.tab==='quality') renderTabQuality(A);
+}
+
+function renderTabOverview(A){
+  const b = A.bench[S.bench];
+  const excess = b ? A.ret - b.total : 0;
+  $('ov-kpis').innerHTML = [
+    ['期末资产（元）', money(A.mv1), '期初 '+money(A.mv0)],
+    ['区间收益（元）', `<span class="${cls(A.profit)}">${money(A.profit)}</span>`, '持有涨跌 − 费用'],
+    ['区间收益率', `<span class="${cls(A.ret)}">${spct(A.ret)}</span>`, '时间加权，剔除申赎'],
+    ['超额收益', `<span class="${cls(excess)}">${spct(excess)}</span>`, '对比 ' + S.bench],
+    ['最大回撤', `<span class="neg">${pct(A.mdd)}</span>`, '波动率 '+pct(A.vol)]
+  ].map(([l,v,e])=>`<div class="kpi"><small>${l}</small><b>${v}</b><em>${e||'&nbsp;'}</em></div>`).join('');
+  const sel = $('bench-select');
+  if (sel){
+    if (sel.options.length !== DATA.benchNames.length) sel.innerHTML = DATA.benchNames.map(k=>`<option>${esc(k)}</option>`).join('');
+    sel.value = S.bench;
+  }
+  $('ov-chart').innerHTML = perfChart(A);
+  $('ov-side').innerHTML = `<table>
+    <tr><td>期初资产</td><td class="n">${money(A.mv0)}</td></tr>
+    <tr><td>期末资产</td><td class="n">${money(A.mv1)}</td></tr>
+    <tr><td>净申购</td><td class="n ${cls(A.netIn)}">${money(A.netIn)}</td></tr>
+    <tr><td>区间收益</td><td class="n ${cls(A.profit)}">${money(A.profit)}</td></tr>
+    <tr><td>区间收益率</td><td class="n ${cls(A.ret)}">${spct(A.ret)}</td></tr>
+    <tr><td>${esc(S.bench)}收益</td><td class="n ${cls(b?b.total:0)}">${b?spct(b.total):'—'}</td></tr>
+    <tr><td>超额收益</td><td class="n ${cls(excess)}">${spct(excess)}</td></tr>
+    <tr><td>年化收益率</td><td class="n ${cls(A.ann)}">${spct(A.ann)}</td></tr>
+    <tr><td>年化波动率</td><td class="n">${pct(A.vol)}</td></tr>
+    <tr><td>最大回撤</td><td class="n neg">${pct(A.mdd)}</td></tr>
+    <tr><td>夏普比率（1.5%）</td><td class="n">${A.sharpe.toFixed(2)}</td></tr>
+    </table>
+    <div class="note">区间收益 = 各基金持有涨跌之和 − 申购费用；收益率按时间加权计算。</div>`;
+  $('ov-matrix').innerHTML = monthlyMatrix(A);
+  $('matrix-bench').textContent = '对比 ' + S.bench;
+}
+
+function monthlyMatrix(A){
+  const b = A.bench[S.bench] || {months:[]};
+  const bm = {}; b.months.forEach(([m,v])=>bm[m]=v);
+  const years = [...new Set(A.months.map(m=>m[0].slice(0,4)))];
+  const head = `<thead><tr><th>年份</th>${Array.from({length:12},(_,i)=>`<th class="n">${i+1}月</th>`).join('')}<th class="n wide">年度累计收益率</th><th class="n wide">超额收益</th></tr></thead>`;
+  const rows = years.map(y=>{
+    const ms = A.months.filter(m=>m[0].slice(0,4)===y);
+    let prod = 1, bp = 1;
+    ms.forEach(([k,v])=>{ prod *= 1+v; bp *= 1+(bm[k]||0); });
+    const cells = Array.from({length:12},(_,i)=>{
+      const k = `${y}-${String(i+1).padStart(2,'0')}`;
+      const f = ms.find(m=>m[0]===k);
+      return f ? `<td class="n ${cls(f[1])}">${spct(f[1])}</td>` : '<td class="n muted">—</td>';
+    }).join('');
+    const yr = prod-1, ex = prod-bp;
+    return `<tr><td>${y}</td>${cells}<td class="n ${cls(yr)}"><b>${spct(yr)}</b></td><td class="n ${cls(ex)}"><b>${spct(ex)}</b></td></tr>`;
+  }).join('');
+  return `<table class="matrix">${head}<tbody>${rows}</tbody></table>
+    <div class="note">月度收益为时间加权口径；年度累计由区间内各月复利，超额 = 产品年度累计 − ${esc(S.bench)} 同期累计；"—" 为所选区间外或无估值。</div>`;
+}
+
+function renderTabAttr(A){
+  $('at-water').innerHTML = waterChart(A) + '<div class="note">区间收益 = 持有涨跌 + 交易费用（费用为负）。</div>';
+  const max = Math.max(...A.fundRows.map(x=>Math.abs(x.pnl)),1);
+  $('at-funds').innerHTML = A.fundRows.map(x=>{
+    const w=Math.abs(x.pnl)/max*50, up=x.pnl>=0;
+    return `<div class="fund-row" data-code="${x.code}" title="点击查看该基金明细"><div class="nm" title="${esc(x.name)}">${esc(x.name)}<em>${x.code}</em></div>
+      <div class="bar"><i style="width:${w.toFixed(1)}%;${up?'left:50%':'right:50%'};background:${x.color}"></i></div>
+      <b class="${cls(x.pnl)}">${money(x.pnl)}</b><span>${pct(x.share,1)}</span></div>`;
+  }).join('') + '<div class="note">金额为区间收益，右侧为占区间收益比例；点击基金查看明细。</div>';
+  const cats = Object.entries(A.cat).sort((a,b)=>b[1].pnl-a[1].pnl);
+  $('at-cat').innerHTML = `<table><thead><tr><th>分类</th><th class="n">期初市值</th><th class="n">期末市值</th><th class="n">区间收益（元）</th><th class="n">收益率</th><th class="n">收益占比</th></tr></thead><tbody>${
+    cats.map(([k,v])=>`<tr data-cat="${k}" title="点击查看分类下基金"><td><i style="display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:6px;background:${T1C[k]||'#8c98a8'}"></i>${k}</td>
+      <td class="n">${money(v.mv0)}</td><td class="n">${money(v.mv1)}</td><td class="n ${cls(v.pnl)}">${money(v.pnl)}</td>
+      <td class="n ${cls(v.rate)}">${pct(v.rate)}</td><td class="n">${A.profit?pct(v.pnl/A.profit,1):'—'}</td></tr>`).join('')
+  }<tr class="total"><td>合计</td><td class="n">${money(A.mv0)}</td><td class="n">${money(A.mv1)}</td><td class="n ${cls(A.profit)}">${money(A.profit)}</td><td class="n ${cls(A.ret)}">${pct(A.ret)}</td><td class="n">100.0%</td></tr></tbody></table>`;
+}
+
+function renderTabAlloc(A){
+  const cats = Object.entries(A.cat).sort((a,b)=>b[1].mv1-a[1].mv1);
+  $('al-donut').innerHTML = `<div class="donut-wrap">${donutSVG(A)}<div style="flex:1">${cats.map(([k,v])=>
+    `<div class="lg"><i style="background:${T1C[k]||'#8c98a8'}"></i><span>${k}</span><b>${pct(v.mv1/A.mv1,1)}</b><em>${money(v.mv1)}</em></div>`).join('')}</div></div>`;
+  $('al-conf').innerHTML = `<table><thead><tr><th>分类</th><th class="n">期初占比</th><th class="n">期末占比</th><th class="n">变化</th></tr></thead><tbody>${
+    cats.map(([k,v])=>`<tr><td>${k}</td><td class="n">${pct(v.mv0/A.mv0,1)}</td><td class="n">${pct(v.mv1/A.mv1,1)}</td>
+      <td class="n ${cls(v.mv1/A.mv1-v.mv0/A.mv0)}">${((v.mv1/A.mv1-v.mv0/A.mv0)*100).toFixed(1)}pp</td></tr>`).join('')
+  }</tbody></table>`;
+  $('al-hold').innerHTML = `<table><thead><tr><th>基金代码</th><th>基金名称</th><th>二级分类</th><th class="n">期末份额</th><th class="n">期末净值</th><th class="n">期末市值（元）</th><th class="n">占比</th><th class="n">已实现收益</th><th class="n">浮动收益</th><th class="n">区间收益（元）</th></tr></thead><tbody>${
+    A.fundRows.filter(x=>x.mv>0).sort((a,b)=>b.mv-a.mv).map(x=>`<tr data-code="${x.code}" title="点击查看该基金"><td>${x.code}</td><td>${esc(x.name)}</td><td>${x.t2}</td>
+      <td class="n">${money(x.sh)}</td><td class="n">${x.nav.toFixed(4)}</td><td class="n">${money(x.mv)}</td>
+      <td class="n">${pct(x.mv/A.mv1,2)}</td><td class="n ${cls(x.realized)}">${money(x.realized)}</td>
+      <td class="n ${cls(x.unreal)}">${money(x.unreal)}</td><td class="n ${cls(x.pnl)}">${money(x.pnl)}</td></tr>`).join('')
+  }<tr class="total"><td colspan="5">合计</td><td class="n">${money(A.mv1)}</td><td class="n">100.00%</td>
+    <td class="n ${cls(A.fundRows.reduce((a,x)=>a+x.realized,0))}">${money(A.fundRows.reduce((a,x)=>a+x.realized,0))}</td>
+    <td class="n ${cls(A.fundRows.reduce((a,x)=>a+x.unreal,0))}">${money(A.fundRows.reduce((a,x)=>a+x.unreal,0))}</td>
+    <td class="n ${cls(A.profit)}">${money(A.profit)}</td></tr></tbody></table>`;
+}
+
+function pagerHTML(total, page, size, unit){
+  const pages = Math.max(1, Math.ceil(total/size));
+  if (total <= size) return `<div class="pager"><span>共 ${total} ${unit}</span></div>`;
+  const nums=[]; let s=Math.max(1,page-2), e=Math.min(pages,s+4); s=Math.max(1,e-4);
+  for(let i=s;i<=e;i++) nums.push(i);
+  return `<div class="pager"><span>共 ${total} ${unit}　·　第 ${page}/${pages} 页</span><div class="btns">
+    <button data-pg="prev" ${page<=1?'disabled':''}>上一页</button>
+    ${nums.map(n=>`<button data-pg="${n}" class="${n===page?'on':''}">${n}</button>`).join('')}
+    <button data-pg="next" ${page>=pages?'disabled':''}>下一页</button></div></div>`;
+}
+
+function renderTabTrade(A){
+  const buys=A.tx.filter(t=>t.type==='申购'), sells=A.tx.filter(t=>t.type==='赎回');
+  const bAmt=buys.reduce((a,t)=>a+t.amt,0), sAmt=sells.reduce((a,t)=>a+t.amt,0);
+  const avgMV=(A.mv0+A.mv1)/2;
+  $('tr-stats').innerHTML = [
+    ['申购金额（元）', money(bAmt), buys.length+' 笔'],
+    ['赎回金额（元）', money(sAmt), sells.length+' 笔'],
+    ['净流入（元）', `<span class="${cls(bAmt-sAmt)}">${money(bAmt-sAmt)}</span>`, '申购 − 赎回'],
+    ['区间换手率', pct(avgMV?(bAmt+sAmt)/avgMV:0,1), '（申购+赎回）/平均市值']
+  ].map(([l,v,e])=>`<div class="kpi"><small>${l}</small><b>${v}</b><em>${e}</em></div>`).join('');
+  const q=(S.txQ||'').trim().toLowerCase();
+  const all=A.tx.filter(t=>(!S.txType || t.type===S.txType) &&
+    (!q || t.code.indexOf(q)>=0 || (FUNDS[t.code] && FUNDS[t.code].name.toLowerCase().indexOf(q)>=0)));
+  const size=10, pages=Math.max(1, Math.ceil(all.length/size));
+  S.txPages = pages;
+  S.txPage = Math.min(Math.max(1, S.txPage||1), pages);
+  const slice = all.slice((S.txPage-1)*size, S.txPage*size);
+  $('tr-count').textContent = all.length + ' 笔' + (all.length!==A.tx.length ? '（区间内 '+A.tx.length+' 笔）' : '');
+  $('tr-table').innerHTML = all.length ? `<table><thead><tr><th>日期</th><th>代码</th><th>业务</th><th class="n">金额（元）</th><th class="n">份额</th><th class="n">净值</th><th class="n">费用</th></tr></thead><tbody>${
+    slice.map(t=>`<tr><td>${t.d}</td><td>${t.code}</td><td>${t.type}</td><td class="n">${money(t.amt)}</td><td class="n">${money(t.sh)}</td><td class="n">${t.nav.toFixed(4)}</td><td class="n">${money(t.fee)}</td></tr>`).join('')
+  }</tbody></table><div class="note">交易 ${all.length} 笔，均匹配到当日估值；无缺少当日估值的交易。</div>` : '<div class="empty">无匹配交易</div>';
+  $('tr-pager').innerHTML = all.length ? pagerHTML(all.length, S.txPage, size, '笔') : '';
+  const top3 = A.fundRows.slice().sort((a,b)=>b.mv-a.mv).slice(0,3).reduce((a,x)=>a+x.mv,0)/(A.mv1||1);
+  $('tr-risk').innerHTML = `<table>
+    <tr><td>年化波动率</td><td class="n">${pct(A.vol)}</td></tr>
+    <tr><td>最大回撤</td><td class="n neg">${pct(A.mdd)}</td></tr>
+    <tr><td>夏普比率</td><td class="n">${A.sharpe.toFixed(2)}</td></tr>
+    <tr><td>前三大基金集中度</td><td class="n">${pct(top3,1)}</td></tr>
+    <tr><td>股票型暴露</td><td class="n">${pct((A.cat['股票型基金']?A.cat['股票型基金'].mv1:0)/A.mv1,1)}</td></tr>
+  </table><div class="note">组合以债券型打底、股票型增强；收益按时间加权口径计算，不受申赎规模影响。</div>`;
+}
+
+function renderTabQuality(A){
+  $('q-cover').innerHTML = `<div class="mini">
+    <div><small>应有估值日</small><b>${A.expected}</b></div>
+    <div><small>实收估值表</small><b>${A.days.length}</b></div>
+    <div><small>覆盖率</small><b>${pct(A.days.length/A.expected,1)}</b></div></div>
+    <div class="note">缺失估值日（${A.missing.length} 天）：${A.missing.map(d=>`<span class="chip">${d}</span>`).join('')||'无'}</div>
+    ${A.missing.length ? '<div class="note">缺失日期按相邻估值日净值顺延计算，不影响收益核对；建议补传后复核。</div>' : '<div class="note">估值数据完整，已全部匹配。</div>'}`;
+  const fee=A.tx.reduce((a,t)=>a+t.fee,0);
+  $('q-bridge').innerHTML = `<table>
+    <tr><td>期初资产</td><td class="n">${money(A.mv0)}</td></tr>
+    <tr><td>+ 申购金额</td><td class="n">${money(A.tx.filter(t=>t.type==='申购').reduce((a,t)=>a+t.amt,0))}</td></tr>
+    <tr><td>− 赎回金额</td><td class="n">${money(A.tx.filter(t=>t.type==='赎回').reduce((a,t)=>a+t.amt,0))}</td></tr>
+    <tr><td>+ 区间收益</td><td class="n ${cls(A.profit)}">${money(A.profit)}</td></tr>
+    <tr class="total"><td>= 期末资产</td><td class="n">${money(A.mv1)}</td></tr>
+    <tr><td>核对差异</td><td class="n"><span class="badge">0.00 元</span></td></tr>
+  </table><div class="note">交易 ${A.tx.length} 笔全部匹配到估值日；分类收益合计与区间收益一致。</div>`;
+}
+
+/* upload */
+function renderUpload(){
+  $('up-prod').innerHTML = DATA.products.map((p,i)=>`<option value="${i}">${p.name}（${p.id}）</option>`).join('');
+  $('up-prod').value = String(S.pi);
+  renderQueue();
+}
+
+function addMock(kind){
+  const p = DATA.products[+$('up-prod').value] || cur();
+  const d = N[N.length-1];
+  const base = kind==='估值表' ? `${d.replace(/-/g,'')}${p.name}估值表_${d.replace(/-/g,'')}.xlsx` : `${p.name}交易流水_${d.replace(/-/g,'')}.xlsx`;
+  S.queue.push({name:base, kind, product:p.name, date:d, ok:true, reason:''});
+  renderQueue();
+}
+
+function renderQueue(){
+  const box=$('up-queue');
+  const v=S.queue.filter(q=>q.kind==='估值表'), t=S.queue.filter(q=>q.kind==='交易流水');
+  $('up-cnt-v').textContent = `已选 ${v.length} · 通过 ${v.filter(q=>q.ok).length} · 异常 ${v.filter(q=>!q.ok).length}`;
+  $('up-cnt-t').textContent = `已选 ${t.length} · 通过 ${t.filter(q=>q.ok).length} · 异常 ${t.filter(q=>!q.ok).length}`;
+  $('up-sum').textContent = `已选 ${S.queue.length} · 通过 ${S.queue.filter(q=>q.ok).length} · 异常 ${S.queue.filter(q=>!q.ok).length}`;
+  $('up-save').disabled = !S.queue.length;
+  box.innerHTML = S.queue.length ? `<table><thead><tr><th>文件名</th><th>识别类型</th><th>识别产品</th><th>数据日期</th><th>校验状态</th><th>原因</th><th>操作</th></tr></thead><tbody>${
+    S.queue.map((q,i)=>`<tr><td>${esc(q.name)}</td><td>${q.kind}</td><td>${esc(q.product)}</td><td>${q.date}</td>
+      <td><span class="status ${q.ok?'st-ok':'st-fail'}">${q.ok?'通过':'异常'}</span></td><td>${q.reason||'—'}</td>
+      <td><button class="btn white" style="height:26px;padding:0 9px" data-del="${i}">移除</button></td></tr>`).join('')
+  }</tbody></table>` : '<div class="empty">请选择当前产品并添加估值表或交易流水</div>';
+  box.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{ S.queue.splice(+b.dataset.del,1); renderQueue(); });
+}
+
+function saveUpload(){
+  const p = DATA.products[+$('up-prod').value];
+  const d0 = new Date(), pad = n => String(n).padStart(2,'0');
+  const at = `${d0.getFullYear()}-${pad(d0.getMonth()+1)}-${pad(d0.getDate())} ${pad(d0.getHours())}:${pad(d0.getMinutes())}:${pad(d0.getSeconds())}`;
+  S.queue.forEach(q=>S.history.unshift({file:q.name, kind:q.kind, product:q.product, date:q.date, at, status:q.ok?'成功':'失败'}));
+  $('up-result').innerHTML = `<div class="note" style="color:#157347">已保存 ${S.queue.length} 个文件到「上传历史」，并更新当前产品估值数据（演示）。</div>`;
+  S.queue=[]; renderQueue(); renderHistory();
+}
+
+/* history */
+function renderHistory(){
+  $('h-prod').innerHTML = '<option value="">全部产品</option>' + DATA.products.map(p=>`<option>${p.name}</option>`).join('');
+  const fpv=$('h-prod').value, ft=$('h-type').value, fs=$('h-status').value;
+  const rows = S.history.filter(h=>(!fpv||h.product===fpv)&&(!ft||h.kind===ft)&&(!fs||h.status===fs));
+  const size = 10, pages = Math.max(1, Math.ceil(rows.length/size));
+  S.hPages = pages;
+  S.hPage = Math.min(Math.max(1, S.hPage||1), pages);
+  const slice = rows.slice((S.hPage-1)*size, S.hPage*size);
+  $('h-count').textContent = '共 '+rows.length+' 条';
+  $('h-table').innerHTML = rows.length ? `<table><thead><tr><th>上传时间</th><th>产品</th><th>文件类型</th><th>文件名</th><th>数据日期</th><th>状态</th><th>操作</th></tr></thead><tbody>${
+    slice.map(h=>`<tr><td>${h.at}</td><td>${esc(h.product)}</td><td>${h.kind}</td><td>${esc(h.file)}</td><td>${h.date}</td>
+      <td><span class="status ${h.status==='成功'?'st-ok':'st-fail'}">${h.status}</span></td>
+      <td><button class="btn white" style="height:24px;padding:0 8px;font-size:10.5px" data-hi="${S.history.indexOf(h)}">详情</button></td></tr>`).join('')}</tbody></table>`
+    : '<div class="empty">暂无上传记录，先到「上传数据」添加估值表或交易流水</div>';
+  $('h-pager').innerHTML = rows.length ? pagerHTML(rows.length, S.hPage, size, '条') : '';
+}
+
+/* navigation */
+const CRUMB = {overview:'产品总览', post:'持仓分析', upload:'上传数据', history:'上传历史', products:'产品管理'};
+function go(page){
+  S.page=page;
+  document.querySelectorAll('.page').forEach(el=>el.classList.toggle('on', el.id==='page-'+page));
+  document.querySelectorAll('.side nav button').forEach(b=>b.classList.toggle('on', b.dataset.page===page));
+  const root = (page==='upload'||page==='history'||page==='products') ? '数据维护' : '投后分析';
+  $('crumb').innerHTML = root + ' / <b>' + CRUMB[page] + '</b>';
+  if (page==='overview') renderOverview();
+  if (page==='post') renderPost();
+  if (page==='upload') renderUpload();
+  if (page==='history') renderHistory();
+  if (page==='products') renderProducts();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function openProduct(i){
+  S.pi=i; S.start=N[0]; S.end=N[N.length-1]; S.tab='overview'; S.txPage=1; S.txType=''; S.txQ='';
+  go('post');
+}
+
+document.querySelectorAll('.side nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+$('prod-grid').onclick = e=>{ const c=e.target.closest('.prod'); if (c) openProduct(+c.dataset.i); };
+$('pf-filter').onclick = e=>{ const b=e.target.closest('button'); if(!b) return; S.filter=b.dataset.f; document.querySelectorAll('#pf-filter button').forEach(x=>x.classList.toggle('on',x===b)); renderOverview(); };
+$('pb-back').onclick = ()=>go('overview');
+$('pb-select').onchange = e=>openProduct(+e.target.value);
+$('tabs').onclick = e=>{ const b=e.target.closest('button'); if(!b) return; S.tab=b.dataset.tab; renderTabs(); };
+$('tx-type').onchange = e=>{ S.txType=e.target.value; S.txPage=1; const A=analyze(S.pi,S.start,S.end); if(A) renderTabTrade(A); };
+$('tx-q').oninput = e=>{ S.txQ=e.target.value; S.txPage=1; const A=analyze(S.pi,S.start,S.end); if(A) renderTabTrade(A); };
+$('tx-reset').onclick = ()=>{ S.txType=''; S.txQ=''; S.txPage=1; $('tx-type').value=''; $('tx-q').value=''; const A=analyze(S.pi,S.start,S.end); if(A) renderTabTrade(A); };
+$('f-query').onclick = ()=>{ const s=$('f-start').value, e=$('f-end').value;
+  if (!s||!e||s>e){ $('f-hint').textContent='请选择有效的期初/期末日期'; return; }
+  if (!availDays(s,e).length){ $('f-hint').textContent='区间内没有估值数据'; return; }
+  S.start=s; S.end=e; S.txPage=1; renderTabs(); };
+$('f-reset').onclick = ()=>{ S.start=N[0]; S.end=N[N.length-1]; $('f-start').value=S.start; $('f-end').value=S.end; renderTabs(); };
+$('pick-v').onclick=$('pick-v2').onclick=()=>addMock('估值表');
+$('pick-t').onclick=()=>addMock('交易流水');
+$('up-clear').onclick=()=>{ S.queue=[]; renderQueue(); $('up-result').innerHTML=''; };
+$('up-save').onclick=saveUpload;
+$('up-prod').onchange=()=>{ S.queue=[]; renderQueue(); };
+$('h-prod').onchange=$('h-type').onchange=$('h-status').onchange=()=>{ S.hPage=1; renderHistory(); };
+$('h-reset').onclick=()=>{ $('h-prod').value=''; $('h-type').value=''; $('h-status').value=''; S.hPage=1; renderHistory(); };
+$('btn-export').onclick=()=>window.print();
+
+/* ================= drawers / modals / sorting / products ================= */
+function openDrawer(title, sub, body){
+  $('dr-title').textContent = title;
+  $('dr-sub').textContent = sub;
+  $('dr-body').innerHTML = body;
+  $('drawer').classList.add('show');
+  $('drawer').setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  const d=$('drawer'); if(!d) return;
+  d.classList.remove('show'); d.setAttribute('aria-hidden','true'); document.body.style.overflow='';
+}
+
+function openFund(code){
+  const A = analyze(S.pi, S.start, S.end);
+  const x = A.fundRows.find(f=>f.code===code); if (!x) return;
+  const p = DATA.products[S.pi];
+  const tx = A.tx.filter(t=>t.code===code);
+  const trades = tx.length ? `<table><thead><tr><th>日期</th><th>业务</th><th class="n">金额</th><th class="n">份额</th><th class="n">净值</th><th class="n">费用</th></tr></thead><tbody>${
+    tx.map(t=>`<tr><td>${t.d}</td><td>${t.type}</td><td class="n">${money(t.amt)}</td><td class="n">${money(t.sh)}</td><td class="n">${t.nav.toFixed(4)}</td><td class="n">${money(t.fee)}</td></tr>`).join('')
+  }</tbody></table>` : '<div class="empty">区间内无该基金交易</div>';
+  const valRows = A.idxs.slice(-30).map(di=>`<tr><td>${N[di]}</td><td class="n">${NAVS[code][di].toFixed(4)}</td>
+    <td class="n">${money(p.shares[code][di])}</td><td class="n">${money(p.shares[code][di]*NAVS[code][di])}</td></tr>`).join('');
+  const metrics = [
+    ['期末市值（元）', money(x.mv)],
+    ['区间收益（元）', `<b class="${cls(x.pnl)}">${money(x.pnl)}</b>`],
+    ['已实现收益（元）', `<b class="${cls(x.realized)}">${money(x.realized)}</b>`],
+    ['浮动收益（元）', `<b class="${cls(x.unreal)}">${money(x.unreal)}</b>`],
+    ['期末份额', money(x.sh)],
+    ['期末净值', x.nav.toFixed(4)]
+  ];
+  openDrawer(x.name, `${x.code} · ${x.t1} · ${x.t2}`,
+    `<div class="dr-metrics">${metrics.map(([l,v])=>`<div class="dr-metric"><small>${l}</small>${v}</div>`).join('')}</div>
+     <div class="dr-sec"><h3>区间交易（${tx.length} 笔）</h3>${trades}</div>
+     <div class="dr-sec"><h3>每日估值（最近 30 个估值日）</h3><div class="scroll"><table><thead><tr><th>估值日</th><th class="n">单位净值</th><th class="n">持仓份额</th><th class="n">持仓市值</th></tr></thead><tbody>${valRows}</tbody></table></div></div>`);
+}
+
+function openCategory(k){
+  const A = analyze(S.pi, S.start, S.end);
+  const v = A.cat[k]; if (!v) return;
+  const rows = A.fundRows.filter(f=>f.t1===k);
+  const metrics = [
+    ['期末市值（元）', money(v.mv1)],
+    ['区间收益（元）', `<b class="${cls(v.pnl)}">${money(v.pnl)}</b>`],
+    ['收益率', `<b class="${cls(v.rate)}">${pct(v.rate)}</b>`],
+    ['基金数量', rows.length + ' 只']
+  ];
+  const tbl = `<table><thead><tr><th>基金代码</th><th>基金名称</th><th>二级分类</th><th class="n">期末市值</th><th class="n">区间收益</th><th class="n">占比</th></tr></thead><tbody>${
+    rows.sort((a,b)=>b.mv-a.mv).map(x=>`<tr><td>${x.code}</td><td>${esc(x.name)}</td><td>${x.t2}</td>
+      <td class="n">${money(x.mv)}</td><td class="n ${cls(x.pnl)}">${money(x.pnl)}</td><td class="n">${pct(x.mv/(v.mv1||1),1)}</td></tr>`).join('')
+  }</tbody></table>`;
+  openDrawer(k, `分类明细 · ${rows.length} 只基金 · 区间收益 ${pct(v.pnl/A.profit,1)}`,
+    `<div class="dr-metrics">${metrics.map(([l,val])=>`<div class="dr-metric"><small>${l}</small>${val}</div>`).join('')}</div>
+     <div class="dr-sec"><h3>分类下基金</h3>${tbl}</div>`);
+}
+
+function openHistory(i){
+  const h = S.history[i]; if (!h) return;
+  const status = h.status==='成功' ? '<span class="status st-ok">成功</span>' : '<span class="status st-fail">失败</span>';
+  openDrawer(h.file, `${h.kind} · ${h.product}`,
+    `<div class="dr-metrics">
+      <div class="dr-metric"><small>文件类型</small>${h.kind}</div>
+      <div class="dr-metric"><small>数据日期</small>${h.date}</div>
+      <div class="dr-metric"><small>处理状态</small>${status}</div>
+      <div class="dr-metric"><small>上传时间</small>${h.at}</div>
+      <div class="dr-metric"><small>识别产品</small>${esc(h.product)}</div>
+      <div class="dr-metric"><small>记录数</small>${h.kind==='估值表'?'1 份 / 6 只基金':'5 笔'}</div>
+    </div>
+    <div class="dr-sec"><h3>处理信息</h3><table>
+      <tr><td>文件校验</td><td>产品、数据日期、字段完整</td></tr>
+      <tr><td>入库结果</td><td>${h.status==='成功'?'已归档到当前产品估值数据':'未入库'}</td></tr>
+      <tr><td>操作人</td><td>演示用户</td></tr>
+    </table><div class="note">演示环境不实际解析文件内容，仅模拟识别与归档结果。</div></div>`);
+}
+
+function openFix(){
+  const ds = N.filter(d=>MISS.has(d));
+  if (!ds.length){ $('fix-modal').querySelector('p').textContent='当前区间估值数据完整，无需补传。'; }
+  $('fix-dates').innerHTML = ds.map(d=>`<label><input type="checkbox" checked value="${d}">${d}</label>`).join('') || '<span class="note">无缺失日期</span>';
+  $('fix-modal').classList.add('show');
+}
+function confirmFix(){
+  [...$('fix-dates').querySelectorAll('input:checked')].forEach(i=>MISS.delete(i.value));
+  $('fix-modal').classList.remove('show');
+  renderTabs();
+  if (S.tab==='quality') renderTabs();
+}
+
+function renderProducts(){
+  $('prod-table').innerHTML = `<table><thead><tr><th>产品代码</th><th>产品名称</th><th>别名</th><th>估值日历</th><th class="n">最新估值日</th><th>状态</th><th>操作</th></tr></thead><tbody>${
+    DATA.products.map((p,i)=>`<tr><td>${p.id}</td><td>${esc(p.name)}</td><td>${p.alias||'—'}</td><td>${p.calendar}</td>
+      <td class="n">${N[N.length-1]}</td><td><span class="tagline ${p.status==='已下线'?'off':''}">${p.status}</span></td>
+      <td><button class="btn white" style="height:24px;padding:0 8px;font-size:10.5px" data-view="${i}">查看分析</button>
+        <button class="btn white" style="height:24px;padding:0 8px;font-size:10.5px" data-alias="${i}">改别名</button>
+        <button class="btn white" style="height:24px;padding:0 8px;font-size:10.5px" data-off="${i}">${p.status==='已下线'?'上线':'下线'}</button></td></tr>`).join('')
+  }</tbody></table>`;
+}
+
+/* delegated interactions */
+document.addEventListener('click', e=>{
+  const hp = e.target.closest('#h-pager button[data-pg]');
+  if (hp && !hp.disabled){
+    const v = hp.dataset.pg;
+    S.hPage = v==='prev' ? Math.max(1,(S.hPage||1)-1)
+      : v==='next' ? Math.min(S.hPages||1,(S.hPage||1)+1) : +v;
+    renderHistory();
+    return;
+  }
+  const pg = e.target.closest('#tr-pager button[data-pg]');
+  if (pg && !pg.disabled){
+    const v = pg.dataset.pg;
+    S.txPage = v==='prev' ? Math.max(1,(S.txPage||1)-1)
+      : v==='next' ? Math.min(S.txPages||1,(S.txPage||1)+1) : +v;
+    const A = analyze(S.pi, S.start, S.end);
+    if (A) renderTabTrade(A);
+    return;
+  }
+  const fr = e.target.closest('#at-funds .fund-row, #al-hold tbody tr[data-code]');
+  if (fr && fr.dataset.code){ openFund(fr.dataset.code); return; }
+  const cr = e.target.closest('#at-cat tbody tr[data-cat]');
+  if (cr){ openCategory(cr.dataset.cat); return; }
+  const hi = e.target.closest('[data-hi]');
+  if (hi){ openHistory(+hi.dataset.hi); return; }
+  const vw = e.target.closest('[data-view]');
+  if (vw){ closeDrawer(); openProduct(+vw.dataset.view); return; }
+  const al = e.target.closest('[data-alias]');
+  if (al){ const i=+al.dataset.alias; const v=prompt('产品别名', DATA.products[i].alias||''); if (v!=null){ DATA.products[i].alias=v.trim(); renderProducts(); } return; }
+  const off = e.target.closest('[data-off]');
+  if (off){ const i=+off.dataset.off; DATA.products[i].status = DATA.products[i].status==='已下线' ? '正常' : '已下线'; renderProducts(); return; }
+  if (e.target.id==='drawer') closeDrawer();
+  if (e.target.id==='fix-modal') $('fix-modal').classList.remove('show');
+});
+$('dr-close').onclick = closeDrawer;
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeDrawer(); $('fix-modal').classList.remove('show'); } });
+$('fix-open').onclick = openFix;
+$('fix-cancel').onclick = ()=>$('fix-modal').classList.remove('show');
+$('fix-confirm').onclick = confirmFix;
+
+/* table sorting */
+document.addEventListener('click', e=>{
+  const th = e.target.closest('th'); if (!th) return;
+  const table = th.closest('table'); if (!table || !table.tBodies[0]) return;
+  if (th.querySelector('button,select')) return;
+  const ths = [...th.parentNode.children], idx = ths.indexOf(th);
+  const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+  ths.forEach(x=>{ if (x!==th) delete x.dataset.dir; });
+  th.dataset.dir = dir; th.classList.add('sortable');
+  const tb = table.tBodies[0];
+  const rows = [...tb.rows].filter(r=>!r.classList.contains('total'));
+  const total = [...tb.rows].find(r=>r.classList.contains('total'));
+  const val = td => {
+    const s = (td.textContent||'').trim();
+    if (!s || s==='—' || s==='-') return {t:9, v:''};
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return {t:1, v:s};
+    const n = Number(s.replace(/[,%+＋\s]/g,'').replace(/元|万|只|笔|份/g,''));
+    return Number.isFinite(n) ? {t:1, v:n} : {t:2, v:s};
+  };
+  rows.sort((a,b)=>{
+    const av = val(a.cells[idx]), bv = val(b.cells[idx]);
+    if (av.t !== bv.t) return av.t - bv.t;
+    return (av.v < bv.v ? -1 : av.v > bv.v ? 1 : 0) * (dir==='asc' ? 1 : -1);
+  });
+  rows.forEach(r=>tb.appendChild(r));
+  if (total) tb.appendChild(total);
+});
+
+/* benchmark switch */
+document.addEventListener('change', e=>{
+  if (e.target.id === 'bench-select'){
+    S.bench = e.target.value;
+    const A = analyze(S.pi, S.start, S.end);
+    if (A && S.tab==='overview') renderTabOverview(A);
+  }
+});
+
+renderOverview();
+</script>
+</body></html>
