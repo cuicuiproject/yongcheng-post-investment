@@ -7,6 +7,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.6 "Microsoft YaH
 .side{background:linear-gradient(178deg,#191c23,#222630 60%,#262a34);color:#c9ced8;padding:18px 12px;position:sticky;top:0;height:100vh}
 .logo{font-size:15px;font-weight:700;color:#fff;padding:2px 8px 14px;line-height:1.4}
 .logo span{display:block;font-size:9px;color:#8f97a4;letter-spacing:.12em;font-weight:400;margin-top:2px}
+.side-demo{display:inline-flex;align-items:center;gap:6px;margin:7px 8px 2px;background:#F4B740;color:#3B2A05;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:12px;box-shadow:0 4px 12px rgba(244,183,64,.20)}
+.side-demo:before{content:"";width:5px;height:5px;border-radius:50%;background:#6B3F00}
 .group{margin:18px 8px 6px;font-size:10px;color:#8a92a0;letter-spacing:.12em}
 .side nav{display:grid;gap:3px}
 .side nav button{height:38px;padding:0 12px;border:0;border-radius:8px;background:transparent;color:#c9ced8;text-align:left;font:inherit;cursor:pointer;transition:.15s}
@@ -180,6 +182,7 @@ th.sortable[data-dir="desc"]:after{content:"↓";color:#8e1f2f}
 <div class="layout">
   <aside class="side">
     <div class="logo">永诚投后分析系统<span>ALLASSET POST-INVESTMENT</span></div>
+    <div class="side-demo">演示数据</div>
     <div class="group">投后分析</div>
     <nav id="nav1">
       <button data-page="overview" class="on">产品总览</button>
